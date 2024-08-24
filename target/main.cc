@@ -131,11 +131,7 @@ int main(int argc, char **argv) {
         RiscV64Selector(m_unit, &llvmIR).SelectInstructionAndBuildCFG();
         RiscV64LowerFrame(m_unit).Execute();
 
-        RiscV64LowerFImmCopy(m_unit).Execute();
-        RiscV64LowerIImmCopy(m_unit).Execute();
-
         FastLinearScan(m_unit, &regs, &spiller).Execute();
-        RiscV64LowerCopy(m_unit).Execute();
         RiscV64LowerStack(m_unit).Execute();
 
         RiscV64Printer(fout, m_unit).emit();

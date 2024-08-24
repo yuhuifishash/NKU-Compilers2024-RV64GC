@@ -5,21 +5,21 @@ void RiscV64LowerFrame::Execute() {
         current_func = func;
         for (auto &b : func->blocks) {
             cur_block = b;
-            if (b->getLabelId() == 0) {
+            if (b->getLabelId() == 0) { // 函数入口，需要插入获取参数的指令
                 Register para_basereg = current_func->GetNewReg(INT64);
                 int i32_cnt = 0;
                 int para_offset = 0;
                 for (auto para : func->GetParameters()) {
                     if (para.type.data_type == INT64.data_type) {
-                        if (i32_cnt < 8) {
+                        if (i32_cnt < 8) { // 插入使用寄存器传参的指令
                             b->push_front(
-                            rvconstructor->ConstructCopyReg(para, GetPhysicalReg(RISCV_a0 + i32_cnt), INT64));
+                            rvconstructor->ConstructR(RISCV_ADD,para,GetPhysicalReg(RISCV_a0 + i32_cnt),GetPhysicalReg(RISCV_x0)));
                         }
-                        if (i32_cnt >= 8) {
+                        if (i32_cnt >= 8) { // 插入使用内存传参的指令
                             TODO("Implement this if necessary");
                         }
                         i32_cnt++;
-                    } else if (para.type.data_type == FLOAT64.data_type) {
+                    } else if (para.type.data_type == FLOAT64.data_type) { // 处理浮点数
                         TODO("Implement this if necessary");
                     } else {
                         ERROR("Unknown type");

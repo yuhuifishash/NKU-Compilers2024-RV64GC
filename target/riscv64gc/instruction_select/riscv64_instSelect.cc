@@ -1,8 +1,6 @@
 #include "riscv64_instSelect.h"
 #include <sstream>
 
-extern bool optimize_flag;
-
 template <> void RiscV64Selector::ConvertAndAppend<LoadInstruction *>(LoadInstruction *ins) {
     TODO("Implement this if necessary");
 }
@@ -45,7 +43,7 @@ template <> void RiscV64Selector::ConvertAndAppend<RetInstruction *>(RetInstruct
             auto retimm_op = (ImmI32Operand *)ins->GetRetVal();
             auto imm = retimm_op->GetIntImmVal();
 
-            auto retcopy_instr = rvconstructor->ConstructCopyRegImmI(GetPhysicalReg(RISCV_a0), imm, INT64);
+            auto retcopy_instr = rvconstructor->ConstructUImm(RISCV_LI,GetPhysicalReg(RISCV_a0), imm);
             cur_block->push_back(retcopy_instr);
         } else if (ins->GetRetVal()->GetOperandType() == BasicOperand::IMMF32) {
             TODO("Implement this if necessary");
