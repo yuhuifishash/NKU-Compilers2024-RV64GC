@@ -18,7 +18,7 @@ public:
 };
 typedef Entry *Symbol;
 
-/* 相同的字符串均使用同一个Symbol指向，我们可以直接使用Symbol的 == 来判断标识符是否相等 
+/* 相同的字符串均使用同一个Symbol指向，我们可以直接使用Symbol的 == 来判断标识符是否相等
    必须使用add_id函数来添加新的Symbol
    作用域问题在词法分析和语法分析阶段不需要考虑，在semant阶段我们会进行处理
 */
@@ -48,7 +48,6 @@ public:
     void exit_scope();
 };
 
-
 /*
 
 */
@@ -60,7 +59,7 @@ private:
 public:
     void add_Symbol(Symbol C, int reg);
 
-    //return the regno of Symbol C
+    // return the regno of Symbol C
     int lookup(Symbol C);
     void enter_scope();
     void exit_scope();

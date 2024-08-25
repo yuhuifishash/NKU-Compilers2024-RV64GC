@@ -89,7 +89,7 @@ void EqExp_eq::TypeCheck() {
     eqexp->TypeCheck();
     relexp->TypeCheck();
 
-   TODO("BinaryExp Semant");
+    TODO("BinaryExp Semant");
 }
 
 void EqExp_neq::TypeCheck() {
@@ -121,29 +121,17 @@ void ConstExp::TypeCheck() {
     }
 }
 
-void Lval::TypeCheck() {
-    TODO("Lval Semant");
-}
+void Lval::TypeCheck() { TODO("Lval Semant"); }
 
-void FuncRParams::TypeCheck() {
-    TODO("FuncRParams Semant");
-}
+void FuncRParams::TypeCheck() { TODO("FuncRParams Semant"); }
 
-void Func_call::TypeCheck() {
-    TODO("FunctionCall Semant");
-}
+void Func_call::TypeCheck() { TODO("FunctionCall Semant"); }
 
-void UnaryExp_plus::TypeCheck() {
-    TODO("UnaryExp Semant");
-}
+void UnaryExp_plus::TypeCheck() { TODO("UnaryExp Semant"); }
 
-void UnaryExp_neg::TypeCheck() {
-    TODO("UnaryExp Semant");
-}
+void UnaryExp_neg::TypeCheck() { TODO("UnaryExp Semant"); }
 
-void UnaryExp_not::TypeCheck() {
-    TODO("UnaryExp Semant");
-}
+void UnaryExp_not::TypeCheck() { TODO("UnaryExp Semant"); }
 
 void IntConst::TypeCheck() {
     attribute.T.type = Type::INT;
@@ -157,18 +145,14 @@ void FloatConst::TypeCheck() {
     attribute.V.val.FloatVal = val;
 }
 
-void StringConst::TypeCheck() {
-    TODO("StringConst Semant");
-}
+void StringConst::TypeCheck() { TODO("StringConst Semant"); }
 
 void PrimaryExp_branch::TypeCheck() {
     exp->TypeCheck();
     attribute = exp->attribute;
 }
 
-void assign_stmt::TypeCheck() {
-    TODO("AssignStmt Semant");
-}
+void assign_stmt::TypeCheck() { TODO("AssignStmt Semant"); }
 
 void expr_stmt::TypeCheck() {
     exp->TypeCheck();
@@ -194,17 +178,11 @@ void if_stmt::TypeCheck() {
     ifstmt->TypeCheck();
 }
 
-void while_stmt::TypeCheck() {
-    TODO("WhileStmt Semant");
-}
+void while_stmt::TypeCheck() { TODO("WhileStmt Semant"); }
 
-void continue_stmt::TypeCheck() {
-    TODO("ContinueStmt Semant");
-}
+void continue_stmt::TypeCheck() { TODO("ContinueStmt Semant"); }
 
-void break_stmt::TypeCheck() {
-    TODO("BreakStmt Semant");
-}
+void break_stmt::TypeCheck() { TODO("BreakStmt Semant"); }
 
 void return_stmt::TypeCheck() {
     return_exp->TypeCheck();
@@ -216,41 +194,23 @@ void return_stmt::TypeCheck() {
 
 void return_stmt_void::TypeCheck() {}
 
-void ConstInitVal::TypeCheck() {
-    TODO("ConstInitVal Semant");
-}
+void ConstInitVal::TypeCheck() { TODO("ConstInitVal Semant"); }
 
-void ConstInitVal_exp::TypeCheck() {
-    TODO("ConstInitValExp Semant");
-}
+void ConstInitVal_exp::TypeCheck() { TODO("ConstInitValExp Semant"); }
 
-void VarInitVal::TypeCheck() {
-    TODO("VarInitVal Semant");
-}
+void VarInitVal::TypeCheck() { TODO("VarInitVal Semant"); }
 
-void VarInitVal_exp::TypeCheck() {
-    TODO("VarInitValExp Semant");
-}
+void VarInitVal_exp::TypeCheck() { TODO("VarInitValExp Semant"); }
 
-void VarDef_no_init::TypeCheck() {
-    TODO("VarDefNoInit Semant");
-}
+void VarDef_no_init::TypeCheck() { TODO("VarDefNoInit Semant"); }
 
-void VarDef::TypeCheck() {
-    TODO("VarDef Semant");
-}
+void VarDef::TypeCheck() { TODO("VarDef Semant"); }
 
-void ConstDef::TypeCheck() {
-    TODO("ConstDef Semant");
-}
+void ConstDef::TypeCheck() { TODO("ConstDef Semant"); }
 
-void VarDecl::TypeCheck() {
-    TODO("VarDecl Semant");
-}
+void VarDecl::TypeCheck() { TODO("VarDecl Semant"); }
 
-void ConstDecl::TypeCheck() {
-    TODO("ConstDecl Semant");
-}
+void ConstDecl::TypeCheck() { TODO("ConstDecl Semant"); }
 
 void BlockItem_Decl::TypeCheck() { decl->TypeCheck(); }
 
@@ -273,7 +233,7 @@ void __FuncFParam::TypeCheck() {
 
     if (dims != nullptr) {
         auto dim_vector = *dims;
-        
+
         // the fisrt dim of FuncFParam is empty
         // eg. int f(int A[][30][40])
         val.dims.push_back(-1);
@@ -324,8 +284,6 @@ void __FuncDef::TypeCheck() {
     semant_table.symbol_table.exit_scope();
 }
 
-void CompUnit_Decl::TypeCheck() {
-    TODO("CompUnitDecl Semant");
-}
+void CompUnit_Decl::TypeCheck() { TODO("CompUnitDecl Semant"); }
 
 void CompUnit_FuncDef::TypeCheck() { func_def->TypeCheck(); }

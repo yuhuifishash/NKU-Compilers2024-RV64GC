@@ -3,7 +3,6 @@
 
 #include "cfg.h"
 
-
 class LLVMIR {
 public:
     std::vector<Instruction> global_def{};

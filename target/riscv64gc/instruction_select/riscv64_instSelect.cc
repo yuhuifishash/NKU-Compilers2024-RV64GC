@@ -43,7 +43,7 @@ template <> void RiscV64Selector::ConvertAndAppend<RetInstruction *>(RetInstruct
             auto retimm_op = (ImmI32Operand *)ins->GetRetVal();
             auto imm = retimm_op->GetIntImmVal();
 
-            auto retcopy_instr = rvconstructor->ConstructUImm(RISCV_LI,GetPhysicalReg(RISCV_a0), imm);
+            auto retcopy_instr = rvconstructor->ConstructUImm(RISCV_LI, GetPhysicalReg(RISCV_a0), imm);
             cur_block->push_back(retcopy_instr);
         } else if (ins->GetRetVal()->GetOperandType() == BasicOperand::IMMF32) {
             TODO("Implement this if necessary");

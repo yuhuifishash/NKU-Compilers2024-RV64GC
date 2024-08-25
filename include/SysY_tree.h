@@ -190,7 +190,7 @@ public:
     Symbol name;
     std::vector<Expression> *dims;
 
-    int scope = -1; // 在语义分析阶段填入正确的作用域
+    int scope = -1;    // 在语义分析阶段填入正确的作用域
     Lval(Symbol n, std::vector<Expression> *d) : name(n), dims(d) {}
     void codeIR();
     void TypeCheck();

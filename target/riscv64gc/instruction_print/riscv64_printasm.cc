@@ -199,7 +199,6 @@ template <> void RiscV64Printer::printAsm<MachinePhiInstruction *>(MachinePhiIns
     }
 }
 
-
 template <> void RiscV64Printer::printAsm<MachineBaseInstruction *>(MachineBaseInstruction *ins) {
     if (ins->arch == MachineBaseInstruction::RiscV) {
         printAsm<RiscV64Instruction *>((RiscV64Instruction *)ins);

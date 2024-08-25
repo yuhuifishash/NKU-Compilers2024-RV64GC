@@ -55,12 +55,8 @@ public:
     LiveInterval() : reference_count(0) {}    // Temp
     LiveInterval(Register reg) : reg(reg), reference_count(0) {}
 
-    void PushFront(int begin, int end) {
-        segments.push_front({begin = begin, end = end});
-    }
-    void SetMostBegin(int begin) {
-        segments.begin()->begin = begin;
-    }
+    void PushFront(int begin, int end) { segments.push_front({begin = begin, end = end}); }
+    void SetMostBegin(int begin) { segments.begin()->begin = begin; }
 
     // 可以直接 for(auto segment : liveinterval)
     decltype(segments.begin()) begin() { return segments.begin(); }
@@ -81,7 +77,7 @@ public:
     void Execute();
     Liveness(MachineFunction *mfun, bool calculate = true) : current_func(mfun) {
         if (calculate) {
-            Execute(); 
+            Execute();
         }
     }
     // 获取基本块的IN/OUT/DEF/USE集合

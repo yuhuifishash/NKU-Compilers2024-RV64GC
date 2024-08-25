@@ -519,7 +519,7 @@ public:
 class RiscV64InstructionConstructor {
     static RiscV64InstructionConstructor instance;
 
-    RiscV64InstructionConstructor(){}
+    RiscV64InstructionConstructor() {}
 
 public:
     static RiscV64InstructionConstructor *GetConstructor() { return &instance; }

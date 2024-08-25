@@ -148,4 +148,3 @@ int main(int argc, char **argv) {
     fout.close();
     return 0;
 }
-

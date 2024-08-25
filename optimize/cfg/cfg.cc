@@ -5,9 +5,7 @@
 extern std::map<FuncDefInstruction, int> max_label_map;
 extern std::map<FuncDefInstruction, int> max_reg_map;
 
-void LLVMIR::EliminateUnreachedInstructionAndBlocks() {
-    TODO("EliminateUNreachedInstructionAndBlocks");
-}
+void LLVMIR::EliminateUnreachedInstructionAndBlocks() { TODO("EliminateUNreachedInstructionAndBlocks"); }
 
 void LLVMIR::CFGInit() {
     EliminateUnreachedInstructionAndBlocks();
@@ -24,9 +22,7 @@ void LLVMIR::BuildCFG() {
     }
 }
 
-void CFG::BuildCFG() {
-    TODO("BuildCFG");
-}
+void CFG::BuildCFG() { TODO("BuildCFG"); }
 
 std::vector<LLVMBlock> CFG::GetPredecessor(LLVMBlock B) { return invG[B->block_id]; }
 

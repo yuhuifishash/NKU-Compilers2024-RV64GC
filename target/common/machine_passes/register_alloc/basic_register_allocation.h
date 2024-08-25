@@ -11,7 +11,7 @@ struct AllocResult {
     bool in_mem;
     union {
         int phy_reg_no;
-        int stack_offset; // 这里的offset表示偏移, 相对什么位置及单位可以自行决定
+        int stack_offset;    // 这里的offset表示偏移, 相对什么位置及单位可以自行决定
     };
     AllocResult() : in_mem(false) { phy_reg_no = 0; }
     AllocResult(const struct AllocResult &other) {

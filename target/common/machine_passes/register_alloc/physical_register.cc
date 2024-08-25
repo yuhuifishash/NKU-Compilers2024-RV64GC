@@ -41,9 +41,7 @@ int PhysicalRegisters::getIdleReg(LiveInterval interval) {
     }
     return -1;
 }
-int PhysicalRegisters::getIdleMem(LiveInterval interval) {
-    TODO("getIdleMem");
-}
+int PhysicalRegisters::getIdleMem(LiveInterval interval) { TODO("getIdleMem"); }
 
 int PhysicalRegisters::swapRegspill(int p_reg1, LiveInterval interval1, int offset_spill2, int size,
                                     LiveInterval interval2) {

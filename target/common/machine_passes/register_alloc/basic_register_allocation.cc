@@ -14,15 +14,15 @@ void RegisterAllocation::Execute() {
         // 需要清除之前分配的结果
         alloc_result[current_func].clear();
         not_allocated_funcs.pop();
-        
+
         // 计算活跃区间
         UpdateIntervalsInCurrentFunc();
 
-        if (DoAllocInCurrentFunc()) { // 尝试进行分配
+        if (DoAllocInCurrentFunc()) {    // 尝试进行分配
             // 如果发生溢出，插入spill指令后将所有物理寄存器退回到虚拟寄存器，重新分配
-            spiller->ExecuteInFunc(current_func, &alloc_result[current_func]); // 生成溢出代码
-            current_func->AddStackSize(phy_regs->getSpillSize()); // 调整栈的大小
-            not_allocated_funcs.push(current_func); // 重新分配直到不再spill
+            spiller->ExecuteInFunc(current_func, &alloc_result[current_func]);    // 生成溢出代码
+            current_func->AddStackSize(phy_regs->getSpillSize());                 // 调整栈的大小
+            not_allocated_funcs.push(current_func);                               // 重新分配直到不再spill
             iterations++;
         }
     }

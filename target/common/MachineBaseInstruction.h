@@ -152,8 +152,8 @@ extern MachineDataType INT32, INT64, INT128, FLOAT_32, FLOAT64, FLOAT128;
 
 struct Register {
 public:
-    int reg_no; // 寄存器编号
-    bool is_virtual; // 是否为虚拟寄存器
+    int reg_no;         // 寄存器编号
+    bool is_virtual;    // 是否为虚拟寄存器
     MachineDataType type;
     Register() {}
     Register(bool is_virtual, int reg_no, MachineDataType type, bool save = false)
@@ -255,9 +255,9 @@ public:
     void setNumber(int ins_number) { this->ins_number = ins_number; }
     int getNumber() { return ins_number; }
     MachineBaseInstruction(int arch) : arch(arch) {}
-    virtual std::vector<Register *> GetReadReg() = 0; // 获得该指令所有读的寄存器
-    virtual std::vector<Register *> GetWriteReg() = 0; // 获得该指令所有写的寄存器
-    virtual int GetLatency() = 0; // 如果你不打算实现指令调度优化，可以忽略该函数
+    virtual std::vector<Register *> GetReadReg() = 0;     // 获得该指令所有读的寄存器
+    virtual std::vector<Register *> GetWriteReg() = 0;    // 获得该指令所有写的寄存器
+    virtual int GetLatency() = 0;    // 如果你不打算实现指令调度优化，可以忽略该函数
 };
 
 class MachineComment : public MachineBaseInstruction {

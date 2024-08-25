@@ -142,7 +142,6 @@ public:
           has_inpara_instack(false) {}
 };
 
-
 class MachineUnit {
 public:
     std::vector<Instruction> global_def{};

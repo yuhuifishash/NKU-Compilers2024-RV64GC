@@ -19,13 +19,9 @@ void Mem2RegOneDefDomAllUses(CFG *C, std::set<int> &vset) {
     TODO("Mem2RegOneDefDomAllUses");
 }
 
-void InsertPhi(CFG *C) {
-    TODO("InsertPhi");
-}
+void InsertPhi(CFG *C) { TODO("InsertPhi"); }
 
-void VarRename(CFG *C) {
-    TODO("VarRename");
-}
+void VarRename(CFG *C) { TODO("VarRename"); }
 
 void Mem2Reg(CFG *C) {
     C->BuildDominatorTree();
