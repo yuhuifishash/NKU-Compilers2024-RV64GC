@@ -5,7 +5,6 @@
 #include "./common/machine_passes/register_alloc/fast_linear_scan/fast_linear_scan.h"
 #include "./riscv64gc/instruction_print/riscv64_printer.h"
 #include "./riscv64gc/instruction_select/riscv64_instSelect.h"
-#include "./riscv64gc/instruction_select/riscv64_lowercopy.h"
 #include "./riscv64gc/instruction_select/riscv64_lowerframe.h"
 #include "./riscv64gc/riscv64.h"
 

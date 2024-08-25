@@ -5,12 +5,12 @@
 bool IntervalsPrioCmp(LiveInterval a, LiveInterval b);
 class FastLinearScan : public RegisterAllocation {
 private:
-    // All States here, like queue
     std::priority_queue<LiveInterval, std::vector<LiveInterval>, decltype(IntervalsPrioCmp) *> unalloc_queue;
+    // 计算溢出权重
     double CalculateSpillWeight(LiveInterval);
-    void CoalesceInCurrentFunc();
 
 protected:
+    // 分配寄存器
     bool DoAllocInCurrentFunc();
 
 public:

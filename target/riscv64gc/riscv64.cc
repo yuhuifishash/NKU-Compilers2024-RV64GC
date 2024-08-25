@@ -272,30 +272,14 @@ Register(false, RISCV_f25, FLOAT64), Register(false, RISCV_f26, FLOAT64), Regist
 Register(false, RISCV_f28, FLOAT64), Register(false, RISCV_f29, FLOAT64), Register(false, RISCV_f30, FLOAT64),
 Register(false, RISCV_f31, FLOAT64),
 };
+// 获取可分配的寄存器列表（不考虑区间冲突）
 std::vector<int> RiscV64Register::getValidRegs(LiveInterval interval) {
     if (interval.getReg().type.data_type == MachineDataType::INT) {
-        if (interval.getReg().save_across_call == false) {
-            return std::vector<int>({
-            RISCV_t0, RISCV_t1, RISCV_t2, RISCV_t3, RISCV_t4, RISCV_t5,  RISCV_t6,  RISCV_a0, RISCV_a1, RISCV_a2,
-            RISCV_a3, RISCV_a4, RISCV_a5, RISCV_a6, RISCV_a7, RISCV_s0,  RISCV_s1,  RISCV_s2, RISCV_s3, RISCV_s4,
-            RISCV_s5, RISCV_s6, RISCV_s7, RISCV_s8, RISCV_s9, RISCV_s10, RISCV_s11, RISCV_ra,
-            });
-        } else {
-            return std::vector<int>({
-            RISCV_s1,
-            RISCV_s2,
-            RISCV_s3,
-            RISCV_s4,
-            RISCV_s5,
-            RISCV_s6,
-            RISCV_s7,
-            RISCV_s8,
-            RISCV_s9,
-            RISCV_s10,
-            RISCV_s11,
-            RISCV_s0,
-            });
-        }
+        return std::vector<int>({
+        RISCV_t0, RISCV_t1, RISCV_t2, RISCV_t3, RISCV_t4, RISCV_t5,  RISCV_t6,  RISCV_a0, RISCV_a1, RISCV_a2,
+        RISCV_a3, RISCV_a4, RISCV_a5, RISCV_a6, RISCV_a7, RISCV_s0,  RISCV_s1,  RISCV_s2, RISCV_s3, RISCV_s4,
+        RISCV_s5, RISCV_s6, RISCV_s7, RISCV_s8, RISCV_s9, RISCV_s10, RISCV_s11, RISCV_ra,
+        });
     } else if (interval.getReg().type.data_type == MachineDataType::FLOAT) {
         return std::vector<int>({
         RISCV_f0,  RISCV_f1,  RISCV_f2,  RISCV_f3,  RISCV_f4,  RISCV_f5,  RISCV_f6,  RISCV_f7,
@@ -309,6 +293,7 @@ std::vector<int> RiscV64Register::getValidRegs(LiveInterval interval) {
     }
 }
 
+// 生成从栈中读取溢出寄存器的指令
 Register RiscV64Spiller::GenerateReadCode(std::list<MachineBaseInstruction *>::iterator &it, int raw_stk_offset,
                                           MachineDataType type) {
     auto read_mid_reg = function->GetNewRegister(type.data_type, type.data_length);
@@ -338,6 +323,7 @@ Register RiscV64Spiller::GenerateReadCode(std::list<MachineBaseInstruction *>::i
     return read_mid_reg;
 }
 
+// 生成将溢出寄存器写入栈的指令
 Register RiscV64Spiller::GenerateWriteCode(std::list<MachineBaseInstruction *>::iterator &it, int raw_stk_offset,
                                            MachineDataType type) {
     auto write_mid_reg = function->GetNewRegister(type.data_type, type.data_length);

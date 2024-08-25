@@ -6,6 +6,7 @@
 #include "physical_register.h"
 #include <vector>
 
+// 记录单项分配结果
 struct AllocResult {
     bool in_mem;
     union {
@@ -32,12 +33,13 @@ public:
 class RegisterAllocation : public MachinePass {
 private:
     void UpdateIntervalsInCurrentFunc();
-    virtual void CoalesceInCurrentFunc() = 0;
     std::queue<MachineFunction *> not_allocated_funcs;
     SpillCodeGen *spiller;
 
 protected:
     std::map<int, InstructionNumberEntry> numbertoins;
+    // 将分配结果写入alloc_result
+    // SpillCodeGen/VregRewrite使用alloc_result的信息完成后续操作
     void AllocPhyReg(MachineFunction *mfun, Register vreg, int phyreg) {
         Assert(vreg.is_virtual);
         alloc_result[mfun][vreg].in_mem = false;
@@ -68,16 +70,15 @@ protected:
 protected:
     std::map<Register, LiveInterval> intervals;
 
-    // a = COPY b ==> copy_sources[a].push_back[b]
-    std::map<Register, std::vector<Register>> copy_sources;    // For coalescing
-
     PhysicalRegisters *phy_regs;
+    // 在当前函数中完成寄存器分配
     virtual bool DoAllocInCurrentFunc() = 0;
     std::map<MachineFunction *, std::map<Register, AllocResult>> alloc_result;
 
 public:
     RegisterAllocation(MachineUnit *unit, PhysicalRegisters *phy, SpillCodeGen *spiller)
         : MachinePass(unit), phy_regs(phy), spiller(spiller) {}
+    // 对所有函数进行寄存器分配
     void Execute();
 };
 
@@ -86,6 +87,7 @@ private:
     std::map<int, InstructionNumberEntry> &numbertoins;
 
 public:
+    // 给指令编号，并记录指令编号与指令的映射
     InstructionNumber(MachineUnit *unit, std::map<int, InstructionNumberEntry> &number2ins)
         : MachinePass(unit), numbertoins(number2ins) {}
     void Execute();
@@ -97,6 +99,7 @@ private:
     const std::map<MachineFunction *, std::map<Register, AllocResult>> &alloc_result;
 
 public:
+    // 根据分配结果重写指令中的虚拟寄存器
     VirtualRegisterRewrite(MachineUnit *unit,
                            const std::map<MachineFunction *, std::map<Register, AllocResult>> &alloc_result)
         : MachinePass(unit), alloc_result(alloc_result) {}
@@ -107,8 +110,10 @@ public:
 class SpillCodeGen {
 private:
     std::map<Register, AllocResult> *alloc_result;
+    // 生成从栈中读取溢出寄存器的指令
     virtual Register GenerateReadCode(std::list<MachineBaseInstruction *>::iterator &it, int raw_stk_offset,
                                       MachineDataType type) = 0;
+    // 生成将溢出寄存器写入栈的指令
     virtual Register GenerateWriteCode(std::list<MachineBaseInstruction *>::iterator &it, int raw_stk_offset,
                                        MachineDataType type) = 0;
 
@@ -117,8 +122,7 @@ protected:
     MachineBlock *cur_block;
 
 public:
-    // SpillCodeGen(MachineFunction* function,std::map<Register, AllocResult> *alloc_result) :
-    // alloc_result(alloc_result), function(function) {}
+    // 在当前函数中执行溢出代码生成
     void ExecuteInFunc(MachineFunction *function, std::map<Register, AllocResult> *alloc_result);
 };
 

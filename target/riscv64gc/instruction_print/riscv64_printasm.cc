@@ -205,9 +205,6 @@ template <> void RiscV64Printer::printAsm<MachinePhiInstruction *>(MachinePhiIns
     }
 }
 
-template <> void RiscV64Printer::printMachineIR<RiscV64Instruction *>(RiscV64Instruction *ins) {
-    TODO("Implement RiscV64Instruction::printMachineIR");
-}
 
 template <> void RiscV64Printer::printAsm<MachineBaseInstruction *>(MachineBaseInstruction *ins) {
     if (ins->arch == MachineBaseInstruction::RiscV) {

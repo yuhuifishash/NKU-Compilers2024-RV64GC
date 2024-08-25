@@ -32,6 +32,9 @@ public:
         }
         return reg == that.reg;    // && segments == that.segments;
     }
+
+    // 返回两个不相交活跃区间的并集
+    // 需要保证两个活跃区间各个段各自都是不降序（升序）排列的
     LiveInterval operator|(const LiveInterval &that) const {
         LiveInterval ret(this->reg);
         ret.reference_count = this->reference_count + that.reference_count - 2;
@@ -61,6 +64,9 @@ public:
         }
         return ret;
     }
+
+    // 检测两个活跃区间是否重叠
+    // 需要保证两个活跃区间各个段各自都是不降序（升序）排列的
     bool operator&(const LiveInterval &that) const {
         // TODO : Judge if *this and that overlapped
         // Assume Segments are sorted
@@ -91,8 +97,11 @@ public:
         }
         return false;
     }
+
+    // 更新引用计数
     void IncreaseReferenceCount(int count) { reference_count += count; }
     int getReferenceCount() { return reference_count; }
+    // 返回活跃区间长度
     int getIntervalLen() {
         int ret = 0;
         for (auto seg : segments) {
@@ -104,27 +113,14 @@ public:
     LiveInterval() : reference_count(0) {}    // Temp
     LiveInterval(Register reg) : reg(reg), reference_count(0) {}
 
-    // Needs to be implemented (?)
     void PushFront(int begin, int end) {
-        // Log("PushFront %d %d",begin,end);
         segments.push_front({begin = begin, end = end});
     }
     void SetMostBegin(int begin) {
-        // Log("SetBegin %d",begin);
         segments.begin()->begin = begin;
-        // segments[0].begin = begin;
     }
 
-    void Print() {
-        PRINT("%d %d ", reg.is_virtual, reg.reg_no);
-        // std::cerr<<reg.is_virtual<<" "<<reg.reg_no<<" ";
-        for (auto seg : segments) {
-            PRINT("[%d,%d) ", seg.begin, seg.end);
-            // std::cerr<<"["<<seg.begin<<","<<seg.end<<") ";
-        }
-        PRINT("\n");
-    }
-
+    // 可以直接 for(auto segment : liveinterval)
     decltype(segments.begin()) begin() { return segments.begin(); }
     decltype(segments.end()) end() { return segments.end(); }
 };
@@ -132,17 +128,21 @@ public:
 class Liveness {
 private:
     MachineFunction *current_func;
+    // 更新所有块DEF和USE集合
     void UpdateDefUse();
     // Key: Block_Number
+    // 存储活跃变量分析的结果
     std::map<int, std::set<Register>> IN{}, OUT{}, DEF{}, USE{};
 
 public:
+    // 对所有块进行活跃变量分析并保存结果
     void Execute();
     Liveness(MachineFunction *mfun, bool calculate = true) : current_func(mfun) {
         if (calculate) {
             Execute();
         }
     }
+    // 获取基本块的IN/OUT/DEF/USE集合
     std::set<Register> GetIN(int bid) { return IN[bid]; }
     std::set<Register> GetOUT(int bid) { return OUT[bid]; }
     std::set<Register> GetDef(int bid) { return DEF[bid]; }

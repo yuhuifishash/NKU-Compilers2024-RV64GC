@@ -786,8 +786,10 @@ public:
 
 class RiscV64Spiller : public SpillCodeGen {
 private:
+    // 生成从栈中读取溢出寄存器的指令
     Register GenerateReadCode(std::list<MachineBaseInstruction *>::iterator &it, int raw_stk_offset,
                               MachineDataType type);
+    // 生成将溢出寄存器写入栈的指令
     Register GenerateWriteCode(std::list<MachineBaseInstruction *>::iterator &it, int raw_stk_offset,
                                MachineDataType type);
 };
