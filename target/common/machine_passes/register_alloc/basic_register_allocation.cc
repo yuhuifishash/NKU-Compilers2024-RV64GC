@@ -8,17 +8,25 @@ void RegisterAllocation::Execute() {
     while (!not_allocated_funcs.empty()) {
         current_func = not_allocated_funcs.front();
         numbertoins.clear();
+        // 对每条指令进行编号
         InstructionNumber(unit, numbertoins).ExecuteInFunc(current_func);
+
+        // 需要清除之前分配的结果
         alloc_result[current_func].clear();
         not_allocated_funcs.pop();
+        
+        // 计算活跃区间
         UpdateIntervalsInCurrentFunc();
-        if (DoAllocInCurrentFunc()) {
-            spiller->ExecuteInFunc(current_func, &alloc_result[current_func]);
-            current_func->AddStackSize(phy_regs->getSpillSize());
-            not_allocated_funcs.push(current_func);
+
+        if (DoAllocInCurrentFunc()) { // 尝试进行分配
+            // 如果发生溢出，插入spill指令后将所有物理寄存器退回到虚拟寄存器，重新分配
+            spiller->ExecuteInFunc(current_func, &alloc_result[current_func]); // 生成溢出代码
+            current_func->AddStackSize(phy_regs->getSpillSize()); // 调整栈的大小
+            not_allocated_funcs.push(current_func); // 重新分配直到不再spill
             iterations++;
         }
     }
+    // 重写虚拟寄存器，全部转换为物理寄存器
     VirtualRegisterRewrite(unit, alloc_result).Execute();
 }
 
@@ -28,6 +36,7 @@ void InstructionNumber::Execute() {
     }
 }
 void InstructionNumber::ExecuteInFunc(MachineFunction *func) {
+    // 对每个指令进行编号(用于计算活跃区间)
     int count_begin = 0;
     current_func = func;
     // Note: If Change to DFS Iterator, RegisterAllocation::UpdateIntervalsInCurrentFunc() Also need to be

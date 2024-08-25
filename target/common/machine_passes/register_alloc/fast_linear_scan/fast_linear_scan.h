@@ -10,7 +10,7 @@ private:
     double CalculateSpillWeight(LiveInterval);
 
 protected:
-    // 分配寄存器
+    // 寄存器分配, 返回是否溢出
     bool DoAllocInCurrentFunc();
 
 public:

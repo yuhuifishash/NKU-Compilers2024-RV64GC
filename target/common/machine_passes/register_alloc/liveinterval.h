@@ -33,68 +33,10 @@ public:
         return reg == that.reg;    // && segments == that.segments;
     }
 
-    // 返回两个不相交活跃区间的并集
-    // 需要保证两个活跃区间各个段各自都是不降序（升序）排列的
-    LiveInterval operator|(const LiveInterval &that) const {
-        LiveInterval ret(this->reg);
-        ret.reference_count = this->reference_count + that.reference_count - 2;
-        auto it = segments.begin();
-        auto jt = that.segments.begin();
-        while (1) {
-            if (it == segments.end() && jt == that.segments.end()) {
-                break;
-            }
-            if (it == segments.end()) {
-                ret.segments.push_back(*jt);
-                ++jt;
-                continue;
-            }
-            if (jt == that.segments.end()) {
-                ret.segments.push_back(*it);
-                ++it;
-                continue;
-            }
-            if (it->begin < jt->begin) {
-                ret.segments.push_back(*it);
-                ++it;
-            } else {
-                ret.segments.push_back(*jt);
-                ++jt;
-            }
-        }
-        return ret;
-    }
-
     // 检测两个活跃区间是否重叠
     // 需要保证两个活跃区间各个段各自都是不降序（升序）排列的
     bool operator&(const LiveInterval &that) const {
-        // TODO : Judge if *this and that overlapped
-        // Assume Segments are sorted
-
-        if (segments.empty() || that.segments.empty())
-            return false;
-        // Log("\n[%d,%d) & [%d,%d)",segments[0].begin,segments[0].end,that.segments[0].begin,that.segments[0].end);
-        // std::cerr<<"\n["<<segments[0].begin<<","<<segments[0].end<<") & ["<<that.segments;
-        auto it = segments.begin();
-        auto jt = that.segments.begin();
-        while (1) {
-            if (*it & *jt) {
-                return true;
-            }
-            if (it->end <= jt->begin) {
-                ++it;
-                if (it == segments.end()) {
-                    return false;
-                }
-            } else if (jt->end <= it->begin) {
-                ++jt;
-                if (jt == that.segments.end()) {
-                    return false;
-                }
-            } else {
-                ERROR("LiveInterval::operator&: Error");
-            }
-        }
+        TODO("& operaotr in LiveInterval");
         return false;
     }
 
@@ -139,7 +81,7 @@ public:
     void Execute();
     Liveness(MachineFunction *mfun, bool calculate = true) : current_func(mfun) {
         if (calculate) {
-            Execute();
+            Execute(); 
         }
     }
     // 获取基本块的IN/OUT/DEF/USE集合

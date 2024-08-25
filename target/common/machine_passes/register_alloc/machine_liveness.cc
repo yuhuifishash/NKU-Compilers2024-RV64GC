@@ -39,10 +39,12 @@ std::vector<Register *> MachinePhiInstruction::GetReadReg() {
 std::vector<Register *> MachinePhiInstruction::GetWriteReg() { return std::vector<Register *>({&result}); }
 
 void Liveness::UpdateDefUse() {
+
     DEF.clear();
     USE.clear();
 
     auto mcfg = current_func->getMachineCFG();
+    // 顺序遍历每个基本块
     auto seq_it = mcfg->getSeqScanIterator();
     seq_it->open();
     while (seq_it->hasNext()) {
@@ -53,18 +55,7 @@ void Liveness::UpdateDefUse() {
         auto &cur_def = DEF[node->Mblock->getLabelId()];
         auto &cur_use = USE[node->Mblock->getLabelId()];
 
-        for (auto ins : *(node->Mblock)) {
-            for (auto reg_r : ins->GetReadReg()) {
-                if (cur_def.find(*reg_r) == cur_def.end()) {
-                    cur_use.insert(*reg_r);
-                }
-            }
-            for (auto reg_w : ins->GetWriteReg()) {
-                if (cur_use.find(*reg_w) == cur_use.end()) {
-                    cur_def.insert(*reg_w);
-                }
-            }
-        }
+        TODO("Calculate DEF and USE in this block, and store them in cur_def and cur_use");
     }
 }
 
@@ -76,8 +67,10 @@ void Liveness::Execute() {
 
     auto mcfg = current_func->getMachineCFG();
     bool changed = 1;
+    // 基于数据流分析的活跃变量分析
     while (changed) {
         changed = 0;
+        // 顺序遍历每个基本块
         auto seq_it = mcfg->getSeqScanIterator();
         seq_it->open();
         while (seq_it->hasNext()) {

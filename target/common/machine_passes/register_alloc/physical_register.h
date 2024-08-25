@@ -17,7 +17,7 @@ protected:
 
     // 由区间获取所有合法的物理寄存器
     virtual std::vector<int> getValidRegs(LiveInterval interval) = 0;
-    
+
     // 由物理寄存器获取所有的别名物理寄存器
     // 例子1：RISCV中，a0是a0的别名；RISCV中，只有寄存器和寄存器自己构成别名
     // 例子2：x86中，eax的别名有：eax, ax, al, ah
@@ -40,18 +40,24 @@ public:
     // 释放内存,返回是否成功
     virtual bool ReleaseMem(int offset, int size, LiveInterval interval);
 
-    // 获取空闲的（活跃区间不冲突的）物理寄存器
+    // 获取空闲的（活跃区间不冲突的）物理寄存器, 找不到则返回-1
     virtual int getIdleReg(LiveInterval interval);
     // 获取空闲的（活跃区间不冲突的）内存
     virtual int getIdleMem(LiveInterval interval);
 
-    // 交换分配结果（必须是一个溢出，一个不溢出）
+    // 交换分配结果（必须是一个溢出，一个不溢出), 用于在线性扫描的过程中选择溢出寄存器
     virtual int swapRegspill(int p_reg1, LiveInterval interval1, int offset_spill2, int size, LiveInterval interval2);
+
     // 获得所有活跃区间与interval冲突的、已经分配在同数据类型的物理寄存器中的活跃区间
+    // 用于在寄存器分配过程中选择溢出区间
     virtual std::vector<LiveInterval> getConflictIntervals(LiveInterval interval);
 
     // 获取溢出寄存器占用内存大小
-    int getSpillSize() { return mem_occupied.size() * 4; }
+    int getSpillSize() {
+        // 也许需要添加新的成员变量进行维护
+        TODO("GetSpillSize");
+        return -1; 
+    }
 };
 
 #endif

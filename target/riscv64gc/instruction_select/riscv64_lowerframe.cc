@@ -34,5 +34,7 @@ void RiscV64LowerFrame::Execute() {
 void RiscV64LowerStack::Execute() {
     // TODO: 在函数开头保存s寄存器，并开辟栈空间
     // TODO: 在函数结尾恢复s寄存器，并收回栈空间
-    Log("Save s reg and alloc stack space if necessary");
+    Log("Save s reg and alloc stack space");
+
+    // 到此我们就完成目标代码生成的所有工作了
 }
