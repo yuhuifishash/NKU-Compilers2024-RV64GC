@@ -30,6 +30,10 @@ public:
         phy_occupied.clear();
         mem_occupied.clear();
     }
+
+    /*该类中有一些函数需要你自己实现，如果你认为这些成员函数不符合你的需求，
+      你可以选择忽略它们并添加自己想要的成员与函数*/
+
     // 占领物理寄存器,返回是否成功
     virtual bool OccupyReg(int phy_id, LiveInterval interval);
     // 释放物理寄存器,返回是否成功
@@ -52,7 +56,7 @@ public:
     // 用于在寄存器分配过程中选择溢出区间
     virtual std::vector<LiveInterval> getConflictIntervals(LiveInterval interval);
 
-    // 获取溢出寄存器占用内存大小
+    // 获取所有溢出寄存器占用内存大小之和
     int getSpillSize() {
         // 也许需要添加新的成员变量进行维护
         TODO("GetSpillSize");
