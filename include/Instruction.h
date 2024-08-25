@@ -185,7 +185,10 @@ public:
 GlobalOperand *GetNewGlobalOperand(std::string name);
 
 class BasicInstruction;
+
+// 请注意代码中的typedef，为了方便书写，将一些类的指针进行了重命名, 如果不习惯该种风格，可以自行修改
 typedef BasicInstruction *Instruction;
+
 // @instruction
 class BasicInstruction {
 public:

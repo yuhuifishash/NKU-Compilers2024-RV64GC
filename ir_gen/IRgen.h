@@ -11,8 +11,8 @@
 
 class IRgenTable {
 public:
-    std::map<int, VarAttribute> RegTable;
-    std::map<int, int> FormalArrayTable;
+    // TODO():添加更多你需要的成员变量和成员函数
+
     SymbolRegTable symbol_table;
     IRgenTable() {}
 };

@@ -13,12 +13,21 @@ semant
 */
 class SemantTable {
 public:
+    // 如果你对已有的成员变量不满意，可以删除它们并添加自己想要的
+
+    // key的含义是函数名, FuncDef为该函数名对应的语法树
+    // 可以用于函数的错误检查(例如函数调用实参与形参是否匹配)
     std::map<Symbol, FuncDef> FunctionTable;
 
+    // 存储局部变量名与该局部变量的信息(初始值，类型等)
     SymbolTable symbol_table;
+
+    // key的含义是全局变量名，value的含义是该全局变量的信息(初始值，类型等)
+    // 我们可以在semant阶段就在llvmIR中生成全局变量定义指令
     std::map<Symbol, VarAttribute> GlobalTable;
 
     SemantTable() {
+        // 添加库函数, 我们不要求实现putf这个库函数
         Symbol getint = id_table.add_id("getint");
         FunctionTable[getint] = new __FuncDef(Type::INT, getint, new std::vector<FuncFParam>{}, nullptr);
 

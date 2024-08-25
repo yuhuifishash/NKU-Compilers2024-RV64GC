@@ -14,8 +14,6 @@ public:
 
 class ConstValue {
 public:
-    // all the globals are considered const in semant
-    // used for arraydims and global var initval
     bool ConstTag;
     union ConstVal {
         bool BoolVal;
