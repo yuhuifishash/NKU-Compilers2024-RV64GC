@@ -193,7 +193,7 @@ void RiscV64Selector::SelectInstructionAndBuildCFG() {
 
         // TODO: 添加函数参数
         // See MachineFunction::AddParameter()
-        Log("Add function parameter if necessary");
+        TODO("Add function parameter if necessary");
 
         // 遍历每个LLVM IR基本块
         for (auto [id, block] : *(cfg->block_map)) {
