@@ -227,10 +227,7 @@ void StoreInstruction::PrintIR(std::ostream &s) {
     s << "store " << type << " " << value << ", ptr " << pointer << "\n";
 }
 void ArithmeticInstruction::PrintIR(std::ostream &s) {
-    if (opcode == LL_ADDMOD) {
-        s << result << " = call i32 @___llvm_ll_add_mod(i32 " << op1 << ",i32 " << op2 << ",i32 " << op3 << ")\n";
-        return;
-    } else if (opcode == UMIN_I32) {
+    if (opcode == UMIN_I32) {
         s << result << " = call i32 @llvm.umin.i32(i32 " << op1 << ",i32 " << op2 << ")\n";
         return;
     } else if (opcode == UMAX_I32) {

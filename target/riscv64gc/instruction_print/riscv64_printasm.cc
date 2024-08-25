@@ -177,9 +177,6 @@ template <> void RiscV64Printer::printAsm<RiscV64Instruction *>(RiscV64Instructi
     default:
         ERROR("Unexpected instruction format");
     }
-    if (!ins->CanSchedule()) {
-        s << " # Can't schedule";
-    }
 }
 
 template <> void RiscV64Printer::printAsm<MachineCopyInstruction *>(MachineCopyInstruction *ins) {
@@ -187,9 +184,6 @@ template <> void RiscV64Printer::printAsm<MachineCopyInstruction *>(MachineCopyI
     s << " = COPY ";
     printRVfield(ins->GetSrc());
     s << ", " << ins->GetCopyType().toString();
-    if (!ins->CanSchedule()) {
-        s << " # Can't schedule";
-    }
 }
 
 template <> void RiscV64Printer::printAsm<MachinePhiInstruction *>(MachinePhiInstruction *ins) {

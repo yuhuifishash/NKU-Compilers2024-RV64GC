@@ -57,14 +57,13 @@ void MachineCFG::RemoveEdge(int edg_begin, int edg_end) {
     invG[edg_end].erase(jt);
 }
 
-Register MachineFunction::GetNewRegister(int regtype, int reglength, bool save_across_call) {
+Register MachineFunction::GetNewRegister(int regtype, int reglength) {
     static int new_regno = 0;
     Register new_reg;
     new_reg.is_virtual = true;
     new_reg.reg_no = new_regno++;
     new_reg.type.data_type = regtype;
     new_reg.type.data_length = reglength;
-    new_reg.save_across_call = save_across_call;
     // InitializeNewVirtualRegister(new_regno);
     return new_reg;
 }

@@ -219,7 +219,6 @@ public:
         SITOFP = 27,
         GLOBAL_VAR = 28,
         GLOBAL_STR = 29,
-        LL_ADDMOD = 30,
         UMIN_I32 = 31,
         UMAX_I32 = 32,
         SMIN_I32 = 33,

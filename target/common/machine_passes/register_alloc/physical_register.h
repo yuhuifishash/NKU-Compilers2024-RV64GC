@@ -17,6 +17,7 @@ protected:
 
     // 由区间获取所有合法的物理寄存器
     virtual std::vector<int> getValidRegs(LiveInterval interval) = 0;
+    
     // 由物理寄存器获取所有的别名物理寄存器
     // 例子1：RISCV中，a0是a0的别名；RISCV中，只有寄存器和寄存器自己构成别名
     // 例子2：x86中，eax的别名有：eax, ax, al, ah

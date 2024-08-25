@@ -1,6 +1,7 @@
 #include "riscv64_lowerframe.h"
 
 void RiscV64LowerFrame::Execute() {
+    // 在每个函数的开头处插入获取参数的指令
     for (auto func : unit->functions) {
         current_func = func;
         for (auto &b : func->blocks) {

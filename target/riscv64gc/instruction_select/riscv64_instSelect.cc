@@ -205,7 +205,7 @@ void RiscV64Selector::SelectInstructionAndBuildCFG() {
             cur_block->setParent(cur_func);
             cur_func->blocks.push_back(cur_block);
 
-            // 指令选择主要函数
+            // 指令选择主要函数, 请注意指令选择时需要维护变量cur_offset
             for (auto instruction : block->Instruction_list) {
                 // Log("Selecting Instruction");
                 ConvertAndAppend<Instruction>(instruction);

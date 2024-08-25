@@ -2,6 +2,7 @@
 #define MACHINE_PRINTER_H
 #include "../machine_instruction_structures/machine.h"
 class MachinePrinter {
+    // 指令打印基类
 protected:
     MachineUnit *printee;
     MachineFunction *current_func;

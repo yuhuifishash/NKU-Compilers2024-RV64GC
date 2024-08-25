@@ -20,8 +20,6 @@ private:
     MachineFunction *parent;
 
 public:
-    virtual std::vector<int> getAllBranch() = 0;    // [0]-false, [1]-true
-    virtual void ReverseBranch() = 0;
     virtual std::list<MachineBaseInstruction *>::iterator getInsertBeforeBrIt() = 0;
     decltype(instructions) &GetInsList() { return instructions; }
     void clear() { instructions.clear(); }
@@ -110,7 +108,7 @@ public:
     std::vector<MachineBlock *> blocks{};
 
 public:
-    Register GetNewRegister(int regtype, int regwidth, bool save_across_call = false);
+    Register GetNewRegister(int regtype, int regwidth);
     Register GetNewReg(MachineDataType type);
 
 protected:

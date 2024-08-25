@@ -152,25 +152,22 @@ extern MachineDataType INT32, INT64, INT128, FLOAT_32, FLOAT64, FLOAT128;
 
 struct Register {
 public:
-    int reg_no;
-    bool is_virtual;
-    bool save_across_call;
+    int reg_no; // 寄存器编号
+    bool is_virtual; // 是否为虚拟寄存器
     MachineDataType type;
     Register() {}
     Register(bool is_virtual, int reg_no, MachineDataType type, bool save = false)
-        : is_virtual(is_virtual), reg_no(reg_no), type(type), save_across_call(save) {}
+        : is_virtual(is_virtual), reg_no(reg_no), type(type) {}
     int getDataWidth() { return type.getDataWidth(); }
     Register(const Register &other) {
         this->is_virtual = other.is_virtual;
         this->reg_no = other.reg_no;
         this->type = other.type;
-        this->save_across_call = other.save_across_call;
     }
     Register operator=(const Register &other) {
         this->is_virtual = other.is_virtual;
         this->reg_no = other.reg_no;
         this->type = other.type;
-        this->save_across_call = other.save_across_call;
         return *this;
     }
     bool operator<(Register other) const {
@@ -182,14 +179,11 @@ public:
             return type.data_type < other.type.data_type;
         if (type.data_length != other.type.data_length)
             return type.data_length < other.type.data_length;
-        if (save_across_call != other.save_across_call) {
-            return save_across_call < other.save_across_call;
-        }
         return false;
     }
     bool operator==(Register other) const {
         return reg_no == other.reg_no && is_virtual == other.is_virtual && type.data_type == other.type.data_type &&
-               type.data_length == other.type.data_length && save_across_call == other.save_across_call;
+               type.data_length == other.type.data_length;
     }
 };
 
@@ -256,39 +250,14 @@ public:
 
 private:
     int ins_number;
-    bool no_schedule;
 
 public:
-    void SetNoSchedule(bool no_schedule) { this->no_schedule = no_schedule; }
-    bool CanSchedule() { return !no_schedule; }
     void setNumber(int ins_number) { this->ins_number = ins_number; }
     int getNumber() { return ins_number; }
-    MachineBaseInstruction(int arch) : arch(arch), no_schedule(false) {}
-    virtual std::vector<Register *> GetReadReg() = 0;
-    virtual std::vector<Register *> GetWriteReg() = 0;
-    virtual int GetLatency() = 0;
-    bool ExistPhysicalReg() {
-        for (auto preg : this->GetReadReg()) {
-            if (!preg->is_virtual) {
-                return true;
-            }
-        }
-        for (auto preg : this->GetWriteReg()) {
-            if (!preg->is_virtual) {
-                return true;
-            }
-        }
-        return false;
-    }
-    void ReplaceByMap(std::map<int, int> vreg_replacemap) {
-        for (auto preg : this->GetReadReg()) {
-            if (preg->is_virtual) {
-                if (vreg_replacemap.find(preg->reg_no) != vreg_replacemap.end()) {
-                    preg->reg_no = vreg_replacemap[preg->reg_no];
-                }
-            }
-        }
-    }
+    MachineBaseInstruction(int arch) : arch(arch) {}
+    virtual std::vector<Register *> GetReadReg() = 0; // 获得该指令所有读的寄存器
+    virtual std::vector<Register *> GetWriteReg() = 0; // 获得该指令所有写的寄存器
+    virtual int GetLatency() = 0; // 如果你不打算实现指令调度优化，可以忽略该函数
 };
 
 class MachineComment : public MachineBaseInstruction {
@@ -307,6 +276,7 @@ public:
     int GetLatency() { return 0; }
 };
 
+// 如果你没有实现优化的进阶要求，可以忽略下面的指令类
 class MachinePhiInstruction : public MachineBaseInstruction {
 private:
     Register result;

@@ -518,14 +518,13 @@ public:
 
 class RiscV64InstructionConstructor {
     static RiscV64InstructionConstructor instance;
-    bool no_schedule;
 
-    RiscV64InstructionConstructor() : no_schedule(false) {}
+    RiscV64InstructionConstructor(){}
 
 public:
-    void DisableSchedule() { no_schedule = true; }
-    void EnableSchedule() { no_schedule = false; }
     static RiscV64InstructionConstructor *GetConstructor() { return &instance; }
+    // 下列均为创建指令的辅助函数，一些指令也许你并不需要，例如COPY和Select
+    // 函数命名方法与RISC-V指令格式一致
     RiscV64Instruction *ConstructR(int op, Register Rd, Register Rs1, Register Rs2) {
         RiscV64Instruction *ret = new RiscV64Instruction();
         ret->setOpcode(op, false);
@@ -533,7 +532,6 @@ public:
         ret->setRd(Rd);
         ret->setRs1(Rs1);
         ret->setRs2(Rs2);
-        ret->SetNoSchedule(no_schedule);
         return ret;
     }
     RiscV64Instruction *ConstructR2(int op, Register Rd, Register Rs1) {
@@ -542,7 +540,6 @@ public:
         Assert(OpTable[op].ins_formattype == RvOpInfo::R2_type);
         ret->setRd(Rd);
         ret->setRs1(Rs1);
-        ret->SetNoSchedule(no_schedule);
         return ret;
     }
     RiscV64Instruction *ConstructR4(int op, Register Rd, Register Rs1, Register Rs2, Register Rs3) {
@@ -553,7 +550,6 @@ public:
         ret->setRs1(Rs1);
         ret->setRs2(Rs2);
         ret->setRs3(Rs3);
-        ret->SetNoSchedule(no_schedule);
         return ret;
     }
     RiscV64Instruction *ConstructIImm(int op, Register Rd, Register Rs1, int imm) {
@@ -563,7 +559,6 @@ public:
         ret->setRd(Rd);
         ret->setRs1(Rs1);
         ret->setImm(imm);
-        ret->SetNoSchedule(no_schedule);
         return ret;
     }
     RiscV64Instruction *ConstructILabel(int op, Register Rd, Register Rs1, RiscVLabel label) {
@@ -573,7 +568,6 @@ public:
         ret->setRd(Rd);
         ret->setRs1(Rs1);
         ret->setLabel(label);
-        ret->SetNoSchedule(no_schedule);
         return ret;
     }
     RiscV64Instruction *ConstructSImm(int op, Register value, Register ptr, int imm) {
@@ -583,7 +577,6 @@ public:
         ret->setRs1(value);
         ret->setRs2(ptr);
         ret->setImm(imm);
-        ret->SetNoSchedule(no_schedule);
         return ret;
     }
     RiscV64Instruction *ConstructSLabel(int op, Register value, Register ptr, RiscVLabel label) {
@@ -593,7 +586,6 @@ public:
         ret->setRs1(value);
         ret->setRs2(ptr);
         ret->setLabel(label);
-        ret->SetNoSchedule(no_schedule);
         return ret;
     }
     RiscV64Instruction *ConstructBLabel(int op, Register Rs1, Register Rs2, RiscVLabel label) {
@@ -603,7 +595,6 @@ public:
         ret->setRs1(Rs1);
         ret->setRs2(Rs2);
         ret->setLabel(label);
-        ret->SetNoSchedule(no_schedule);
         return ret;
     }
     RiscV64Instruction *ConstructBImm(int op, Register Rs1, Register Rs2, int imm) {
@@ -613,7 +604,6 @@ public:
         ret->setRs1(Rs1);
         ret->setRs2(Rs2);
         ret->setImm(imm);
-        ret->SetNoSchedule(no_schedule);
         return ret;
     }
     RiscV64Instruction *ConstructUImm(int op, Register Rd, int imm) {
@@ -622,7 +612,6 @@ public:
         Assert(OpTable[op].ins_formattype == RvOpInfo::U_type);
         ret->setRd(Rd);
         ret->setImm(imm);
-        ret->SetNoSchedule(no_schedule);
         return ret;
     }
     RiscV64Instruction *ConstructULabel(int op, Register Rd, RiscVLabel label) {
@@ -631,7 +620,6 @@ public:
         Assert(OpTable[op].ins_formattype == RvOpInfo::U_type);
         ret->setRd(Rd);
         ret->setLabel(label);
-        ret->SetNoSchedule(no_schedule);
         return ret;
     }
     RiscV64Instruction *ConstructJLabel(int op, Register rd, RiscVLabel label) {
@@ -640,7 +628,6 @@ public:
         Assert(OpTable[op].ins_formattype == RvOpInfo::J_type);
         ret->setRd(rd);
         ret->setLabel(label);
-        ret->SetNoSchedule(no_schedule);
         return ret;
     }
     MachineCopyInstruction *ConstructCopyReg(Register dst, Register src, MachineDataType type) {
@@ -649,7 +636,6 @@ public:
 
         MachineCopyInstruction *ret =
         new MachineCopyInstruction(new MachineRegister(src), new MachineRegister(dst), type);
-        ret->SetNoSchedule(no_schedule);
         return ret;
     }
     MachineCopyInstruction *ConstructCopyRegImmI(Register dst, int src, MachineDataType type) {
@@ -658,7 +644,6 @@ public:
 
         MachineCopyInstruction *ret =
         new MachineCopyInstruction(new MachineImmediateInt(src), new MachineRegister(dst), type);
-        ret->SetNoSchedule(no_schedule);
         return ret;
     }
     MachineCopyInstruction *ConstructCopyRegImmF(Register dst, float src, MachineDataType type) {
@@ -667,7 +652,6 @@ public:
 
         MachineCopyInstruction *ret =
         new MachineCopyInstruction(new MachineImmediateFloat(src), new MachineRegister(dst), type);
-        ret->SetNoSchedule(no_schedule);
         return ret;
     }
     MachineCopyInstruction *ConstructCopyRegImmF64(Register dst, double src, MachineDataType type) {
@@ -676,7 +660,6 @@ public:
 
         MachineCopyInstruction *ret =
         new MachineCopyInstruction(new MachineImmediateDouble(src), new MachineRegister(dst), type);
-        ret->SetNoSchedule(no_schedule);
         return ret;
     }
     RiscV64Instruction *ConstructCall(int op, std::string funcname, int iregnum, int fregnum) {
@@ -687,7 +670,6 @@ public:
         ret->setCalliregNum(iregnum);
         ret->setCallfregNum(fregnum);
         ret->setLabel(RiscVLabel(funcname, false));
-        ret->SetNoSchedule(no_schedule);
         return ret;
     }
     RiscV64Instruction *ConstructBCC(int op, Register rs1, Register rs2, MachineBaseInstruction *subins) {
@@ -697,41 +679,35 @@ public:
         ret->setRs1(rs1);
         ret->setRs2(rs2);
         ret->SetSubInstruction(subins);
-        ret->SetNoSchedule(no_schedule);
         return ret;
     }
     MachineSelectInstruction *ConstructSelect(MachineBaseInstruction *cond, Register rd, Register srctrue,
                                               Register srcfalse) {
         MachineSelectInstruction *select_ins = new MachineSelectInstruction(
         cond, new MachineRegister(rd), new MachineRegister(srctrue), new MachineRegister(srcfalse));
-        select_ins->SetNoSchedule(no_schedule);
         return select_ins;
     }
     MachineSelectInstruction *ConstructSelect(MachineBaseInstruction *cond, Register rd, int srctrue,
                                               Register srcfalse) {
         MachineSelectInstruction *select_ins = new MachineSelectInstruction(
         cond, new MachineRegister(rd), new MachineImmediateInt(srctrue), new MachineRegister(srcfalse));
-        select_ins->SetNoSchedule(no_schedule);
         return select_ins;
     }
     MachineSelectInstruction *ConstructSelect(MachineBaseInstruction *cond, Register rd, Register srctrue,
                                               int srcfalse) {
         MachineSelectInstruction *select_ins = new MachineSelectInstruction(
         cond, new MachineRegister(rd), new MachineRegister(srctrue), new MachineImmediateInt(srcfalse));
-        select_ins->SetNoSchedule(no_schedule);
         return select_ins;
     }
     MachineSelectInstruction *ConstructSelect(MachineBaseInstruction *cond, Register rd, int srctrue, int srcfalse) {
         MachineSelectInstruction *select_ins = new MachineSelectInstruction(
         cond, new MachineRegister(rd), new MachineImmediateInt(srctrue), new MachineImmediateInt(srcfalse));
-        select_ins->SetNoSchedule(no_schedule);
         return select_ins;
     }
     MachineSelectInstruction *ConstructSelect(MachineBaseInstruction *cond, Register rd, MachineBaseOperand *srctrue,
                                               MachineBaseOperand *srcfalse) {
         MachineSelectInstruction *select_ins =
         new MachineSelectInstruction(cond, new MachineRegister(rd), srctrue, srcfalse);
-        select_ins->SetNoSchedule(no_schedule);
         return select_ins;
     }
 
@@ -749,8 +725,6 @@ class RiscV64Block : public MachineBlock {
 public:
     RiscV64Block(int id) : MachineBlock(id) {}
     std::list<MachineBaseInstruction *>::iterator getInsertBeforeBrIt();
-    std::vector<int> getAllBranch();    // [0]-false, [1]-true
-    void ReverseBranch();
 };
 
 class RiscV64BlockFactory : public MachineBlockFactory {

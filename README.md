@@ -24,16 +24,18 @@ bison 3.8+
 
 ```bash
 # test your environments
-git clone https://github.com/yuhuifishash/SysY
+git clone https://github.com/yuhuifishash/SysY 
+# 该仓库为Risc-V架构实验参考代码（实验代码框架由该仓库修改而来）。
 cd SysY
 mkdir obj
 mkdir bin
 make -j
-# if you get WA in step below, try to use clang-15 in SysY_test.sh(line 31 and line 32)
-./SysY_test.sh llvm O1 rv64gc 
-./SysY_test.sh S O1 rv64gc
-# if all the testcases are AC, your environment is correct
-# the script will run about 20 minutes
+# 如果在一些样例中Wrong Answer, 可以使用 clang-15重新测试。
+# 你可以修改SysY_test.sh中的第31行和第32行，将clang改为clang-15。
+./SysY_test.sh llvm O1 rv64gc # 测试中间代码生成
+./SysY_test.sh S O1 rv64gc # 测试目标代码生成
+# 如果所有样例都通过，则说明环境配置正确。
+# 测试大概需要20分钟的时间。
 ```
 
 ## Build Steps

@@ -2,6 +2,7 @@
 #define MACHINE_SELECTOR_H
 #include "../machine_instruction_structures/machine.h"
 class MachineSelector {
+    // 指令选择基类
 protected:
     MachineUnit *dest;
     MachineFunction *cur_func;
