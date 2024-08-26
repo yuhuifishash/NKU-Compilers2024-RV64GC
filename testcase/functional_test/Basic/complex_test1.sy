@@ -1,0 +1,55 @@
+int main()
+{
+    int a0 = getint();
+    int a1 = getint();
+    int a2 = getint();
+    int a3 = getint();
+    int a01 = getint();
+    int a11 = getint();
+    int a21 = getint();
+    int a31 = getint();
+    int a02 = getint();
+    int a12 = getint();
+    int a22 = getint();
+    int a32 = getint();
+    int a03 = getint();
+    int a13 = getint();
+    int a23 = getint();
+    int a33 = getint();
+    int a04 = getint();
+    int a14 = getint();
+    int a24 = getint();
+    int a34 = getint();
+    int a05 = getint();
+    int a15 = getint();
+    int a25 = getint();
+    int a35 = getint();
+    int a000 = getint();
+    int a100 = getint();
+    int a200 = getint();
+    int a300 = getint();
+    int a010 = getint();
+    int a110 = getint();
+    int a210 = getint();
+    int a310 = getint();
+    int a020 = getint();
+    int a120 = getint();
+    int a220 = getint();
+    int a320 = getint();
+    int a030 = getint();
+    int a130 = getint();
+    int a230 = getint();
+    int a330 = getint();
+    int a040 = getint();
+    int a140 = getint();
+    int a240 = getint();
+    int a340 = getint();
+    int a050 = getint();
+    int a150 = getint();
+    int a250 = getint();
+    int a350 = getint();
+    putint(a0+a1+a2+a3+2*a01+a02+a03+a04/5+a14+a24+a34+a04%36+a350+a250+a150+a050+a340+a240+a140+a040-a330+a230+a130+a030
+    *a320+a220+a120+a020+a310+a210-a110+a010+a300-a200-a100*a000+a35*a25*a15-a05+a34+a24+a14);
+    putch(10);
+    return 0;
+}

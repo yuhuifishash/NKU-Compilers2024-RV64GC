@@ -1,0 +1,74 @@
+int main()
+{
+    int a=getint();
+    int b1=a*1;
+    int b2=a*2;
+    int b3=a*3;
+    int b4=a*4;
+    int b5=a*5;
+    int b6=a*6;
+    int b7=a*7;
+    int b8=a*8;
+    int b9=a+a;
+    int b10=a/5;
+    int b11=a*11;
+    int b12=b10+b2;
+    int b13=b4+b5;
+    int b14=b3+b4+b6+a;
+    int b15=b2+b4+b6+b10;
+    int b100=a/5;
+    int b110=a*11;
+    int b120=b10+b2;
+    int b130=b4+b5;
+    int b140=b3+b4+b6+a+13;
+    int b150=b2+b4+b6+b10+5;
+
+    putint(b1);putch(10);
+    putint(b3);putch(10);
+    putint(b5);putch(10);
+
+    int mod=9961;
+    int i=0;
+    int S1=0,S2=5,S3=11,S4=14,S5=15,S6=19,S7=23,S8=33,S9=123,S10=134;
+    int S11=0,S12=0,S13=0;
+    while(i < 100000){
+        if(i%mod == 0){
+            S1=S1+b1;
+            S2=S2+b2;
+            S3=S3+b4;
+            S4=S4+b6;
+            S5=S5+b7;
+            S6=S6+b8;
+            S7=S7+b9;
+            S8=S8+b10;
+            S9=S9+b11+b12+b13;
+            S10=S10+b14+b15;
+            S9=S9+b110+b120+b130;
+            S10=S10+b100+b140+b150;
+        }
+        int j=0;
+        while(j<5 && i%100 == 1){
+            S1=S1+j;
+            S11=S11+j*j;
+            S12=S12+2*j;
+            S13=S13+3*j;
+            S2=S2+j;
+            j=j+1;
+        }
+        i = i + 1;
+    }
+    putint(S1);putch(32);
+    putint(S2);putch(32);
+    putint(S3);putch(32);
+    putint(S4);putch(32);
+    putint(S5);putch(32);
+    putint(S6);putch(32);
+    putint(S7);putch(32);
+    putint(S8);putch(32);
+    putint(S9);putch(32);
+    putint(S10);putch(32);
+    putint(S11);putch(32);
+    putint(S12);putch(32);
+    putint(S13);putch(10);
+    return 0;
+}
