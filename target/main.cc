@@ -42,12 +42,27 @@ extern char *yytext;
 extern std::vector<std::string> error_msgs;
 void PrintLexerResult(std::ostream &s, char *yytext, YYSTYPE yylval, int token, int line_number);
 
+
+/* 框架并没有对内存泄漏问题进行处理(即没有编写析构函数)
+   如果你只是想完成本学期的编译实验作业，可以忽略内存泄漏的问题，统一在编译结束后由操作系统帮忙回收
+   如果你对自己有更高的要求或者对此感兴趣，可以尝试自己编写相关函数来解决内存泄漏问题
+   将裸指针换为智能指针也许是个简单快捷的解决方案(虽然会对程序性能造成较大的影响)
+*/
+
+/*
+   本学期的编译作业还对你的编译器编译速度有一定要求，编译单个用例的时间不能超过300s，
+   测试用例中有一些较大的用例，例如lone_line.sy, long_code.sy, long_func.sy
+   你需要在实现时注意数据结构的选择以及算法的实现细节
+*/
+
+
 // 为了方便起见，直接根据OJ要求将命令行参数位置固定了
-#define step_tag 2
-#define o_tag 3
-#define file_out 4
-#define file_in 1
+#define step_tag 1
+#define o_tag 2
+#define file_out 3
+#define file_in 4
 #define optimize_tag 5
+
 /*
 -lexer
 -parser
