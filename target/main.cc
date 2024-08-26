@@ -2,6 +2,8 @@
 #include "../ir_gen/semant.h"
 #include "../parser/SysY_parser.tab.h"
 
+#include "../optimize/ssa/mem2reg.h"
+
 #include "./common/machine_passes/register_alloc/fast_linear_scan/fast_linear_scan.h"
 #include "./riscv64gc/instruction_print/riscv64_printer.h"
 #include "./riscv64gc/instruction_select/riscv64_instSelect.h"
@@ -40,6 +42,7 @@ extern char *yytext;
 extern std::vector<std::string> error_msgs;
 void PrintLexerResult(std::ostream &s, char *yytext, YYSTYPE yylval, int token, int line_number);
 
+// 为了方便起见，直接根据OJ要求将命令行参数位置固定了
 #define step_tag 2
 #define o_tag 3
 #define file_out 4
@@ -109,12 +112,17 @@ int main(int argc, char **argv) {
 
     ast_root->codeIR();
 
+    // 当你完成代码优化的基础要求后，将下面两行注释取消
     // llvmIR.CFGInit();
     // llvmIR.BuildCFG();
 
-    optimize_flag = (argc == 6 && (strcmp(argv[optimize_tag], "-O1") == 0 || strcmp(argv[optimize_tag], "-O2") == 0));
+    optimize_flag = (argc == 6 && (strcmp(argv[optimize_tag], "-O1") == 0));
 
     if (optimize_flag) {
+        // 当你完成Mem2Reg后，将该行注释取消
+        // (Mem2RegPass(&llvmIR)).Execute(); 
+
+        //TODO: add more passes
     }
 
     if (strcmp(argv[step_tag], "-llvm") == 0) {

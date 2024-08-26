@@ -30,7 +30,7 @@ public:
         DomTree.BuildDominatorTree();
     }
 
-    // if blockid1 dominate blockid2, return true, else return false
+    // 返回id1是否支配id2
     bool IsDominate(int id1, int id2) { return DomTree.IsDominate(id1, id2); }
 
     std::vector<LLVMBlock> GetPredecessor(LLVMBlock B);

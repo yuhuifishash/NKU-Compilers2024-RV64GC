@@ -58,10 +58,82 @@ make -j
 ```
 
 ## lab1:词法分析
+需要阅读的代码：
+
+**include/symtab.h**:定义了符号表相关类，本次实验你只需要根据注释提示阅读一小段即可
+
+**utils/symtab.cc**:符号表相关类的具体实现
+
+**utils/lexer_out.cc**:定义了词法分析结果的输出函数
+
+**target/main.cc**:主函数，你需要了解框架的整体流程以及全局变量, 后续每次实验都需要进行阅读
+
+需要阅读并编写的代码:
+
+**lexer/SysY_lexer.l**:编写你想实现的词法正则表达式及对应处理函数
+
 
 ## lab2:语法分析
+需要阅读的代码：
+
+**include/tree.h**:语法树节点父类
+
+**include/SysY_tree.h**:SysY文法所有语法树节点类的定义
+
+**utils/ast_out.cc**:语法树输出函数实现
+
+需要阅读并编写的代码:
+
+**parser/SysY_parser.y**:编写你想要实现的文法定义以及对应的处理函数, 本次实验中只需要构建出语法树即可，不需要其他的额外处理
 
 ## lab3:类型检查和中间代码生成
+
+### lab3-1:类型检查
+
+需要阅读的代码：
+
+**include/type.h**
+
+需要阅读并编写的代码:
+
+**include/tree.h**
+
+**include/SysY_tree.h**
+
+**ir_gen/semant.h**
+
+**ir_gen/semant.cc**
+
+
+### lab3-2:中间代码生成
+
+需要阅读的代码：
+
+**include/Instruction.h**
+
+**include/ir.h**
+
+**include/basic_block.h**
+
+**utils/Instruction.cc**
+
+**utils/Instruction_out.cc**
+
+需要阅读并编写的代码:
+
+**include/tree.h**
+
+**include/SysY_tree.h**
+
+**ir_gen/semant.h**
+
+**ir_gen/semant.cc**
+
+**ir_gen/IRgen.h**
+
+**ir_gen/IRgen.cc**
+
+
 
 ## lab4:代码优化
 

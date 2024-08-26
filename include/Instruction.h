@@ -74,6 +74,10 @@
     } while (0)
 #endif
 
+// TODO(): 在代码优化阶段，加入更多你需要的成员变量和函数
+
+// 我们规定，对于GlobalOperand, LabelOperand, RegOperand, 只要操作数相同, 地址也相同
+// 所以这些Operand的构造函数是private, 使用GetNew***Operand函数来获取新的操作数变量
 class BasicOperand;
 typedef BasicOperand *Operand;
 // @operands in instruction

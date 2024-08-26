@@ -15,9 +15,9 @@ public:
 
     /*
         pos = 1 -> end   pos = 0 -> begin
-        ins1  <- front
+        inst1  <- front
         ...
-        ins5  <- back
+        inst5  <- back
     */
     void InsertInstruction(int pos, Instruction Ins);
 
