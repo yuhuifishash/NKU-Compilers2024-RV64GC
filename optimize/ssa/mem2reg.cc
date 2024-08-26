@@ -9,13 +9,13 @@ void Mem2RegPass::Mem2RegNoUseAlloca(CFG *C, std::set<int> &vset) {
 
 // vset is the set of alloca regno that load and store are all in the BB block_id
 void Mem2RegPass::Mem2RegUseDefInSameBlock(CFG *C, std::set<int> &vset, int block_id) {
-    // this function are used in InsertPhi
+    // this function is used in InsertPhi
     TODO("Mem2RegUseDefInSameBlock");
 }
 
 // vset is the set of alloca regno that one store dominators all load instructions
 void Mem2RegPass::Mem2RegOneDefDomAllUses(CFG *C, std::set<int> &vset) {
-    // this function are used in InsertPhi
+    // this function is used in InsertPhi
     TODO("Mem2RegOneDefDomAllUses");
 }
 

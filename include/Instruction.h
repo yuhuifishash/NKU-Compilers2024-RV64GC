@@ -6,6 +6,8 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <assert.h>
+
 #ifndef ERROR
 #define ERROR(...)                                                                                                     \
     do {                                                                                                               \
@@ -572,13 +574,13 @@ public:
     enum LLVMType type;
     std::string name;
     Operand init_val;
-    VarAttribute arval;
+    VarAttribute arrayval;
     GlobalVarDefineInstruction(std::string nam, enum LLVMType typ, Operand i_val)
         : name(nam), type(typ), init_val(i_val) {
         this->opcode = LLVMIROpcode::GLOBAL_VAR;
     }
     GlobalVarDefineInstruction(std::string nam, enum LLVMType typ, VarAttribute v)
-        : name(nam), type(typ), arval(v), init_val{nullptr} {
+        : name(nam), type(typ), arrayval(v), init_val{nullptr} {
         this->opcode = LLVMIROpcode::GLOBAL_VAR;
     }
     virtual void PrintIR(std::ostream &s);

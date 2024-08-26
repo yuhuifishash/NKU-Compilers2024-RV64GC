@@ -196,9 +196,7 @@ std::ostream &operator<<(std::ostream &s, BasicInstruction::FcmpCond type) {
 }
 
 std::string RegOperand::GetFullName() {
-    if (reg_no >= 0) {
-        return "%r" + std::to_string(reg_no);
-    }
+    return "%r" + std::to_string(reg_no);
 }
 
 std::string ImmI32Operand::GetFullName() { return std::to_string(immVal); }
@@ -449,7 +447,7 @@ void recursive_print(std::ostream &s, BasicInstruction::LLVMType type, VarAttrib
 
 // Remember "\n"
 void GlobalVarDefineInstruction::PrintIR(std::ostream &s) {
-    if (arval.dims.empty()) {
+    if (arrayval.dims.empty()) {
         if (init_val != nullptr)
             s << "@" << name << " = global " << type << " " << init_val << "\n";
         else
@@ -461,10 +459,10 @@ void GlobalVarDefineInstruction::PrintIR(std::ostream &s) {
     // print type
     // print init_val
     int step = 1;
-    for (int i = 0; i < arval.dims.size(); i++) {
-        step *= arval.dims[i];
+    for (int i = 0; i < arrayval.dims.size(); i++) {
+        step *= arrayval.dims[i];
     }
-    recursive_print(s, type, arval, 0, 0, step - 1);
+    recursive_print(s, type, arrayval, 0, 0, step - 1);
     s << "\n";
 }
 

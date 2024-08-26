@@ -22,10 +22,6 @@ Type::ty SymbolTable::lookup_type(Symbol C) {
     }
     return Type::VOID;
 }
-#define O2_ENABLE
-#define O3_ENABLE
-#define PARALLEL_ENABLE
-// #define FMATH_FAST
 
 int SymbolTable::lookup_scope(Symbol C) {
     for (int i = current_scope; i >= 0; --i) {

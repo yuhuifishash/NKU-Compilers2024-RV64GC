@@ -1,6 +1,6 @@
 #ifndef PASS_H
 #define PASS_H
-#include "../include/ir.h";
+#include "../include/ir.h"
 
 class IRPass
 {

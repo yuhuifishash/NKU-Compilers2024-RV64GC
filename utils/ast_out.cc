@@ -41,10 +41,11 @@ DeclStmt
 void VarDecl::printAST(std::ostream &s, int pad) {
     s << std::string(pad, ' ') << "VarDecls   "
       << "Type: " << type_status[type_decl] << "\n";
-    if (var_def_list != nullptr)
+    if (var_def_list != nullptr){
         for (auto var : (*var_def_list)) {
             var->printAST(s, pad + 2);
         }
+    }
 }
 
 void VarDef_no_init::printAST(std::ostream &s, int pad) {
@@ -87,8 +88,10 @@ void ConstDef::printAST(std::ostream &s, int pad) {
 
 void ConstInitVal::printAST(std::ostream &s, int pad) {
     s << std::string(pad, ' ') << "ConstInitVal\n";
-    for (auto initval : (*initval)) {
-        initval->printAST(s, pad + 2);
+    if(initval != nullptr){
+        for (auto init : (*initval)) {
+            init->printAST(s, pad + 2);
+        }
     }
 }
 
@@ -103,8 +106,10 @@ void ConstInitVal_exp::printAST(std::ostream &s, int pad) {
 
 void VarInitVal::printAST(std::ostream &s, int pad) {
     s << std::string(pad, ' ') << "VarInitVal\n";
-    for (auto initval : (*initval)) {
-        initval->printAST(s, pad + 2);
+    if(initval != nullptr){
+        for (auto init : (*initval)) {
+            init->printAST(s, pad + 2);
+        }
     }
 }
 
@@ -120,8 +125,10 @@ void VarInitVal_exp::printAST(std::ostream &s, int pad) {
 void ConstDecl::printAST(std::ostream &s, int pad) {
     s << std::string(pad, ' ') << "ConstDecls   "
       << "Type: " << type_status[type_decl] << "\n";
-    for (auto var : (*var_def_list)) {
-        var->printAST(s, pad + 2);
+    if(var_def_list != nullptr){
+        for (auto var : (*var_def_list)) {
+            var->printAST(s, pad + 2);
+        }
     }
 }
 
@@ -134,8 +141,10 @@ void CompUnit_FuncDef::printAST(std::ostream &s, int pad) { func_def->printAST(s
 void __FuncDef::printAST(std::ostream &s, int pad) {
     s << std::string(pad, ' ') << "FuncDef   Name:" << name->get_string()
       << "   ReturnType: " << type_status[return_type] << "\n";
-    for (auto param : *formals) {
-        param->printAST(s, pad + 2);
+    if(formals != nullptr){
+        for (auto param : *formals) {
+            param->printAST(s, pad + 2);
+        }
     }
     block->printAST(s, pad + 2);
 }
@@ -160,9 +169,10 @@ void __FuncFParam::printAST(std::ostream &s, int pad) {
 void __Block::printAST(std::ostream &s, int pad) {
     s << std::string(pad, ' ') << "Block   "
       << "Size:" << item_list->size() << "\n";
-
-    for (auto stmt : (*item_list)) {
-        stmt->printAST(s, pad + 2);
+    if(item_list != nullptr){
+        for (auto stmt : (*item_list)) {
+            stmt->printAST(s, pad + 2);
+        }
     }
 }
 
@@ -288,8 +298,10 @@ void Lval::printAST(std::ostream &s, int pad) {
 
 void FuncRParams::printAST(std::ostream &s, int pad) {
     s << std::string(pad, ' ') << "FuncRParams:\n";
-    for (auto param : (*params)) {
-        param->printAST(s, pad + 2);
+    if (params != nullptr){
+        for (auto param : (*params)) {
+            param->printAST(s, pad + 2);
+        }
     }
 }
 

@@ -20,6 +20,7 @@ public:
       you can see it in the LLVMIR::CFGInit()*/
     std::map<int, LLVMBlock> *block_map;
 
+    // 使用邻接表存图
     std::vector<std::vector<LLVMBlock>> G{};       // control flow graph
     std::vector<std::vector<LLVMBlock>> invG{};    // inverse control flow graph
     DominatorTree DomTree;
@@ -33,6 +34,7 @@ public:
     // 返回id1是否支配id2
     bool IsDominate(int id1, int id2) { return DomTree.IsDominate(id1, id2); }
 
+    // 获取某个基本块节点的前驱/后继
     std::vector<LLVMBlock> GetPredecessor(LLVMBlock B);
     std::vector<LLVMBlock> GetPredecessor(int bbid);
     std::vector<LLVMBlock> GetSuccessor(LLVMBlock B);

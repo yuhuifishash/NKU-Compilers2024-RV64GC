@@ -9,17 +9,12 @@ static std::map<std::string, GlobalOperand *> GlobalOperandMap;
 
 RegOperand *GetNewRegOperand(int RegNo) {
     auto it = RegOperandMap.find(RegNo);
-    // std::cerr<<RegNo<<'\n';
     if (it == RegOperandMap.end()) {
         auto R = new RegOperand(RegNo);
 
         RegOperandMap[RegNo] = R;
         return R;
     } else {
-        // if(RegNo==7){
-        // std::cerr<<"HERE:"<<it->second->GetFullName()<<'\n';
-        // }
-        // std::cerr<<"HEEEEE\n";
         return it->second;
     }
 }

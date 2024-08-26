@@ -302,7 +302,7 @@ void RiscV64Printer::emit() {
             auto global_ins = (GlobalVarDefineInstruction *)global;
             s << global_ins->name << ":\n";
             if (global_ins->type == BasicInstruction::I32) {
-                if (global_ins->arval.dims.empty()) {
+                if (global_ins->arrayval.dims.empty()) {
                     if (global_ins->init_val != nullptr) {
                         Assert(global_ins->init_val->GetOperandType() == BasicOperand::IMMI32);
                         auto imm_op = (ImmI32Operand *)global_ins->init_val;
@@ -312,7 +312,7 @@ void RiscV64Printer::emit() {
                     }
                 } else {
                     int zero_cum = 0;
-                    for (auto val : global_ins->arval.IntInitVals) {
+                    for (auto val : global_ins->arrayval.IntInitVals) {
                         if (val == 0) {
                             zero_cum += 4;
                         } else {
@@ -323,9 +323,9 @@ void RiscV64Printer::emit() {
                             s << "\t.word\t" << val << "\n";
                         }
                     }
-                    if (global_ins->arval.IntInitVals.empty()) {
+                    if (global_ins->arrayval.IntInitVals.empty()) {
                         int prod = 1;
-                        for (auto dim : global_ins->arval.dims) {
+                        for (auto dim : global_ins->arrayval.dims) {
                             prod *= dim;
                         }
                         s << "\t.zero\t" << prod * 4 << "\n";
@@ -336,7 +336,7 @@ void RiscV64Printer::emit() {
                     }
                 }
             } else if (global_ins->type == BasicInstruction::FLOAT32) {
-                if (global_ins->arval.dims.empty()) {
+                if (global_ins->arrayval.dims.empty()) {
                     if (global_ins->init_val != nullptr) {
                         Assert(global_ins->init_val->GetOperandType() == BasicOperand::IMMF32);
                         auto imm_op = (ImmF32Operand *)global_ins->init_val;
@@ -347,7 +347,7 @@ void RiscV64Printer::emit() {
                     }
                 } else {
                     int zero_cum = 0;
-                    for (auto val : global_ins->arval.FloatInitVals) {
+                    for (auto val : global_ins->arrayval.FloatInitVals) {
                         if (val == 0) {
                             zero_cum += 4;
                         } else {
@@ -358,9 +358,9 @@ void RiscV64Printer::emit() {
                             s << "\t.word\t" << *(int *)&val << "\n";
                         }
                     }
-                    if (global_ins->arval.FloatInitVals.empty()) {
+                    if (global_ins->arrayval.FloatInitVals.empty()) {
                         int prod = 1;
-                        for (auto dim : global_ins->arval.dims) {
+                        for (auto dim : global_ins->arrayval.dims) {
                             prod *= dim;
                         }
                         s << "\t.zero\t" << prod * 4 << "\n";
@@ -371,7 +371,7 @@ void RiscV64Printer::emit() {
                     }
                 }
             } else if (global_ins->type == BasicInstruction::I64) {
-                Assert(global_ins->arval.dims.empty());
+                Assert(global_ins->arrayval.dims.empty());
                 if (global_ins->init_val != nullptr) {
                     Assert(global_ins->init_val->GetOperandType() == BasicOperand::IMMI64);
                     auto imm_op = (ImmI64Operand *)global_ins->init_val;

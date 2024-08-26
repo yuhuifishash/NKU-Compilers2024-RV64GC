@@ -1,5 +1,7 @@
 #include "../../machine_instruction_structures/machine.h"
 #include "liveinterval.h"
+
+// 为了实现方便，这里直接使用set进行活跃变量分析，如果你不满意，可以自行更换更高效的数据结构(例如bitset)
 template <class T> std::set<T> SetIntersect(const std::set<T> &a, const std::set<T> &b) {
     std::set<T> ret;
     for (auto x : b) {
@@ -49,12 +51,16 @@ void Liveness::UpdateDefUse() {
     seq_it->open();
     while (seq_it->hasNext()) {
         auto node = seq_it->next();
+
+        // DEF[B]: 在基本块B中定义，并且定义前在B中没有被使用的变量集合
+        // USE[B]: 在基本块B中使用，并且使用前在B中没有被定义的变量集合
         DEF[node->Mblock->getLabelId()].clear();
         USE[node->Mblock->getLabelId()].clear();
 
         auto &cur_def = DEF[node->Mblock->getLabelId()];
         auto &cur_use = USE[node->Mblock->getLabelId()];
 
+        // 根据DEF和USE的定义编写代码
         TODO("Calculate DEF and USE in this block, and store them in cur_def and cur_use");
     }
 }
