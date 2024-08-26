@@ -139,6 +139,18 @@ make lexer
 make -j
 ```
 
+## Run your Compiler
+```bash
+# 编译出的可执行文件在bin目录下，命名为SysYc
+# 在项目的根目录下
+./SysYc -lexer -o "output_filename" "input_filename" [-O1] #词法分析
+./SysYc -parser -o "output_filename" "input_filename" [-O1] #语法分析
+./SysYc -semant -o "output_filename" "input_filename" [-O1] #语义分析
+./SysYc -llvm -o "output_filename" "input_filename" [-O1] #中间代码生成
+./SysYc -S -o "output_filename" "input_filename" [-O1] #目标代码生成
+
+```
+
 ## lab1:词法分析
 需要阅读的代码：
 

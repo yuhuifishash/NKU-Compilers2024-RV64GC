@@ -68,7 +68,7 @@ void PrintLexerResult(std::ostream &s, char *yytext, YYSTYPE yylval, int token, 
 -parser
 -llvm
 -S
-SysYc *.sy -S -o *.s (-O1)
+SysYc -S -o *.s *.sy (-O1)
 */
 
 enum Target { ARMV7 = 1, RV64GC = 2 } target;
