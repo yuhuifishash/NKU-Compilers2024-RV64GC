@@ -3,6 +3,8 @@ bin/
 .vscode/
 test_output/functional_testAsm/*
 test_output/functional_testIR/*
+test_output/example/*
+testcase/example/*
 ztemp/*
 submit
 submit/*

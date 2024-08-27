@@ -16,32 +16,62 @@ std::vector<char> tmp_str;
 
 %%
     /* TODO():增加处理注释的代码*/
+\/\/.+ {}
+
+"/*/"+ {}
+
+\/\*[^\/]*\*\/\n?|\/\*.*?\*\/|\/\/.* {
+    for(int i=0;yytext[i];++i){
+        if (yytext[i] == '\n'){
+            ++line_number;
+            col_number=0;
+        } else {
+            ++col_number;
+        }
+    }
+}
+
+
+
+"/*" {
+    cur_col_number = col_number;
+    col_number += strlen(yytext);
+    yylval.error_msg = "comment error at /*";
+    return ERROR;
+}
+
+"*/" {
+    cur_col_number = col_number;
+    col_number += strlen(yytext);
+    yylval.error_msg = "comment error at */";
+    return ERROR;
+}
 
     /* TODO():增加处理列号的代码(cur_col_number表示当前token开始位置, col_number表示当前token结束位置) */
-"<=" {return LEQ;}         
-">=" {return GEQ;}         
-"==" {return EQ;}        
-"!=" {return NE;}
-"&&" {return AND;}         
-"||" {return OR;}               
-"const" {return CONST;}     
-"if" {return IF;}       
-"else" {return ELSE;}  
-"while" {return WHILE;}
-"void" {return NONE_TYPE;}    
-"int" {return INT;}    
-"float" {return FLOAT;}      
-"return" {return RETURN;}    
-"break" {return BREAK;}     
-"continue" {return CONTINUE;}
+"<=" {cur_col_number = col_number; col_number += strlen(yytext); return LEQ;}         
+">=" {cur_col_number = col_number; col_number += strlen(yytext); return GEQ;}         
+"==" {cur_col_number = col_number; col_number += strlen(yytext); return EQ;}        
+"!=" {cur_col_number = col_number; col_number += strlen(yytext); return NE;}
+"&&" {cur_col_number = col_number; col_number += strlen(yytext); return AND;}         
+"||" {cur_col_number = col_number; col_number += strlen(yytext); return OR;}               
+"const" {cur_col_number = col_number; col_number += strlen(yytext); return CONST;}     
+"if" {cur_col_number = col_number; col_number += strlen(yytext); return IF;}       
+"else" {cur_col_number = col_number; col_number += strlen(yytext); return ELSE;}  
+"while" {cur_col_number = col_number; col_number += strlen(yytext); return WHILE;}
+"void" {cur_col_number = col_number; col_number += strlen(yytext); return NONE_TYPE;}    
+"int" {cur_col_number = col_number; col_number += strlen(yytext); return INT;}    
+"float" {cur_col_number = col_number; col_number += strlen(yytext); return FLOAT;}      
+"return" {cur_col_number = col_number; col_number += strlen(yytext); return RETURN;}    
+"break" {cur_col_number = col_number; col_number += strlen(yytext); return BREAK;}     
+"continue" {cur_col_number = col_number; col_number += strlen(yytext); return CONTINUE;}
 
 \n {++line_number;col_number = 0;}
 
 [ \t\f\r\v] {col_number += strlen(yytext);}
 
-[\.\+\-\*\/\=\<\!\%\>] {return yytext[0];}
+[\.\+\-\*\/\=\<\!\%\>] {cur_col_number = col_number; col_number += strlen(yytext); return yytext[0];}
 
-[\{\}\;\(\)\,\[\]] {return yytext[0];}
+[\{\}\;\(\)\,\[\]] {cur_col_number = col_number; col_number += strlen(yytext); return yytext[0];}
 
 [_a-zA-Z][_a-zA-Z0-9]* {
     cur_col_number = col_number;

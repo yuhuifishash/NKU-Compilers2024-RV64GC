@@ -149,6 +149,7 @@ make -j
 ./SysYc -llvm -o "output_filename" "input_filename" [-O1] #中间代码生成
 ./SysYc -S -o "output_filename" "input_filename" [-O1] #目标代码生成
 
+./bin/SysYc -lexer -o "test_output/example/temp.out.ll" "testcase/example/temp.sy" [-O1]
 ```
 
 ## Test your Compiler
