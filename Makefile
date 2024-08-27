@@ -42,7 +42,7 @@ $(OBJDIR)/%.o : %.cc
 
 -include $(OBJS:.o=.d)
 
-.PHONY : SysYc,clean-obj,clean-all,lexer,parser,format,compile,grade
+.PHONY : SysYc,clean-obj,clean-all,lexer,parser,format
 
 SysYc : $(BINARY)
 
@@ -55,12 +55,6 @@ STAGE ?= S
 OFLAG ?= O1
 ARCH ?= rv64gc
 # OPTION ?= -p
-
-compile : $(BINARY)
-	./SysY_test_single.sh $(CASE).sy $(STAGE) $(OFLAG)
-
-grade : $(BINARY)
-	./SysY_test.sh $(STAGE) $(OFLAG) $(ARCH)
 
 lexer:lexer/SysY_lexer.l
 	flex -o lexer/SysY_lexer.cc lexer/SysY_lexer.l
