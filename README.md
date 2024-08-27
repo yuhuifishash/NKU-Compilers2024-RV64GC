@@ -160,6 +160,7 @@ python3 grade.py 4 0 #测试lab4基本要求
 python3 grade.py 4 1 #测试lab4进阶要求
 python3 grade.py 5 0 #测试lab5基本要求
 # 为了检验你正确实现了mem2reg的phi指令消除步骤，后端的进阶语法要求必须使用O1测试
+# 如果你没有实现完整的mem2reg，忽略上面的注释即可
 python3 grade.py 5 1 #测试lab5进阶要求
 ```
 
