@@ -151,6 +151,18 @@ make -j
 
 ```
 
+## Test your Compiler
+```bash
+# lab1和lab2不支持自动评测
+python3 grade.py 3 0 #测试lab3基本要求
+python3 grade.py 3 1 #测试lab3进阶要求
+python3 grade.py 4 0 #测试lab4基本要求
+python3 grade.py 4 1 #测试lab4进阶要求
+python3 grade.py 5 0 #测试lab5基本要求
+# 为了检验你正确实现了mem2reg的phi指令消除步骤，后端的进阶语法要求必须使用O1测试
+python3 grade.py 5 1 #测试lab5进阶要求
+```
+
 ## lab1:词法分析
 需要阅读的代码：
 

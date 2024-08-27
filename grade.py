@@ -28,8 +28,9 @@ elif(args.lab == 4):
 elif(args.lab == 5):
     os.system("rm -f test_output/functional_testAsm")
     if(args.is_advance==False):
-        os.system("python3 test.py testcase/functional_test/Basic test_output/functional_testAsm 1 S")
+        os.system("python3 test.py testcase/functional_test/Basic test_output/functional_testAsm 0 S")
     else:
+        # 为了检验你正确实现了mem2reg的phi指令消除步骤，后端的进阶语法要求必须使用O1测试
         os.system("python3 test.py testcase/functional_test/Advanced test_output/functional_testAsm 1 S")
 else:
     print("未知lab, 请检查输入")
