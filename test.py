@@ -28,6 +28,7 @@ def add_returncode(file,ret):
         f.write("\n")
     return False
 
+# 测试用例的返回值的不要为124或139，否则会导致测试程序误判
 
 # 如果ir测试失败，可以尝试将clang换为clang-15重新尝试
 def execute_ir(input,output,opt,stdin,stdout,testout):
@@ -53,6 +54,45 @@ def execute_ir(input,output,opt,stdin,stdout,testout):
         result = execute_with_stdin_out("timeout 5 ./a.out > "+testout + " 2>/dev/null")
     else:
         result = execute_with_stdin_out("timeout 5 ./a.out < "+stdin+" > "+testout + " 2>/dev/null")
+    if(result == 124):
+        print("\033[93mTime Limit Execced on \033[0m"+input)
+        return 0
+    elif(result == 139):
+        print("\033[95mRunTime Error on \033[0m"+input)
+        return 0
+    
+    add_returncode(testout,result)
+    
+    if(check_file(testout,stdout)==0):
+        print("\033[92mAccept \033[0m"+input)
+        return 1
+    else:
+        print("\033[91mWrong Answer on \033[0m"+input)
+        return 0
+   
+def execute_asm(input,output,opt,stdin,stdout,testout):
+    result = execute(["timeout","300","./bin/SysYc","-S","-o",output,input,opt])
+    if(result.returncode != 0):
+        print("\033[93mCompile Error on \033[0m"+input)
+        return 0
+    
+    result = execute(["riscv64-unknown-linux-gnu-gcc",output,"-c","-o","tmp.o","-w"])
+    if(result.returncode != 0):
+        print("\033[93mOutPut Error on \033[0m"+input)
+        return 0
+        
+    result = execute(["riscv64-unknown-linux-gnu-gcc","-static","tmp.o","lib/libsysy_rv.a"])
+    if(result.returncode != 0):
+        result = execute(["rm","-rf","tmp.o"])
+        print("\033[93mLink Error on \033[0m"+input)
+        return 0
+    
+    execute(["rm","-rf","tmp.o"])
+    result = 0
+    if(stdin=="none"):
+        result = execute_with_stdin_out("timeout 60 qemu-riscv64 ./a.out > "+testout + " 2>/dev/null")
+    else:
+        result = execute_with_stdin_out("timeout 60 qemu-riscv64 ./a.out < "+stdin+" > "+testout + " 2>/dev/null")
     if(result == 124):
         print("\033[93mTime Limit Execced on \033[0m"+input)
         return 0
@@ -99,7 +139,22 @@ if(step == "llvm"):
                 ac += execute_ir(input_folder+'/'+file, output_folder+'/'+name+".ll", opt_arg, input_folder+'/'+input, input_folder+'/'+output, "tmp.out")
             else:
                 ac += execute_ir(input_folder+'/'+file, output_folder+'/'+name+".ll", opt_arg, "none", input_folder+'/'+output, "tmp.out")
-    print("Grade:"+str(ac)+"/"+str(total))
+    print("IRTest-Grade:"+str(ac)+"/"+str(total))
+    
+if(step == "S"):
+    ac=0
+    total=0
+    for file in os.listdir(input_folder):
+        if(file.endswith(".sy")):
+            total += 1
+            name = file.split(".")[0]
+            input = name+".in"
+            output = name+".out"
+            if(os.path.exists(input_folder + '/' + name + ".in")):
+                ac += execute_asm(input_folder+'/'+file, output_folder+'/'+name+".s", opt_arg, input_folder+'/'+input, input_folder+'/'+output, "tmp.out")
+            else:
+                ac += execute_asm(input_folder+'/'+file, output_folder+'/'+name+".s", opt_arg, "none", input_folder+'/'+output, "tmp.out")
+    print("ASMTest-Grade:"+str(ac)+"/"+str(total))
     
 os.system("rm tmp.out")
 os.system("rm a.out")
