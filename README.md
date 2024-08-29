@@ -274,5 +274,5 @@ python3 grade.py 5 1 #测试lab5进阶要求
 
 北京大学编译原理实验课样例：https://github.com/pku-minic/awesome-sysy
 
-洛谷OJ题解：
+洛谷P3380题解：https://www.luogu.com.cn/article/55088clb
 
