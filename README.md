@@ -267,3 +267,12 @@ python3 grade.py 5 1 #测试lab5进阶要求
 
 
 ## lab5:目标代码生成
+
+
+## Testcase reference
+2023编译系统实现赛官方样例：https://gitlab.eduxiji.net/nscscc/compiler2023
+
+北京大学编译原理实验课样例：https://github.com/pku-minic/awesome-sysy
+
+洛谷OJ题解：
+
