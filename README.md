@@ -175,6 +175,8 @@ python3 grade.py 5 1 #测试lab5进阶要求
 
 **target/main.cc**:主函数，你需要了解框架的整体流程以及全局变量, 后续每次实验都需要进行阅读或者编写
 
+**parser/SysY_parser.y**:只需要阅读开头%token的定义即可，你在词法分析中需要return的枚举类型均来自于该文件开头定义的%token
+
 需要阅读并编写的代码:
 
 **lexer/SysY_lexer.l**:编写你想实现的词法正则表达式及对应处理函数
