@@ -91,7 +91,96 @@ std::vector<char> tmp_str;
 }
     /*TODO():参考SysY2022定义, 处理更多的词法, 如浮点数，十六进制数等*/
 
+[0-9]+\.[0-9]+([eE][-+]?[0-9]+)? {
+    cur_col_number = col_number;
+    col_number += strlen(yytext);
+    yylval.float_token = 0;
+    int i = 0;
+    while(yytext[i] && yytext[i] != '.'){
+        yylval.float_token *= 10;
+        yylval.float_token += yytext[i] - '0';
+        i++;
+    }
+    int dotlen = 0;
+    i++;
+    while(yytext[i] && yytext[i] != 'e'){
+        yylval.float_token *= 10;
+        yylval.float_token += yytext[i] - '0';
+        dotlen++;
+        i++;
+    }
+    if(yytext[i] == 'e'){
+        i++;
+        int newlen = 0;
+        if(yytext[i] == '-'){
+            i++;
+            while(yytext[i]){
+                newlen *= 10;
+                newlen += yytext[i] - '0';
+                i++;
+            }
+        }else{
+            while(yytext[i]){
+                newlen *= 10;
+                newlen -= yytext[i] - '0';
+                i++;
+            }
+            
+        }
+        dotlen += newlen;
+    }
+    while(dotlen > 0){
+        yylval.float_token /= 10;
+        dotlen--;
+    }
+    while(dotlen < 0){
+        yylval.float_token *= 10;
+        dotlen++;
+    }
+    return FLOAT_CONST;
+}
 
+[0-9]+[eE][-+]?[0-9]+ {
+    cur_col_number = col_number;
+    col_number += strlen(yytext);
+    yylval.float_token = 0;
+    int i = 0;
+    while(yytext[i] && yytext[i] != 'e'){
+        yylval.float_token *= 10;
+        yylval.float_token += yytext[i] - '0';
+        i++;
+    }
+    int dotlen = 0;
+    if(yytext[i] == 'e'){
+        i++;
+        int newlen = 0;
+        if(yytext[i] == '-'){
+            i++;
+            while(yytext[i]){
+                newlen *= 10;
+                newlen += yytext[i] - '0';
+                i++;
+            }
+        }else{
+            while(yytext[i]){
+                newlen *= 10;
+                newlen -= yytext[i] - '0';
+                i++;
+            }
+            
+        }
+        dotlen += newlen;
+    }
+    while(dotlen > 0){
+        yylval.float_token /= 10;
+        dotlen--;
+    }
+    while(dotlen < 0){
+        yylval.float_token *= 10;
+        dotlen++;
+    }
+    return FLOAT_CONST;
+}
     /*unknown tokens, return ERROR*/
 . {
     cur_col_number = col_number;
