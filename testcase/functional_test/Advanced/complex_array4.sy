@@ -18,20 +18,20 @@ int main() {
                                 f[now[0]-1][now[1]-2][now[2]-1][now[3]-3][now[4]-1] + f[now[0]-1][now[1]-1][now[2]-1][now[3]-1][now[4]-1] +
                                  now[0]*now[1] + now[2] + now[3] + now[4];
 
-                        f[now[0]][now[1]][now[2]][now[3]][now[4]] %= 998244353;
+                        f[now[0]][now[1]][now[2]][now[3]][now[4]] =f[now[0]][now[1]][now[2]][now[3]][now[4]] % 998244353;
                         ans = ans + f[now[0]][now[1]][now[2]][now[3]][now[4]];
                         if(ans > 998244353) {
                             ans = ans - 998244353;
                         }
-                        now[4] += 1;
+                        now[4] = now[4] + 1;
                     }
-                    now[3] += 1;
+                    now[3] = now[3] + 1;
                 }
-                now[2] += 1;
+                now[2] = now[2] + 1;
             }
-            now[1] += 1;
+            now[1] =now[1]+ 1;
         }
-        now[0] += 1;
+        now[0] =now[0]+ 1;
     }
     putarray(5,now);
     putint(ans);
