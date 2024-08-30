@@ -270,6 +270,58 @@ python3 grade.py 5 1 #测试lab5进阶要求
 
 ## lab5:目标代码生成
 
+后端的代码框架设计上旨在易于扩展到多后端，所以代码上分为common文件夹和riscv64gc文件夹，其中common文件夹主要是架构无关的代码，例如寄存器分配算法，基本Machine指令的定义。
+而riscv64gc文件夹中主要为体系结构相关代码。
+
+**指令选择阶段**需要阅读的代码：
+
+**target/common/MachineBaseInstruction.h**:主要定义了基本的机器指令，RISC-V汇编指令继承了该文件中定义的类
+
+**target/common/machine_instruction_structures/***:定义了与汇编代码相关的数据结构，例如控制流图，汇编代码上的函数，基本块等
+
+**target/common/machine_passes/machine_pass.h**:MachineIR的Pass基类
+
+**target/common/machine_passes/machine_selector.h**:指令选择基类
+
+**target/common/machine_passes/machine_printer.h**:指令打印基类
+
+**target/common/machine_passes/machine_phi_destruction.***:phi指令消除Pass，如果你没有实现完整的mem2reg，可以忽略该文件
+
+**target/riscv64gc/instruction_print/***:RISC-V指令打印类和函数
+
+**target/riscv64gc/riscv64.***:定义了RISC-V指令类和辅助函数
+
+**指令选择阶段**需要阅读并编写的代码：
+
+**target/riscv64gc/instruction_select/riscv64_instSelect.***:指令选择关键函数
+
+**target/riscv64gc/instruction_select/riscv64_lowerframe.***:指令选择阶段只需要完成RiscV64LowerFrame类的实现，该类的作用为在函数入口地址处插入获取参数的指令
+
+**寄存器分配阶段**需要阅读的代码:
+
+**该阶段虽然要求编写的文件较多，但是总计代码量约300行左右，主要时间会花费在读懂已有代码上，如果你不想阅读我们提供的代码，可以选择自由发挥，写一个你自己的寄存器分配算法，即使是只在基本块内考虑或者将所有寄存器都溢出也是可以的(会酌情扣1-2分)**
+
+**target/common/machine_passes/register_alloc/basic_register_allocation.***:寄存器分配基类
+
+**target/common/machine_passes/register_alloc/fast_linear_scan/fast_linear_scan.h**: 定义了线性扫描算法的相关函数
+
+
+**寄存器分配阶段**需要阅读并编写的代码:
+
+**target/common/machine_passes/register_alloc/machine_liveness.cc**:活跃变量分析，这里数据流分析的函数已经写好，你只需要完成计算每个基本块的DEF和USE即可。
+
+**target/common/machine_passes/register_alloc/live_interval.h**:活跃区间计算，你只需要完成判断两个活跃区间是否存在重叠的代码即可。
+
+**target/common/machine_passes/register_alloc/physical_register.***:维护物理寄存器以及溢出寄存器对内存的占用情况，这里定义了一些辅助函数，你可以根据需要实现它们或者根据自己的想法编写新的辅助函数
+
+**target/common/machine_passes/register_alloc/fast_linear_scan/fast_linear_scan.cc**:你需要实现线性扫描算法的关键函数
+
+**target/common/machine_passes/register_alloc/vreg_rewrite.h**:你需要实现根据寄存器分配情况生成溢出代码的函数，以及根据寄存器分配情况将虚拟寄存器重写为物理寄存器的函数
+
+**target/riscv64gc/riscv64.cc**:实现插入Spill指令的函数，这些函数用于在寄存器分配阶段生成溢出代码，放在该文件的原因是溢出指令的生成是体系结构相关的
+
+**target/riscv64gc/instruction_select/riscv64_lowerframe.***:完成寄存器分配后需要完成RiscV64LowerStack类的实现，在函数开始和结尾处插入保存和恢复**函数被调者**需要保存寄存器的代码
+
 
 ## Testcase reference
 2023编译系统实现赛官方样例：https://gitlab.eduxiji.net/nscscc/compiler2023
