@@ -32,8 +32,10 @@ void RiscV64LowerFrame::Execute() {
 }
 
 void RiscV64LowerStack::Execute() {
-    // TODO: 在函数开头保存s寄存器，并开辟栈空间
-    // TODO: 在函数结尾恢复s寄存器，并收回栈空间
+    // 在函数在寄存器分配后执行
+    // TODO: 在函数开头保存 函数被调者需要保存的寄存器，并开辟栈空间
+    // TODO: 在函数结尾恢复 函数被调者需要保存的寄存器，并收回栈空间
+    // 具体需要保存/恢复哪些可以查阅RISC-V函数调用约定
     Log("Save s reg and alloc stack space");
 
     // 到此我们就完成目标代码生成的所有工作了
