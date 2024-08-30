@@ -71,6 +71,41 @@ void BasicBlock::InsertInstruction(int pos, Instruction Ins) {
     }
 }
 
+/*
+二元运算指令生成的伪代码：
+假设现在的语法树节点是：AddExp_plus
+该语法树表示 addexp + mulexp
+
+addexp->codeIR()
+mulexp->codeIR()
+假设mulexp生成完后，我们应该在基本块B0继续插入指令。
+addexp的结果存储在r0寄存器中，mulexp的结果存储在r1寄存器中
+生成一条指令r2 = r0 + r1，并将该指令插入基本块B0末尾。
+标注后续应该在基本块B0插入指令，当前节点的结果寄存器为r2。
+*/
+
+/*
+while语句指令生成的伪代码：
+while的语法树节点为while(cond)stmt
+
+假设当前我们应该在B0基本块开始插入指令
+新建三个基本块Bcond，Bbody，Bend
+在B0基本块末尾插入一条无条件跳转指令，跳转到Bcond
+
+设置当前我们应该在Bcond开始插入指令
+cond->codeIR()
+假设cond生成完后，我们应该在B1基本块继续插入指令，Bcond的结果为r0
+如果r0的类型不为bool，在B1末尾生成一条比较语句，比较r0是否为真。
+在B1末尾生成一条条件跳转语句，如果为真，跳转到Bbody，如果为假，跳转到Bend
+
+设置当前我们应该在Bbody开始插入指令
+stmt->codeIR()
+假设当stmt生成完后，我们应该在B2基本块继续插入指令
+在B2末尾生成一条无条件跳转语句，跳转到Bcond
+
+设置当前我们应该在Bend开始插入指令
+*/
+
 void __Program::codeIR() {
     AddLibFunctionDeclare();
     auto comp_vector = *comp_list;
