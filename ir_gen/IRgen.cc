@@ -104,13 +104,9 @@ void EqExp_eq::codeIR() { TODO("BinaryExp CodeIR"); }
 void EqExp_neq::codeIR() { TODO("BinaryExp CodeIR"); }
 
 // short circuit &&
-// we assume that this expression is only used in Cond in SysY
-// i.e. true_label and false_label is not -1
 void LAndExp_and::codeIR() { TODO("LAndExpAnd CodeIR"); }
 
 // short circuit ||
-// we assume that this expression is only used in Cond in SysY
-// i.e. true_label and false_label is not -1
 void LOrExp_or::codeIR() { TODO("LOrExpOr CodeIR"); }
 
 void ConstExp::codeIR() { addexp->codeIR(); }
@@ -171,7 +167,6 @@ void ConstDef::codeIR() { TODO("ConstDef CodeIR"); }
 
 void VarDecl::codeIR() { TODO("VarDecl CodeIR"); }
 
-// we assume ConstDecl is equal to VarDecl, we can optimize it in next step
 void ConstDecl::codeIR() { TODO("ConstDecl CodeIR"); }
 
 void BlockItem_Decl::codeIR() { TODO("BlockItemDecl CodeIR"); }
