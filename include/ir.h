@@ -27,9 +27,6 @@ public:
     }
     void printIR(std::ostream &s);
 
-    /*this function elimate unreached instructions and blocks. it is called after IRgen
-      it will elimate instructions after ret and unreached blocks*/
-    void EliminateUnreachedInstructionAndBlocks();
     void CFGInit();
     void BuildCFG();
     void BuildDominatorTree();

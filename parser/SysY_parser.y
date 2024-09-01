@@ -279,6 +279,10 @@ UnaryExp
     $$->SetLineNumber(line_number);
 }
 |IDENT '(' ')'{
+    // 在sylib.h这个文件中,starttime()是一个宏定义
+    // #define starttime() _sysy_starttime(__LINE__)
+    // 我们在语法分析中将其替换为_sysy_starttime(line_number)
+    // stoptime同理
     if($1->get_string() == "starttime"){
         auto params = new std::vector<Expression>;
         params->push_back(new IntConst(line_number));

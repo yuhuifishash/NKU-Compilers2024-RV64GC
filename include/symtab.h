@@ -75,6 +75,8 @@ public:
     %r6 = load ptr %r1
     %r7 = %r5 + %r6
     ret i32 %r7
+
+    所以我们使用SymbolRegTable来存储每个局部变量对应的alloca结果指针寄存器
 */
 class SymbolRegTable {
 private:

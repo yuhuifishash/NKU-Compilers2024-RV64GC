@@ -2,15 +2,12 @@
 #include "../../include/ir.h"
 #include <assert.h>
 
-void LLVMIR::EliminateUnreachedInstructionAndBlocks() { TODO("EliminateUNreachedInstructionAndBlocks"); }
-
 void LLVMIR::CFGInit() {
-    EliminateUnreachedInstructionAndBlocks();
     for (auto &[defI, bb_map] : function_block_map) {
         CFG *cfg = new CFG();
         cfg->block_map = &bb_map;
         cfg->function_def = defI;
-
+        cfg->BuildCFG();
         TODO("init your members in class CFG if you need");
         llvm_cfg[defI] = cfg;
     }

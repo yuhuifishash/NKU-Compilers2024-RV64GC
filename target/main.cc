@@ -3,6 +3,7 @@
 #include "../parser/SysY_parser.tab.h"
 
 #include "../optimize/ssa/mem2reg.h"
+#include "../optimize/cfg/simplify_cfg.h"
 
 #include "./common/machine_passes/register_alloc/fast_linear_scan/fast_linear_scan.h"
 #include "./riscv64gc/instruction_print/riscv64_printer.h"
@@ -128,8 +129,8 @@ int main(int argc, char **argv) {
     ast_root->codeIR();
 
     // 当你完成代码优化的基础要求后，将下面两行注释取消
-    // llvmIR.CFGInit();
-    // llvmIR.BuildCFG();
+    llvmIR.CFGInit();
+    SimplifyCFGPass(&llvmIR).Execute();
 
     optimize_flag = (argc == 6 && (strcmp(argv[optimize_tag], "-O1") == 0));
 
