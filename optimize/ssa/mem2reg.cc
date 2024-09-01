@@ -6,7 +6,7 @@
 // eg. 如果该指针直接被使用不可以mem2reg(在SysY一般不可能发生,SysY不支持指针语法)
 void Mem2RegPass::IsPromotable(CFG *C, Instruction AllocaInst)
 {
-
+    TODO("IsPromotable");
 }
 /*
     int a1 = 5,a2 = 3,a3 = 11,b = 4
