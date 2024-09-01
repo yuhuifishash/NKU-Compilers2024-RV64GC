@@ -33,8 +33,9 @@ pseudo IR is:
 */
 
 // vset is the set of alloca regno that only store but not load
+// 该函数对你的时间复杂度有一定要求，你需要保证你的时间复杂度小于等于O(nlognlogn),n为该函数的指令数
 void Mem2RegPass::Mem2RegNoUseAlloca(CFG *C, std::set<int> &vset) {
-    // this function are used in InsertPhi
+    // this function is used in InsertPhi
     TODO("Mem2RegNoUseAlloca");
 }
 
@@ -61,13 +62,16 @@ pseudo IR is:
 
 对于每一个load，我们只需要找到最近的store,然后用store的值替换之后load的结果即可
 */
+
 // vset is the set of alloca regno that load and store are all in the BB block_id
+// 该函数对你的时间复杂度有一定要求，你需要保证你的时间复杂度小于等于O(nlognlogn), n为该函数的指令数
 void Mem2RegPass::Mem2RegUseDefInSameBlock(CFG *C, std::set<int> &vset, int block_id) {
     // this function is used in InsertPhi
     TODO("Mem2RegUseDefInSameBlock");
 }
 
 // vset is the set of alloca regno that one store dominators all load instructions
+// 该函数对你的时间复杂度有一定要求，你需要保证你的时间复杂度小于等于O(nlogn)
 void Mem2RegPass::Mem2RegOneDefDomAllUses(CFG *C, std::set<int> &vset) {
     // this function is used in InsertPhi
     TODO("Mem2RegOneDefDomAllUses");

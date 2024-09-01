@@ -6,6 +6,7 @@ void SimplifyCFGPass::Execute()
     }
 }
 
+// 删除从函数入口开始到达不了的基本块
 void SimplifyCFGPass::EliminateUnreachedBlocksInsts(CFG* C)
 {
     TODO("EliminateUnreachedBlocksInsts");

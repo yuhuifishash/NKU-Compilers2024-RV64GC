@@ -1,7 +1,9 @@
 int main()
 {
     int a = 5;
-    return a+114509;
+    putint(a+114509);
+    putch(10);
+    return 0;
     return a+5;
     return a+5;
     return a+5;

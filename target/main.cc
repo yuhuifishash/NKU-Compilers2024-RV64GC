@@ -51,7 +51,7 @@ void PrintLexerResult(std::ostream &s, char *yytext, YYSTYPE yylval, int token, 
 */
 
 /*
-   本学期的编译作业还对你的编译器编译速度有一定要求，编译单个用例的时间不能超过300s，
+   本学期的编译作业还对你的编译器编译速度有一定要求，编译单个用例的时间不能超过10s，一些大型的测试用例不得超过300s
    测试用例中有一些较大的用例，例如lone_line.sy, long_code.sy, long_func.sy
    你需要在实现时注意数据结构的选择以及算法的实现细节
 */

@@ -156,11 +156,13 @@ make -j
 # lab1和lab2不支持自动评测
 python3 grade.py 3 0 #测试lab3基本要求
 python3 grade.py 3 1 #测试lab3进阶要求
-python3 grade.py 4 0 #测试lab4基本要求
-python3 grade.py 4 1 #测试lab4进阶要求
+python3 grade.py 4 0 #测试lab4基本语法要求(你还需要通过optimize_test的测试)
+python3 grade.py 4 1 #测试lab4进阶语法要求(你还需要通过optimize_test的测试)
+# 进阶优化无测试脚本，测试样例仅供参考，助教线下会进行检查
 python3 grade.py 5 0 #测试lab5基本要求
 # 为了检验你正确实现了mem2reg的phi指令消除步骤，后端的进阶语法要求必须使用O1测试
 # 如果你没有实现完整的mem2reg，忽略上面的注释即可
+# 如果你获得了完整的mem2reg分数，但是后端选择O0测试，需要扣除0.5分
 python3 grade.py 5 1 #测试lab5进阶要求
 ```
 
