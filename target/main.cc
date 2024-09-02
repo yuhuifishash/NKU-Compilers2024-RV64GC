@@ -143,8 +143,8 @@ int main(int argc, char **argv) {
     ast_root->codeIR();
 
     // 当你完成代码优化的基础要求后，将下面两行注释取消
-    llvmIR.CFGInit();
-    SimplifyCFGPass(&llvmIR).Execute();
+    // llvmIR.CFGInit();
+    // SimplifyCFGPass(&llvmIR).Execute();
 
     optimize_flag = (argc == 6 && (strcmp(argv[optimize_tag], "-O1") == 0));
 
