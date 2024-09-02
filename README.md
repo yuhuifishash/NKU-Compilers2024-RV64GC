@@ -143,11 +143,11 @@ make -j
 ```bash
 # 编译出的可执行文件在bin目录下，命名为SysYc
 # 在项目的根目录下
-./SysYc -lexer -o "output_filename" "input_filename" [-O1] #词法分析
-./SysYc -parser -o "output_filename" "input_filename" [-O1] #语法分析
-./SysYc -semant -o "output_filename" "input_filename" [-O1] #语义分析
-./SysYc -llvm -o "output_filename" "input_filename" [-O1] #中间代码生成
-./SysYc -S -o "output_filename" "input_filename" [-O1] #目标代码生成
+./bin/SysYc -lexer -o "output_filename" "input_filename" [-O1] #词法分析
+./bin/SysYc -parser -o "output_filename" "input_filename" [-O1] #语法分析
+./bin/SysYc -semant -o "output_filename" "input_filename" [-O1] #语义分析
+./bin/SysYc -llvm -o "output_filename" "input_filename" [-O1] #中间代码生成
+./bin/SysYc -S -o "output_filename" "input_filename" [-O1] #目标代码生成
 
 ```
 
@@ -183,6 +183,8 @@ python3 grade.py 5 1 #测试lab5进阶要求
 
 **lexer/SysY_lexer.l**:编写你想实现的词法正则表达式及对应处理函数
 
+完成代码后，以-lexer运行编译器，如果能正确输出测试用例中的每个token，即完成lab1。
+
 
 ## lab2:语法分析
 需要阅读的代码：
@@ -196,6 +198,8 @@ python3 grade.py 5 1 #测试lab5进阶要求
 需要阅读并编写的代码:
 
 **parser/SysY_parser.y**:编写你想要实现的文法定义以及对应的处理函数, 本次实验中只需要构建出语法树即可，不需要其他的额外处理
+
+完成代码后，以-parser运行编译器，如果能正确输出测试用例中对应的语法树，即完成lab2。
 
 ## lab3:类型检查和中间代码生成
 
@@ -214,7 +218,6 @@ python3 grade.py 5 1 #测试lab5进阶要求
 **ir_gen/semant.h**:类型检查辅助类的定义
 
 **ir_gen/semant.cc**:类型检查的主要函数定义，根据你想实现的文法实现你需要函数中的TODO()
-
 
 ### lab3-2:中间代码生成
 
