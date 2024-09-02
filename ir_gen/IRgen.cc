@@ -2,13 +2,14 @@
 #include "../include/ir.h"
 #include "semant.h"
 
-extern SemantTable semant_table;
+extern SemantTable semant_table; // 也许你会需要一些语义分析的信息
 
-IRgenTable irgen_table;
-LLVMIR llvmIR;
+IRgenTable irgen_table; // 中间代码生成的辅助变量
+LLVMIR llvmIR; // 我们需要在这个变量中生成中间代码
 
 void AddLibFunctionDeclare();
 
+// 在基本块B末尾生成一条新指令
 void IRgenArithmeticI32(LLVMBlock B, BasicInstruction::LLVMIROpcode opcode, int reg1, int reg2, int result_reg);
 void IRgenArithmeticF32(LLVMBlock B, BasicInstruction::LLVMIROpcode opcode, int reg1, int reg2, int result_reg);
 void IRgenArithmeticI32ImmLeft(LLVMBlock B, BasicInstruction::LLVMIROpcode opcode, int val1, int reg2, int result_reg);

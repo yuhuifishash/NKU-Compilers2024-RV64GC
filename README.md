@@ -221,6 +221,8 @@ python3 grade.py 5 1 #测试lab5进阶要求
 
 ### lab3-2:中间代码生成
 
+从lab3-2开始，每次都会有测试脚本对你的代码进行相对完善的测试
+
 需要阅读的代码：
 
 **include/Instruction.h**:LLVMIR指令类定义

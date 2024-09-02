@@ -80,6 +80,8 @@
 
 // 我们规定，对于GlobalOperand, LabelOperand, RegOperand, 只要操作数相同, 地址也相同
 // 所以这些Operand的构造函数是private, 使用GetNew***Operand函数来获取新的操作数变量
+// 请注意代码中的typedef，为了方便书写，将一些类的指针进行了重命名, 如果不习惯该种风格，可以自行修改
+
 class BasicOperand;
 typedef BasicOperand *Operand;
 // @operands in instruction
@@ -192,7 +194,6 @@ GlobalOperand *GetNewGlobalOperand(std::string name);
 
 class BasicInstruction;
 
-// 请注意代码中的typedef，为了方便书写，将一些类的指针进行了重命名, 如果不习惯该种风格，可以自行修改
 typedef BasicInstruction *Instruction;
 
 // @instruction

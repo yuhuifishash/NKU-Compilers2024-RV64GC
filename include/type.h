@@ -7,6 +7,7 @@
 
 class Type {
 public:
+    // 我们认为数组的类型为PTR
     enum ty { VOID = 0, INT = 1, FLOAT = 2, BOOL = 3, PTR = 4, DOUBLE = 5 } type;
     std::string GetTypeInfo();
     Type() { type = VOID; }
@@ -30,10 +31,10 @@ public:
 
 class VarAttribute {
 public:
-    Type::ty type;
+    Type::ty type; 
     bool ConstTag = 0;
-    std::vector<int> dims{};
-    std::vector<int> IntInitVals{};    // used for array
+    std::vector<int> dims{};    // 存储数组类型的相关信息
+    std::vector<int> IntInitVals{};    
     std::vector<float> FloatInitVals{};
     VarAttribute() {
         type = Type::VOID;

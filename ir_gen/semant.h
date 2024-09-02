@@ -27,7 +27,8 @@ public:
     std::map<Symbol, VarAttribute> GlobalTable;
 
     SemantTable() {
-        // 添加库函数, 我们不要求实现putf这个库函数
+        // 添加库函数到函数表中, 我们不要求实现putf这个库函数
+        // 可以非常方便地检查对库函数的调用是否符合定义
         Symbol getint = id_table.add_id("getint");
         FunctionTable[getint] = new __FuncDef(Type::INT, getint, new std::vector<FuncFParam>{}, nullptr);
 
@@ -80,10 +81,6 @@ public:
         Symbol stoptime = id_table.add_id("_sysy_stoptime");
         FunctionTable[stoptime] =
         new __FuncDef(Type::VOID, stoptime, new std::vector<FuncFParam>{new __FuncFParam(Type::INT)}, nullptr);
-
-        for (auto F : FunctionTable) {
-            F.second->TypeCheck();
-        }
     }
 };
 

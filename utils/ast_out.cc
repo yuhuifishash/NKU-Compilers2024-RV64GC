@@ -146,7 +146,9 @@ void __FuncDef::printAST(std::ostream &s, int pad) {
             param->printAST(s, pad + 2);
         }
     }
-    block->printAST(s, pad + 2);
+    if(block != nullptr){
+        block->printAST(s, pad + 2);
+    }
 }
 
 void __FuncFParam::printAST(std::ostream &s, int pad) {

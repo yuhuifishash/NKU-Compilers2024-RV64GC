@@ -248,9 +248,6 @@ public:
     void printAST(std::ostream &s, int pad);
 };
 
-/*
-%r(m) = add 0,val
-*/
 class IntConst : public __Expression {
 public:
     int val;
@@ -304,13 +301,6 @@ public:
 };
 
 // lval = exp;
-/*
-lval->codeIR();
-get address of lval
-exp->codeIR();
-get value of exp
-store
-*/
 class assign_stmt : public __Stmt {
 public:
     Expression lval;
@@ -619,9 +609,6 @@ public:
 
 // FuncParam -> Type IDENT
 // FuncParam -> Type IDENT [] {[Exp]}
-
-// FuncParam -> Type IDENT [],EXPLIST
-// EXPLIST -> [EXP],EXPLIST
 class __FuncFParam : public tree_node {
 public:
     Type::ty type_decl;

@@ -24,7 +24,8 @@ extern int yylex();
 extern YYSTYPE yylval;
 extern char *yytext;
 
-void PrintLexerResult(std::ostream &s, char *yytext, YYSTYPE yylval, int token, int line_number) {
+
+void PrintLexerResult(std::ostream &s, char *yytext, YYSTYPE yylval, int token) {
     std::setfill(' ');
     switch (token) {
     case INT:

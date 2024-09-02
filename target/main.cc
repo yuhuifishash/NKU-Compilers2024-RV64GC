@@ -41,7 +41,7 @@ extern int yylex();
 extern YYSTYPE yylval;
 extern char *yytext;
 extern std::vector<std::string> error_msgs;
-void PrintLexerResult(std::ostream &s, char *yytext, YYSTYPE yylval, int token, int line_number);
+void PrintLexerResult(std::ostream &s, char *yytext, YYSTYPE yylval, int token);
 
 
 /* 框架并没有对内存泄漏问题进行处理(即没有编写析构函数)
@@ -51,7 +51,7 @@ void PrintLexerResult(std::ostream &s, char *yytext, YYSTYPE yylval, int token, 
 */
 
 /*
-   本学期的编译作业还对你的编译器编译速度有一定要求，编译单个用例的时间不能超过10s，一些大型的测试用例不得超过300s
+   本学期的编译作业还对你的编译器编译速度有一定要求，编译大部分用例的时间不能超过5s，一些大型的测试用例不得超过300s
    测试用例中有一些较大的用例，例如lone_line.sy, long_code.sy, long_func.sy
    你需要在实现时注意数据结构的选择以及算法的实现细节
 */
@@ -93,7 +93,16 @@ int main(int argc, char **argv) {
         int token;
         ALIGNED_FORMAT_OUTPUT_HEAD("Token", "Lexeme", "Property", "Line", "Column");
         while ((token = yylex()) != 0) {
-            PrintLexerResult(fout, yytext, yylval, token, line_number);
+            /*
+                yytext为当前识别到的token对应的字符串
+
+                yylval的类型为YYSTYPE, YYSTYPE在SysY_parser.y中用%union定义, 该变量的作用为在词法分析和语法分析中传递信息，
+                由于lab1中只有词法分析，我们输出yylval对应的信息即可
+
+                token为词法分析函数的返回值,对应SysY_lexer.l中的return,表示token的类型
+                token实际为一个枚举类型，定义位于SysY_parser.y中的%token
+            */
+            PrintLexerResult(fout, yytext, yylval, token);
         }
         fout.close();
         return 0;
@@ -107,6 +116,11 @@ int main(int argc, char **argv) {
     }
 
     if (strcmp(argv[step_tag], "-parser") == 0) {
+        /*
+            如果你的语法分析实现不符合预期,可能会导致语法树打印出现SegmentFault,大概率是nullptr导致的
+            一种办法是找到在哪个地方RE了,然后看为啥这里有个空指针,之后修改SysY_parser.y
+            如果你认为这里就应该是空指针,但是语法树的输出没考虑到,你也可以自行修改相应语法树的输出函数
+        */
         ast_root->printAST(fout, 0);
         fout.close();
         return 0;
