@@ -2,39 +2,39 @@
 #include <sstream>
 
 template <> void RiscV64Selector::ConvertAndAppend<LoadInstruction *>(LoadInstruction *ins) {
-    TODO("Implement this if necessary");
+    TODO("Implement this if you need");
 }
 
 template <> void RiscV64Selector::ConvertAndAppend<StoreInstruction *>(StoreInstruction *ins) {
-    TODO("Implement this if necessary");
+    TODO("Implement this if you need");
 }
 
 template <> void RiscV64Selector::ConvertAndAppend<ArithmeticInstruction *>(ArithmeticInstruction *ins) {
-    TODO("Implement this if necessary");
+    TODO("Implement this if you need");
 }
 
 template <> void RiscV64Selector::ConvertAndAppend<IcmpInstruction *>(IcmpInstruction *ins) {
-    TODO("Implement this if necessary");
+    TODO("Implement this if you need");
 }
 
 template <> void RiscV64Selector::ConvertAndAppend<FcmpInstruction *>(FcmpInstruction *ins) {
-    TODO("Implement this if necessary");
+    TODO("Implement this if you need");
 }
 
 template <> void RiscV64Selector::ConvertAndAppend<AllocaInstruction *>(AllocaInstruction *ins) {
-    TODO("Implement this if necessary");
+    TODO("Implement this if you need");
 }
 
 template <> void RiscV64Selector::ConvertAndAppend<BrCondInstruction *>(BrCondInstruction *ins) {
-    TODO("Implement this if necessary");
+    TODO("Implement this if you need");
 }
 
 template <> void RiscV64Selector::ConvertAndAppend<BrUncondInstruction *>(BrUncondInstruction *ins) {
-    TODO("Implement this if necessary");
+    TODO("Implement this if you need");
 }
 
 template <> void RiscV64Selector::ConvertAndAppend<CallInstruction *>(CallInstruction *ins) {
-    TODO("Implement this if necessary");
+    TODO("Implement this if you need");
 }
 
 template <> void RiscV64Selector::ConvertAndAppend<RetInstruction *>(RetInstruction *ins) {
@@ -46,9 +46,9 @@ template <> void RiscV64Selector::ConvertAndAppend<RetInstruction *>(RetInstruct
             auto retcopy_instr = rvconstructor->ConstructUImm(RISCV_LI, GetPhysicalReg(RISCV_a0), imm);
             cur_block->push_back(retcopy_instr);
         } else if (ins->GetRetVal()->GetOperandType() == BasicOperand::IMMF32) {
-            TODO("Implement this if necessary");
+            TODO("Implement this if you need");
         } else if (ins->GetRetVal()->GetOperandType() == BasicOperand::REG) {
-            TODO("Implement this if necessary");
+            TODO("Implement this if you need");
         }
     }
 
@@ -64,35 +64,35 @@ template <> void RiscV64Selector::ConvertAndAppend<RetInstruction *>(RetInstruct
 }
 
 template <> void RiscV64Selector::ConvertAndAppend<FptosiInstruction *>(FptosiInstruction *ins) {
-    TODO("Implement this if necessary");
+    TODO("Implement this if you need");
 }
 
 template <> void RiscV64Selector::ConvertAndAppend<SitofpInstruction *>(SitofpInstruction *ins) {
-    TODO("Implement this if necessary");
+    TODO("Implement this if you need");
 }
 
 template <> void RiscV64Selector::ConvertAndAppend<FpextInstruction *>(FpextInstruction *ins) {
-    TODO("Implement this if necessary");
+    TODO("Implement this if you need");
 }
 
 template <> void RiscV64Selector::ConvertAndAppend<ZextInstruction *>(ZextInstruction *ins) {
-    TODO("Implement this if necessary");
+    TODO("Implement this if you need");
 }
 
 template <> void RiscV64Selector::ConvertAndAppend<GetElementptrInstruction *>(GetElementptrInstruction *ins) {
-    TODO("Implement this if necessary");
+    TODO("Implement this if you need");
 }
 
 template <> void RiscV64Selector::ConvertAndAppend<PhiInstruction *>(PhiInstruction *ins) {
-    TODO("Implement this if necessary");
+    TODO("Implement this if you need");
 }
 
 template <> void RiscV64Selector::ConvertAndAppend<BitCastInstruction *>(BitCastInstruction *ins) {
-    TODO("Implement this if necessary");
+    TODO("Implement this if you need");
 }
 
 template <> void RiscV64Selector::ConvertAndAppend<SelectInstruction *>(SelectInstruction *ins) {
-    TODO("Implement this if necessary");
+    TODO("Implement this if you need");
 }
 
 template <> void RiscV64Selector::ConvertAndAppend<Instruction>(Instruction inst) {
@@ -174,6 +174,11 @@ template <> void RiscV64Selector::ConvertAndAppend<Instruction>(Instruction inst
 }
 
 void RiscV64Selector::SelectInstructionAndBuildCFG() {
+    // 与中间代码生成一样, 如果你完全无从下手, 可以先看看输出是怎么写的
+    // 即riscv64gc/instruction_print/*  common/machine_passes/machine_printer.h
+
+    // 指令选择除了一些函数调用约定必须遵守的情况需要物理寄存器，其余情况必须均为虚拟寄存器
+    // 你可以使用GetNewRegister来获取新的虚拟寄存器
     dest->global_def = IR->global_def;
     // 遍历每个LLVM IR函数
     for (auto func_pair : IR->llvm_cfg) {
@@ -191,9 +196,9 @@ void RiscV64Selector::SelectInstructionAndBuildCFG() {
         // 清空指令选择状态(可能需要自行添加初始化操作)
         ClearFunctionSelectState();
 
-        // TODO: 添加函数参数
+        // TODO: 添加函数参数(推荐先阅读一下riscv64_lowerframe.cc中的代码和注释)
         // See MachineFunction::AddParameter()
-        TODO("Add function parameter if necessary");
+        TODO("Add function parameter if you need");
 
         // 遍历每个LLVM IR基本块
         for (auto [id, block] : *(cfg->block_map)) {

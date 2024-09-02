@@ -65,6 +65,7 @@ public:
 };
 
 class MachineFunction {
+    // 你可以根据需要自行修改，新增，删除已有的成员函数和成员变量
 private:
     // 函数名
     std::string func_name;
@@ -74,6 +75,8 @@ private:
     std::vector<Register> parameters;
     // 现存的最大块编号
     int max_exist_label;
+
+    // 用于基本块相关操作的辅助类
     MachineBlockFactory *block_factory;
 
 protected:

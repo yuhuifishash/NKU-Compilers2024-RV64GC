@@ -187,9 +187,9 @@ struct RvOpInfo {
         CALL_type,
         BCC_type,
     };
-    int ins_formattype;
+    int ins_formattype; // 指令类型
     char *name;
-    int latency;
+    int latency; // sifive-u74上的硬件指令延迟, 可以用于指令调度优化, 如果你不打算实现该优化可以忽略
 };
 extern RvOpInfo OpTable[];
 enum {

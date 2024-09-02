@@ -230,7 +230,7 @@ void RiscV64Printer::emit() {
         // auto block = func->blocks[0];
         std::map<int, int> vsd;
         std::stack<int> stack;
-        stack.push(0);
+        stack.push(0); // 采用dfs的方式输出汇编代码，尽量减少无条件跳转指令数量
         while (!stack.empty()) {
             int block_id = stack.top();
             vsd[block_id] = 1;
@@ -296,7 +296,7 @@ void RiscV64Printer::emit() {
             }
         }
     }
-    s << "\t.data\n";
+    s << "\t.data\n"; // 输出全局变量定义指令
     for (auto global : printee->global_def) {
         if (global->GetOpcode() == BasicInstruction::GLOBAL_VAR) {
             auto global_ins = (GlobalVarDefineInstruction *)global;
