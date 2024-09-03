@@ -185,7 +185,7 @@ struct RvOpInfo {
         R2_type,
         R4_type,
         CALL_type,
-        BCC_type,
+        BCC_type, // 这是sifive-u74特有的指令，可以优化SFB, 你如果不想做if-conversion，可以忽略
     };
     int ins_formattype;    // 指令类型
     char *name;
@@ -409,6 +409,7 @@ private:
 
     int ret_type;
 
+    // 用于条件执行指令，如果你不打算实现if-conversion，可以忽略
     MachineBaseInstruction *sub_instruction;
 
     std::vector<Register *> GetR_typeReadreg() { return {&rs1, &rs2}; }
@@ -523,7 +524,6 @@ class RiscV64InstructionConstructor {
 
 public:
     static RiscV64InstructionConstructor *GetConstructor() { return &instance; }
-    // 下列均为创建指令的辅助函数，一些指令也许你并不需要，例如COPY和Select
     // 函数命名方法与RISC-V指令格式一致
     RiscV64Instruction *ConstructR(int op, Register Rd, Register Rs1, Register Rs2) {
         RiscV64Instruction *ret = new RiscV64Instruction();
@@ -630,38 +630,6 @@ public:
         ret->setLabel(label);
         return ret;
     }
-    MachineCopyInstruction *ConstructCopyReg(Register dst, Register src, MachineDataType type) {
-        Assert(dst.type == src.type);
-        Assert(dst.type == type);
-
-        MachineCopyInstruction *ret =
-        new MachineCopyInstruction(new MachineRegister(src), new MachineRegister(dst), type);
-        return ret;
-    }
-    MachineCopyInstruction *ConstructCopyRegImmI(Register dst, int src, MachineDataType type) {
-        Assert(dst.type == type);
-        Assert(type.data_type == MachineDataType::INT);
-
-        MachineCopyInstruction *ret =
-        new MachineCopyInstruction(new MachineImmediateInt(src), new MachineRegister(dst), type);
-        return ret;
-    }
-    MachineCopyInstruction *ConstructCopyRegImmF(Register dst, float src, MachineDataType type) {
-        Assert(dst.type == type);
-        Assert(type.data_type == MachineDataType::FLOAT);
-
-        MachineCopyInstruction *ret =
-        new MachineCopyInstruction(new MachineImmediateFloat(src), new MachineRegister(dst), type);
-        return ret;
-    }
-    MachineCopyInstruction *ConstructCopyRegImmF64(Register dst, double src, MachineDataType type) {
-        Assert(dst.type == type);
-        Assert(type.data_type == MachineDataType::FLOAT);
-
-        MachineCopyInstruction *ret =
-        new MachineCopyInstruction(new MachineImmediateDouble(src), new MachineRegister(dst), type);
-        return ret;
-    }
     RiscV64Instruction *ConstructCall(int op, std::string funcname, int iregnum, int fregnum) {
         Assert(OpTable[op].ins_formattype == RvOpInfo::CALL_type);
         RiscV64Instruction *ret = new RiscV64Instruction();
@@ -680,35 +648,6 @@ public:
         ret->setRs2(rs2);
         ret->SetSubInstruction(subins);
         return ret;
-    }
-    MachineSelectInstruction *ConstructSelect(MachineBaseInstruction *cond, Register rd, Register srctrue,
-                                              Register srcfalse) {
-        MachineSelectInstruction *select_ins = new MachineSelectInstruction(
-        cond, new MachineRegister(rd), new MachineRegister(srctrue), new MachineRegister(srcfalse));
-        return select_ins;
-    }
-    MachineSelectInstruction *ConstructSelect(MachineBaseInstruction *cond, Register rd, int srctrue,
-                                              Register srcfalse) {
-        MachineSelectInstruction *select_ins = new MachineSelectInstruction(
-        cond, new MachineRegister(rd), new MachineImmediateInt(srctrue), new MachineRegister(srcfalse));
-        return select_ins;
-    }
-    MachineSelectInstruction *ConstructSelect(MachineBaseInstruction *cond, Register rd, Register srctrue,
-                                              int srcfalse) {
-        MachineSelectInstruction *select_ins = new MachineSelectInstruction(
-        cond, new MachineRegister(rd), new MachineRegister(srctrue), new MachineImmediateInt(srcfalse));
-        return select_ins;
-    }
-    MachineSelectInstruction *ConstructSelect(MachineBaseInstruction *cond, Register rd, int srctrue, int srcfalse) {
-        MachineSelectInstruction *select_ins = new MachineSelectInstruction(
-        cond, new MachineRegister(rd), new MachineImmediateInt(srctrue), new MachineImmediateInt(srcfalse));
-        return select_ins;
-    }
-    MachineSelectInstruction *ConstructSelect(MachineBaseInstruction *cond, Register rd, MachineBaseOperand *srctrue,
-                                              MachineBaseOperand *srcfalse) {
-        MachineSelectInstruction *select_ins =
-        new MachineSelectInstruction(cond, new MachineRegister(rd), srctrue, srcfalse);
-        return select_ins;
     }
 
 #ifdef ENABLE_COMMENT

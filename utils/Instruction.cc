@@ -100,10 +100,6 @@ void IRgenFptosi(LLVMBlock B, int src, int dst) {
     B->InsertInstruction(1, new FptosiInstruction(GetNewRegOperand(dst), GetNewRegOperand(src)));
 }
 
-void IRgenFpext(LLVMBlock B, int src, int dst) {
-    B->InsertInstruction(1, new FpextInstruction(GetNewRegOperand(dst), GetNewRegOperand(src)));
-}
-
 void IRgenSitofp(LLVMBlock B, int src, int dst) {
     B->InsertInstruction(1, new SitofpInstruction(GetNewRegOperand(dst), GetNewRegOperand(src)));
 }

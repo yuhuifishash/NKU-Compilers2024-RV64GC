@@ -179,13 +179,6 @@ template <> void RiscV64Printer::printAsm<RiscV64Instruction *>(RiscV64Instructi
     }
 }
 
-template <> void RiscV64Printer::printAsm<MachineCopyInstruction *>(MachineCopyInstruction *ins) {
-    printRVfield(ins->GetDst());
-    s << " = COPY ";
-    printRVfield(ins->GetSrc());
-    s << ", " << ins->GetCopyType().toString();
-}
-
 template <> void RiscV64Printer::printAsm<MachinePhiInstruction *>(MachinePhiInstruction *ins) {
     // Lazy("Phi Output");
     // s << "# ";
@@ -202,9 +195,6 @@ template <> void RiscV64Printer::printAsm<MachinePhiInstruction *>(MachinePhiIns
 template <> void RiscV64Printer::printAsm<MachineBaseInstruction *>(MachineBaseInstruction *ins) {
     if (ins->arch == MachineBaseInstruction::RiscV) {
         printAsm<RiscV64Instruction *>((RiscV64Instruction *)ins);
-        return;
-    } else if (ins->arch == MachineBaseInstruction::COPY) {
-        printAsm<MachineCopyInstruction *>((MachineCopyInstruction *)ins);
         return;
     } else if (ins->arch == MachineBaseInstruction::PHI) {
         printAsm<MachinePhiInstruction *>((MachinePhiInstruction *)ins);
@@ -266,27 +256,10 @@ void RiscV64Printer::emit() {
                         printAsm((MachinePhiInstruction *)ins);
                         s << "\n";
                     }
-                } else if (ins->arch == MachineBaseInstruction::COPY) {
-                    s << "\t";
-                    printAsm((MachineCopyInstruction *)ins);
-                    s << "\n";
                 } else if (ins->arch == MachineBaseInstruction::COMMENT) {
                     if (::print_comment) {
                         s << "\t";
                         s << "# " << ((MachineComment *)ins)->GetComment();
-                        s << "\n";
-                    }
-                } else if (ins->arch == MachineBaseInstruction::SELECT) {
-                    if (::print_comment) {
-                        s << "\t";
-                        auto sel_ins = (MachineSelectInstruction *)ins;
-                        printAsm(sel_ins->GetCond());
-                        s << "|";
-                        printRVfield(sel_ins->GetDst());
-                        s << ",";
-                        printRVfield(sel_ins->GetSrcTrue());
-                        s << ",";
-                        printRVfield(sel_ins->GetSrcFalse());
                         s << "\n";
                     }
                 } else if (ins->arch == MachineBaseInstruction::NOP) {

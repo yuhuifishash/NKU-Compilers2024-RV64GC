@@ -91,9 +91,6 @@ std::ostream &operator<<(std::ostream &s, BasicInstruction::LLVMIROpcode type) {
     case BasicInstruction::BITXOR:
         s << "xor";
         break;
-    case BasicInstruction::BITAND:
-        s << "and";
-        break;
     case BasicInstruction::SHL:
         s << "shl";
         break;
@@ -223,25 +220,6 @@ void StoreInstruction::PrintIR(std::ostream &s) {
     s << "store " << type << " " << value << ", ptr " << pointer << "\n";
 }
 void ArithmeticInstruction::PrintIR(std::ostream &s) {
-    if (opcode == UMIN_I32) {
-        s << result << " = call i32 @llvm.umin.i32(i32 " << op1 << ",i32 " << op2 << ")\n";
-        return;
-    } else if (opcode == UMAX_I32) {
-        s << result << " = call i32 @llvm.umax.i32(i32 " << op1 << ",i32 " << op2 << ")\n";
-        return;
-    } else if (opcode == SMIN_I32) {
-        s << result << " = call i32 @llvm.smin.i32(i32 " << op1 << ",i32 " << op2 << ")\n";
-        return;
-    } else if (opcode == SMAX_I32) {
-        s << result << " = call i32 @llvm.smax.i32(i32 " << op1 << ",i32 " << op2 << ")\n";
-        return;
-    } else if (opcode == FMIN_F32) {
-        s << result << " = call float @___llvm_fmin_f32(float " << op1 << ",float " << op2 << ")\n";
-        return;
-    } else if (opcode == FMAX_F32) {
-        s << result << " = call float @___llvm_fmax_f32(float " << op1 << ",float " << op2 << ")\n";
-        return;
-    }
     s << result << " = " << opcode << " " << type << " " << op1 << "," << op2 << "\n";
 }
 void IcmpInstruction::PrintIR(std::ostream &s) {
@@ -496,15 +474,6 @@ void RetInstruction::PrintIR(std::ostream &s) {
     }
     s << "\n";
 }
-
-void SelectInstruction::PrintIR(std::ostream &s) {
-    s << result << " = ";
-    s << "select i1 " << cond;
-    s << ", " << type << " " << op1;
-    s << ", " << type << " " << op2;
-    s << "\n";
-}
-
 /*
 Syntax:
 <result> = getelementptr <ty>, ptr <ptrval>{, [inrange] <ty> <idx>}*
@@ -536,13 +505,6 @@ void FptosiInstruction::PrintIR(std::ostream &s) {
     s << result << " = fptosi float"
       << " " << value << " to "
       << "i32"
-      << "\n";
-}
-
-void FpextInstruction::PrintIR(std::ostream &s) {
-    s << result << " = fpext float"
-      << " " << value << " to "
-      << "double"
       << "\n";
 }
 
@@ -600,8 +562,4 @@ void GlobalStringConstInstruction::PrintIR(std::ostream &s) {
 
 void ZextInstruction::PrintIR(std::ostream &s) {
     s << result << " = zext " << from_type << " " << value << " to " << to_type << "\n";
-}
-
-void BitCastInstruction::PrintIR(std::ostream &s) {
-    s << dst << " = bitcast " << src_type << " " << src << " to " << dst_type << "\n";
 }

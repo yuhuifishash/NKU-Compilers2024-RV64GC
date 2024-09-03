@@ -77,6 +77,7 @@
 #endif
 
 // TODO(): 在代码优化阶段，加入更多你需要的成员变量和函数
+// TODO(): 在代码优化阶段，加入更多你需要的指令
 
 // 我们规定，对于GlobalOperand, LabelOperand, RegOperand, 只要操作数相同, 地址也相同
 // 所以这些Operand的构造函数是private, 使用GetNew***Operand函数来获取新的操作数变量
@@ -229,16 +230,6 @@ public:
         SITOFP = 27,
         GLOBAL_VAR = 28,
         GLOBAL_STR = 29,
-        UMIN_I32 = 31,
-        UMAX_I32 = 32,
-        SMIN_I32 = 33,
-        SMAX_I32 = 34,
-        BITCAST = 35,
-        FMIN_F32 = 36,
-        FMAX_F32 = 37,
-        BITAND = 38,
-        FPEXT = 39,
-        SELECT = 40,
     };
 
     // @Operand datatypes
@@ -434,29 +425,6 @@ public:
         this->op2 = op2;
         this->cond = cond;
         this->result = result;
-    }
-    virtual void PrintIR(std::ostream &s);
-};
-
-class SelectInstruction : public BasicInstruction {
-private:
-    enum LLVMType type;
-    Operand op1;
-    Operand op2;
-    Operand cond;
-    Operand result;
-
-public:
-    Operand GetCond() { return cond; }
-    Operand GetOp1() { return op1; }
-    Operand GetOp2() { return op2; }
-    SelectInstruction(enum LLVMType t, Operand o1, Operand o2, Operand c, Operand res) {
-        this->opcode = LLVMIROpcode::SELECT;
-        this->type = t;
-        this->op1 = o1;
-        this->op2 = o2;
-        this->cond = c;
-        this->result = res;
     }
     virtual void PrintIR(std::ostream &s);
 };
@@ -773,39 +741,6 @@ public:
     virtual LLVMType GetResultType() { return I32; }
     Operand GetResultReg() { return result; }
     Operand GetSrc() { return value; }
-    void PrintIR(std::ostream &s);
-};
-
-class FpextInstruction : public BasicInstruction {
-private:
-    Operand result;
-    Operand value;
-
-public:
-    FpextInstruction(Operand result_receiver, Operand value_for_cast) : result(result_receiver), value(value_for_cast) {
-        this->opcode = FPEXT;
-    }
-    virtual LLVMType GetResultType() { return I32; }
-    Operand GetResultReg() { return result; }
-    Operand GetSrc() { return value; }
-    void PrintIR(std::ostream &s);
-};
-
-class BitCastInstruction : public BasicInstruction {
-private:
-    Operand src;
-    Operand dst;
-    LLVMType src_type;
-    LLVMType dst_type;
-
-public:
-    BitCastInstruction(Operand src_op, Operand dst_op, LLVMType src_t, LLVMType dst_t)
-        : src(src_op), dst(dst_op), src_type(src_t), dst_type(dst_t) {
-        this->opcode = BITCAST;
-    }
-    virtual LLVMType GetResultType() { return dst_type; }
-    Operand GetResultReg() { return dst; }
-    Operand GetSrc() { return src; }
     void PrintIR(std::ostream &s);
 };
 

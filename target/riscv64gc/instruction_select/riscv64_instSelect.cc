@@ -71,10 +71,6 @@ template <> void RiscV64Selector::ConvertAndAppend<SitofpInstruction *>(SitofpIn
     TODO("Implement this if you need");
 }
 
-template <> void RiscV64Selector::ConvertAndAppend<FpextInstruction *>(FpextInstruction *ins) {
-    TODO("Implement this if you need");
-}
-
 template <> void RiscV64Selector::ConvertAndAppend<ZextInstruction *>(ZextInstruction *ins) {
     TODO("Implement this if you need");
 }
@@ -84,14 +80,6 @@ template <> void RiscV64Selector::ConvertAndAppend<GetElementptrInstruction *>(G
 }
 
 template <> void RiscV64Selector::ConvertAndAppend<PhiInstruction *>(PhiInstruction *ins) {
-    TODO("Implement this if you need");
-}
-
-template <> void RiscV64Selector::ConvertAndAppend<BitCastInstruction *>(BitCastInstruction *ins) {
-    TODO("Implement this if you need");
-}
-
-template <> void RiscV64Selector::ConvertAndAppend<SelectInstruction *>(SelectInstruction *ins) {
     TODO("Implement this if you need");
 }
 
@@ -113,13 +101,6 @@ template <> void RiscV64Selector::ConvertAndAppend<Instruction>(Instruction inst
     case BasicInstruction::FDIV:
     case BasicInstruction::MOD:
     case BasicInstruction::SHL:
-    case BasicInstruction::UMIN_I32:
-    case BasicInstruction::UMAX_I32:
-    case BasicInstruction::SMIN_I32:
-    case BasicInstruction::SMAX_I32:
-    case BasicInstruction::FMIN_F32:
-    case BasicInstruction::FMAX_F32:
-    case BasicInstruction::BITAND:
     case BasicInstruction::BITXOR:
         ConvertAndAppend<ArithmeticInstruction *>((ArithmeticInstruction *)inst);
         break;
@@ -150,9 +131,6 @@ template <> void RiscV64Selector::ConvertAndAppend<Instruction>(Instruction inst
     case BasicInstruction::SITOFP:
         ConvertAndAppend<SitofpInstruction *>((SitofpInstruction *)inst);
         break;
-    case BasicInstruction::FPEXT:
-        ConvertAndAppend<FpextInstruction *>((FpextInstruction *)inst);
-        break;
     case BasicInstruction::GETELEMENTPTR:
         ConvertAndAppend<GetElementptrInstruction *>((GetElementptrInstruction *)inst);
         break;
@@ -161,12 +139,6 @@ template <> void RiscV64Selector::ConvertAndAppend<Instruction>(Instruction inst
         break;
     case BasicInstruction::PHI:
         ConvertAndAppend<PhiInstruction *>((PhiInstruction *)inst);
-        break;
-    case BasicInstruction::BITCAST:
-        ConvertAndAppend<BitCastInstruction *>((BitCastInstruction *)inst);
-        break;
-    case BasicInstruction::SELECT:
-        ConvertAndAppend<SelectInstruction *>((SelectInstruction *)inst);
         break;
     default:
         ERROR("Unknown LLVM IR instruction");
