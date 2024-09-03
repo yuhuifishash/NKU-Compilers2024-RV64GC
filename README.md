@@ -147,6 +147,7 @@ make -j
 ./bin/SysYc -parser -o "output_filename" "input_filename" [-O1] #语法分析
 ./bin/SysYc -semant -o "output_filename" "input_filename" [-O1] #语义分析
 ./bin/SysYc -llvm -o "output_filename" "input_filename" [-O1] #中间代码生成
+./bin/SysYc -select -o "output_filename" "input_filename" [-O1] #查看目标代码生成指令选择阶段结果
 ./bin/SysYc -S -o "output_filename" "input_filename" [-O1] #目标代码生成
 
 ```
