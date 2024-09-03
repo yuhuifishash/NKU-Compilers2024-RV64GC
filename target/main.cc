@@ -102,7 +102,7 @@ int main(int argc, char **argv) {
                 yytext为当前识别到的token对应的字符串
 
                 yylval的类型为YYSTYPE, YYSTYPE在SysY_parser.y中用%union定义,
-               该变量的作用为在词法分析和语法分析中传递信息， 由于lab1中只有词法分析, 我们输出yylval对应的信息即可
+                该变量的作用为在词法分析和语法分析中传递信息， 由于lab1中只有词法分析, 我们输出yylval对应的信息即可
 
                 token为词法分析函数的返回值, 对应SysY_lexer.l中的return, 表示token的类型
                 token实际为一个枚举类型, 定义位于SysY_parser.y中的%token

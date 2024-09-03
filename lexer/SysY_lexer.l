@@ -59,7 +59,7 @@ void yyerror(char* s, ...);
     }
     return INT_CONST;
 }
-    /*你不用过多地深究yylval究竟是在哪里定义的这个变量，你只需要将yylval正确赋值即可
+    /*
       在词法分析中，你只需要考虑yylval的三种类型，分别为int_token, float_token, symbol_token
       之所以要定义这三种类型，是因为我们只返回这个token的类型是不够的，我们还需要知道这个token的属性
       例如我们需要知道INT_CONST具体的值是多少
