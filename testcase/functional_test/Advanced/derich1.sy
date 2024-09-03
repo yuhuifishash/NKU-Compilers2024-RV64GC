@@ -153,9 +153,7 @@ void kernel_deriche(int w, int h, float alpha, float imgIn[][270],
 int main()
 {
     getfarray(imgIn);
-    starttime();
     kernel_deriche(w, h, alpha, imgIn, imgOut, my_y1, my_y2);
-    stoptime();
     putfarray(w * h, imgOut);
     return 0;
 }
