@@ -195,9 +195,7 @@ std::ostream &operator<<(std::ostream &s, BasicInstruction::FcmpCond type) {
     return s;
 }
 
-std::string RegOperand::GetFullName() {
-    return "%r" + std::to_string(reg_no);
-}
+std::string RegOperand::GetFullName() { return "%r" + std::to_string(reg_no); }
 
 std::string ImmI32Operand::GetFullName() { return std::to_string(immVal); }
 

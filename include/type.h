@@ -31,10 +31,10 @@ public:
 
 class VarAttribute {
 public:
-    Type::ty type; 
+    Type::ty type;
     bool ConstTag = 0;
     std::vector<int> dims{};    // 存储数组类型的相关信息
-    std::vector<int> IntInitVals{};    
+    std::vector<int> IntInitVals{};
     std::vector<float> FloatInitVals{};
     VarAttribute() {
         type = Type::VOID;

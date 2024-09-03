@@ -4,10 +4,7 @@
 // 检查该条alloca指令是否可以被mem2reg
 // eg. 数组不可以mem2reg
 // eg. 如果该指针直接被使用不可以mem2reg(在SysY一般不可能发生,SysY不支持指针语法)
-void Mem2RegPass::IsPromotable(CFG *C, Instruction AllocaInst)
-{
-    TODO("IsPromotable");
-}
+void Mem2RegPass::IsPromotable(CFG *C, Instruction AllocaInst) { TODO("IsPromotable"); }
 /*
     int a1 = 5,a2 = 3,a3 = 11,b = 4
     return b // a1,a2,a3 is useless
@@ -24,7 +21,7 @@ pseudo IR is:
     %r4 = load i32 %r3
     ret i32 %r4
 --------------------------------------------------
-%r0,%r1,%r2只有store, 但没有load,所以可以删去 
+%r0,%r1,%r2只有store, 但没有load,所以可以删去
 优化后的IR(pseudo)为:
     %r3 = alloca i32
     store 4 -> %r3
@@ -71,7 +68,7 @@ void Mem2RegPass::Mem2RegUseDefInSameBlock(CFG *C, std::set<int> &vset, int bloc
 }
 
 // vset is the set of alloca regno that one store dominators all load instructions
-// 该函数对你的时间复杂度有一定要求，你需要保证你的时间复杂度小于等于O(nlogn)
+// 该函数对你的时间复杂度有一定要求，你需要保证你的时间复杂度小于等于O(nlognlogn)
 void Mem2RegPass::Mem2RegOneDefDomAllUses(CFG *C, std::set<int> &vset) {
     // this function is used in InsertPhi
     TODO("Mem2RegOneDefDomAllUses");

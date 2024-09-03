@@ -2,15 +2,13 @@
 #define PASS_H
 #include "../include/ir.h"
 
-class IRPass
-{
+class IRPass {
 protected:
-    LLVMIR* llvmIR;
+    LLVMIR *llvmIR;
+
 public:
     virtual void Execute() = 0;
-    IRPass(LLVMIR* IR) {
-        llvmIR = IR;
-    }
+    IRPass(LLVMIR *IR) { llvmIR = IR; }
 };
 
 #endif

@@ -20,7 +20,7 @@ void RiscV64LowerFrame::Execute() {
                 Register para_basereg = current_func->GetNewReg(INT64);
                 int i32_cnt = 0;
                 int para_offset = 0;
-                for (auto para : func->GetParameters()) {// 你需要在指令选择阶段正确设置parameters的值
+                for (auto para : func->GetParameters()) {    // 你需要在指令选择阶段正确设置parameters的值
                     if (para.type.data_type == INT64.data_type) {
                         if (i32_cnt < 8) {    // 插入使用寄存器传参的指令
                             b->push_front(rvconstructor->ConstructR(RISCV_ADD, para, GetPhysicalReg(RISCV_a0 + i32_cnt),

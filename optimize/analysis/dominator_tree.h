@@ -21,11 +21,12 @@ public:
 
 class DomAnalysis : public IRPass {
 private:
-    std::map<CFG*, DominatorTree> DomInfo;
+    std::map<CFG *, DominatorTree> DomInfo;
+
 public:
-    DomAnalysis(LLVMIR* IR) : IRPass(IR) {}
+    DomAnalysis(LLVMIR *IR) : IRPass(IR) {}
     void Execute();
-    DominatorTree* GetDomTree(CFG* C) {return &DomInfo[C];}
+    DominatorTree *GetDomTree(CFG *C) { return &DomInfo[C]; }
     // TODO(): add more functions and members if you need
 };
 #endif

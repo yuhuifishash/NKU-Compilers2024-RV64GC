@@ -45,7 +45,6 @@ extern char *yytext;
 extern std::vector<std::string> error_msgs;
 void PrintLexerResult(std::ostream &s, char *yytext, YYSTYPE yylval, int token);
 
-
 /* 框架目前并没有对内存泄漏问题进行处理(例如没有编写语法树的析构函数)
    如果你只是想完成本学期的编译实验作业，可以忽略内存泄漏的问题，统一在编译结束后由操作系统帮忙回收
    如果你对自己有更高的要求或者对此感兴趣，可以尝试自己编写相关函数来解决内存泄漏问题
@@ -62,7 +61,6 @@ void PrintLexerResult(std::ostream &s, char *yytext, YYSTYPE yylval, int token);
    测试用例中有一些较大的用例，例如lone_line.sy, long_code.sy, long_func.sy
    你需要在实现时注意数据结构的选择以及算法的实现细节
 */
-
 
 // 为了方便起见，直接根据OJ要求将命令行参数位置固定了
 #define step_tag 1
@@ -103,11 +101,11 @@ int main(int argc, char **argv) {
             /*
                 yytext为当前识别到的token对应的字符串
 
-                yylval的类型为YYSTYPE, YYSTYPE在SysY_parser.y中用%union定义, 该变量的作用为在词法分析和语法分析中传递信息，
-                由于lab1中只有词法分析，我们输出yylval对应的信息即可
+                yylval的类型为YYSTYPE, YYSTYPE在SysY_parser.y中用%union定义,
+               该变量的作用为在词法分析和语法分析中传递信息， 由于lab1中只有词法分析, 我们输出yylval对应的信息即可
 
-                token为词法分析函数的返回值,对应SysY_lexer.l中的return,表示token的类型
-                token实际为一个枚举类型，定义位于SysY_parser.y中的%token
+                token为词法分析函数的返回值, 对应SysY_lexer.l中的return, 表示token的类型
+                token实际为一个枚举类型, 定义位于SysY_parser.y中的%token
             */
             PrintLexerResult(fout, yytext, yylval, token);
         }
@@ -124,9 +122,9 @@ int main(int argc, char **argv) {
 
     if (strcmp(argv[step_tag], "-parser") == 0) {
         /*
-            如果你的语法分析实现不符合预期,可能会导致语法树打印出现SegmentFault,大概率是nullptr导致的
-            一种办法是找到在哪个地方RE了,然后看为啥这里有个空指针,之后修改SysY_parser.y
-            如果你认为这里就应该是空指针,但是语法树的输出没考虑到,你也可以自行修改相应语法树的输出函数
+            如果你的语法分析实现不符合预期, 可能会导致语法树打印出现SegmentFault, 大概率是nullptr导致的
+            一种办法是找到在哪个地方RE了, 然后看为啥这里有个空指针, 之后修改SysY_parser.y
+            如果你认为这里就应该是空指针, 但是语法树的输出没考虑到, 你也可以自行修改相应语法树的输出函数
         */
         ast_root->printAST(fout, 0);
         fout.close();
@@ -157,10 +155,10 @@ int main(int argc, char **argv) {
 
     if (optimize_flag) {
         DomAnalysis dom(&llvmIR);
-        dom.Execute(); // 对于AnalysisPass后续应该由TransformPass更新信息, 维护Analysis的正确性
-        (Mem2RegPass(&llvmIR, &dom)).Execute(); 
+        dom.Execute();    // 对于AnalysisPass后续应该由TransformPass更新信息, 维护Analysis的正确性
+        (Mem2RegPass(&llvmIR, &dom)).Execute();
 
-        //TODO: add more passes
+        // TODO: add more passes
     }
 
     if (strcmp(argv[step_tag], "-llvm") == 0) {

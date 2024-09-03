@@ -2,11 +2,11 @@
 #define INSTRUCTION_H
 
 #include "symtab.h"
+#include <assert.h>
 #include <iostream>
 #include <map>
 #include <string>
 #include <vector>
-#include <assert.h>
 
 #ifndef ERROR
 #define ERROR(...)                                                                                                     \

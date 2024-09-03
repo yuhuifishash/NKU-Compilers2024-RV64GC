@@ -5,11 +5,10 @@
 
 #include "../analysis/dominator_tree.h"
 
-class Mem2RegPass : public IRPass
-{
+class Mem2RegPass : public IRPass {
 private:
-    DomAnalysis* domtrees;
-    //TODO():添加更多你需要的成员变量
+    DomAnalysis *domtrees;
+    // TODO():添加更多你需要的成员变量
     void IsPromotable(CFG *C, Instruction AllocaInst);
     void Mem2RegNoUseAlloca(CFG *C, std::set<int> &vset);
     void Mem2RegUseDefInSameBlock(CFG *C, std::set<int> &vset, int block_id);
@@ -17,8 +16,9 @@ private:
     void InsertPhi(CFG *C);
     void VarRename(CFG *C);
     void Mem2Reg(CFG *C);
+
 public:
-    Mem2RegPass(LLVMIR* IR, DomAnalysis* dom) : IRPass(IR){domtrees = dom;}
+    Mem2RegPass(LLVMIR *IR, DomAnalysis *dom) : IRPass(IR) { domtrees = dom; }
     void Execute();
 };
 

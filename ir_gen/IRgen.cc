@@ -2,10 +2,10 @@
 #include "../include/ir.h"
 #include "semant.h"
 
-extern SemantTable semant_table; // 也许你会需要一些语义分析的信息
+extern SemantTable semant_table;    // 也许你会需要一些语义分析的信息
 
-IRgenTable irgen_table; // 中间代码生成的辅助变量
-LLVMIR llvmIR; // 我们需要在这个变量中生成中间代码
+IRgenTable irgen_table;    // 中间代码生成的辅助变量
+LLVMIR llvmIR;             // 我们需要在这个变量中生成中间代码
 
 void AddLibFunctionDeclare();
 
