@@ -1,7 +1,6 @@
 #ifndef CFG_H
 #define CFG_H
 
-#include "../optimize/cfg/dominator_tree.h"
 #include "SysY_tree.h"
 #include "basic_block.h"
 #include <bitset>
@@ -23,16 +22,8 @@ public:
     // 使用邻接表存图
     std::vector<std::vector<LLVMBlock>> G{};       // control flow graph
     std::vector<std::vector<LLVMBlock>> invG{};    // inverse control flow graph
-    DominatorTree DomTree;
 
     void BuildCFG();
-    void BuildDominatorTree() {
-        DomTree.C = this;
-        DomTree.BuildDominatorTree();
-    }
-
-    // 返回id1是否支配id2
-    bool IsDominate(int id1, int id2) { return DomTree.IsDominate(id1, id2); }
 
     // 获取某个基本块节点的前驱/后继
     std::vector<LLVMBlock> GetPredecessor(LLVMBlock B);

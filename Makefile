@@ -13,8 +13,9 @@ SRCDIR += ./parser
 SRCDIR += ./lexer
 SRCDIR += ./ir_gen
 SRCDIR += ./include
-SRCDIR += ./optimize/ssa
-SRCDIR += ./optimize/cfg
+SRCDIR += ./optimize/analysis
+SRCDIR += ./optimize/transform
+SRCDIR += ./optimize
 SRCDIR += ./utils
 
 NAME = SysYc

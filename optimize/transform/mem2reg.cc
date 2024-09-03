@@ -82,7 +82,6 @@ void Mem2RegPass::InsertPhi(CFG *C) { TODO("InsertPhi"); }
 void Mem2RegPass::VarRename(CFG *C) { TODO("VarRename"); }
 
 void Mem2RegPass::Mem2Reg(CFG *C) {
-    C->BuildDominatorTree();
     InsertPhi(C);
     VarRename(C);
 }

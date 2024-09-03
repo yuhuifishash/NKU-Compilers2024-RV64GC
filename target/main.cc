@@ -2,8 +2,10 @@
 #include "../ir_gen/semant.h"
 #include "../parser/SysY_parser.tab.h"
 
-#include "../optimize/ssa/mem2reg.h"
-#include "../optimize/cfg/simplify_cfg.h"
+#include "../optimize/transform/mem2reg.h"
+#include "../optimize/transform/simplify_cfg.h"
+
+#include "../optimize/analysis/dominator_tree.h"
 
 #include "./common/machine_passes/register_alloc/fast_linear_scan/fast_linear_scan.h"
 #include "./riscv64gc/instruction_print/riscv64_printer.h"
@@ -154,8 +156,9 @@ int main(int argc, char **argv) {
     optimize_flag = (argc == 6 && (strcmp(argv[optimize_tag], "-O1") == 0));
 
     if (optimize_flag) {
-        // 当你完成Mem2Reg后，将该行注释取消
-        // (Mem2RegPass(&llvmIR)).Execute(); 
+        DomAnalysis dom(&llvmIR);
+        dom.Execute(); // 对于AnalysisPass后续应该由TransformPass更新信息, 维护Analysis的正确性
+        (Mem2RegPass(&llvmIR, &dom)).Execute(); 
 
         //TODO: add more passes
     }

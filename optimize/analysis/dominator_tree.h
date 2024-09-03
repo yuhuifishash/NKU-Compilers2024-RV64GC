@@ -1,10 +1,9 @@
 #ifndef DOMINATOR_TREE_H
 #define DOMINATOR_TREE_H
-#include "../../include/basic_block.h"
+#include "../../include/ir.h"
+#include "../pass.h"
 #include <set>
 #include <vector>
-
-class CFG;
 
 class DominatorTree {
 public:
@@ -18,5 +17,15 @@ public:
     bool IsDominate(int id1, int id2);                // if blockid1 dominate blockid2, return true, else return false
 
     // TODO(): add or modify functions and members if you need
+};
+
+class DomAnalysis : public IRPass {
+private:
+    std::map<CFG*, DominatorTree> DomInfo;
+public:
+    DomAnalysis(LLVMIR* IR) : IRPass(IR) {}
+    void Execute();
+    DominatorTree* GetDomTree(CFG* C) {return &DomInfo[C];}
+    // TODO(): add more functions and members if you need
 };
 #endif

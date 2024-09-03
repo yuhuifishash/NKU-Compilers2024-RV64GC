@@ -3,9 +3,12 @@
 #include "../../include/ir.h"
 #include "../pass.h"
 
+#include "../analysis/dominator_tree.h"
+
 class Mem2RegPass : public IRPass
 {
 private:
+    DomAnalysis* domtrees;
     //TODO():添加更多你需要的成员变量
     void IsPromotable(CFG *C, Instruction AllocaInst);
     void Mem2RegNoUseAlloca(CFG *C, std::set<int> &vset);
@@ -15,7 +18,7 @@ private:
     void VarRename(CFG *C);
     void Mem2Reg(CFG *C);
 public:
-    Mem2RegPass(LLVMIR* IR) : IRPass(IR) {}
+    Mem2RegPass(LLVMIR* IR, DomAnalysis* dom) : IRPass(IR){domtrees = dom;}
     void Execute();
 };
 

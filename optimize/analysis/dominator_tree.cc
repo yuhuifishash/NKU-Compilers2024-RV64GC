@@ -1,9 +1,9 @@
 #include "dominator_tree.h"
 #include "../../include/ir.h"
 
-void LLVMIR::BuildDominatorTree() {
-    for (auto [defI, cfg] : llvm_cfg) {
-        cfg->BuildDominatorTree();
+void DomAnalysis::Execute() {
+    for (auto [defI, cfg] : llvmIR->llvm_cfg) {
+        DomInfo[cfg].BuildDominatorTree();
     }
 }
 

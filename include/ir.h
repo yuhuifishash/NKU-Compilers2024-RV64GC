@@ -33,7 +33,6 @@ public:
 
     void CFGInit();
     void BuildCFG();
-    void BuildDominatorTree();
 };
 
 #endif
