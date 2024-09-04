@@ -42,7 +42,7 @@ $(OBJDIR)/%.o : %.cc
 
 -include $(OBJS:.o=.d)
 
-.PHONY : SysYc,clean-obj,clean-all,lexer,parser,format
+.PHONY : SysYc clean-obj clean-all lexer parser format
 
 SysYc : $(BINARY)
 
