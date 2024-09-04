@@ -14,7 +14,7 @@ extern IdTable id_table;
 %union{
     char* error_msg;
     Symbol symbol_token;
-    double float_token;
+    double float_token; // 对于SysY的浮点常量，我们需要先以double类型计算，再在语法树节点创建的时候转为float
     int int_token;
     Program program;  
     CompUnit comp_unit;  std::vector<CompUnit>* comps; 
