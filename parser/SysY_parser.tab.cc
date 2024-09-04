@@ -1609,7 +1609,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 341 "parser/SysY_parser.y"
+#line 342 "parser/SysY_parser.y"
  
 
 void yyerror(char* s, ...)
