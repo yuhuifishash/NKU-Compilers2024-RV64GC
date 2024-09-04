@@ -448,7 +448,7 @@ public:
 
 class __Def : public tree_node {
 public:
-    int scope = -1;
+    int scope = -1;    // 在语义分析阶段填入正确的作用域
 };
 typedef __Def *Def;
 
@@ -560,7 +560,7 @@ public:
     Type::ty type_decl;
     std::vector<Expression> *dims;
     Symbol name;
-    int scope = -1;
+    int scope = -1;    // 在语义分析阶段填入正确的作用域
 
     __FuncFParam(Type::ty t, Symbol n, std::vector<Expression> *d) {
         type_decl = t;

@@ -185,7 +185,7 @@ struct RvOpInfo {
         R2_type,
         R4_type,
         CALL_type,
-        BCC_type, // 这是sifive-u74特有的指令，可以优化SFB, 你如果不想做if-conversion，可以忽略
+        BCC_type,    // 这是sifive-u74特有的指令，可以优化SFB, 你如果不想做if-conversion，可以忽略
     };
     int ins_formattype;    // 指令类型
     char *name;
