@@ -109,47 +109,25 @@ VarDecl
     $$ = new VarDecl(Type::INT,$2); 
     $$->SetLineNumber(line_number);
 }
-|FLOAT VarDef_list ';'{
-    $$ = new VarDecl(Type::FLOAT,$2); 
-    $$->SetLineNumber(line_number);
-}
 ;
+
+// TODO(): 考虑变量定义更多情况  
 
 ConstDecl
 :CONST INT ConstDef_list ';'{
     $$ = new ConstDecl(Type::INT,$3); 
     $$->SetLineNumber(line_number);
 }
-|CONST FLOAT ConstDef_list ';'{
-    $$ = new ConstDecl(Type::FLOAT,$3);
-    $$->SetLineNumber(line_number);
-}
 ;
 
+// TODO(): 考虑变量定义更多情况  
+
 VarDef_list
-:VarDef
-{
-    $$ = new std::vector<Def>;
-    ($$)->push_back($1);
-}
-|VarDef_list ',' VarDef
-{
-    ($1)->push_back($3);
-    $$ = $1;
-}
+:TODO{}
 ;
 
 ConstDef_list
-:ConstDef
-{
-    $$ = new std::vector<Def>;
-    ($$)->push_back($1);
-}
-|ConstDef_list ',' ConstDef
-{
-    ($1)->push_back($3);
-    $$ = $1;
-}
+:TODO{}
 ;
 
 FuncDef
@@ -210,10 +188,6 @@ FuncFParams
 FuncFParam
 :INT IDENT{
     $$ = new __FuncFParam(Type::INT,$2,nullptr);
-    $$->SetLineNumber(line_number);
-}
-|FLOAT IDENT{
-    $$ = new __FuncFParam(Type::FLOAT,$2,nullptr);
     $$->SetLineNumber(line_number);
 }
 ;
