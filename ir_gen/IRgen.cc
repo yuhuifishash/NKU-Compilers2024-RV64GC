@@ -268,6 +268,7 @@ void AddLibFunctionDeclare() {
     stoptime->InsertFormal(BasicInstruction::I32);
     llvmIR.function_declare.push_back(stoptime);
 
+    // 一些llvm自带的函数，也许会为你的优化提供帮助
     FunctionDeclareInstruction *llvm_memset =
     new FunctionDeclareInstruction(BasicInstruction::VOID, "llvm.memset.p0.i32");
     llvm_memset->InsertFormal(BasicInstruction::PTR);
@@ -295,16 +296,4 @@ void AddLibFunctionDeclare() {
     llvm_smin->InsertFormal(BasicInstruction::I32);
     llvm_smin->InsertFormal(BasicInstruction::I32);
     llvmIR.function_declare.push_back(llvm_smin);
-
-    FunctionDeclareInstruction *llvm_fmin =
-    new FunctionDeclareInstruction(BasicInstruction::FLOAT32, "___llvm_fmin_f32");
-    llvm_fmin->InsertFormal(BasicInstruction::FLOAT32);
-    llvm_fmin->InsertFormal(BasicInstruction::FLOAT32);
-    llvmIR.function_declare.push_back(llvm_fmin);
-
-    FunctionDeclareInstruction *llvm_fmax =
-    new FunctionDeclareInstruction(BasicInstruction::FLOAT32, "___llvm_fmax_f32");
-    llvm_fmax->InsertFormal(BasicInstruction::FLOAT32);
-    llvm_fmax->InsertFormal(BasicInstruction::FLOAT32);
-    llvmIR.function_declare.push_back(llvm_fmax);
 }
