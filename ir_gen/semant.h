@@ -81,6 +81,9 @@ public:
         Symbol stoptime = id_table.add_id("_sysy_stoptime");
         FunctionTable[stoptime] =
         new __FuncDef(Type::VOID, stoptime, new std::vector<FuncFParam>{new __FuncFParam(Type::INT)}, nullptr);
+
+        // 这里你可能还需要对这些语法树上的节点进行类型的标注, 进而检查对库函数的调用是否符合形参
+        // 即正确填写NodeAttribute或者使用其他方法来完成检查
     }
 };
 
