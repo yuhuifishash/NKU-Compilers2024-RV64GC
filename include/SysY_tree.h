@@ -188,7 +188,7 @@ public:
 class Lval : public __Expression {
 public:
     Symbol name;
-    std::vector<Expression> *dims;
+    std::vector<Expression> *dims; // 如果dims为nullptr, 表示该变量不含数组下标
 
     int scope = -1;    // 在语义分析阶段填入正确的作用域
     Lval(Symbol n, std::vector<Expression> *d) : name(n), dims(d) {}
@@ -455,7 +455,7 @@ typedef __Def *Def;
 class VarDef_no_init : public __Def {
 public:
     Symbol name;
-    std::vector<Expression> *dims;
+    std::vector<Expression> *dims; // 如果dims为nullptr, 表示该变量不含数组下标
     VarDef_no_init(Symbol n, std::vector<Expression> *d) : name(n), dims(d) {}
 
     void codeIR();
@@ -466,7 +466,7 @@ public:
 class VarDef : public __Def {
 public:
     Symbol name;
-    std::vector<Expression> *dims;
+    std::vector<Expression> *dims; // 如果dims为nullptr, 表示该变量不含数组下标
     InitVal init;
     VarDef(Symbol n, std::vector<Expression> *d, InitVal i) : name(n), dims(d), init(i) {}
 
@@ -478,7 +478,7 @@ public:
 class ConstDef : public __Def {
 public:
     Symbol name;
-    std::vector<Expression> *dims;
+    std::vector<Expression> *dims; // 如果dims为nullptr, 表示该变量不含数组下标
     InitVal init;
     ConstDef(Symbol n, std::vector<Expression> *d, InitVal i) : name(n), dims(d), init(i) {}
 
@@ -558,7 +558,7 @@ public:
 class __FuncFParam : public tree_node {
 public:
     Type::ty type_decl;
-    std::vector<Expression> *dims;
+    std::vector<Expression> *dims; // 如果dims为nullptr, 表示该变量不含数组下标
     Symbol name;
     int scope = -1;    // 在语义分析阶段填入正确的作用域
 

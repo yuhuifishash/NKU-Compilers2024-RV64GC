@@ -231,12 +231,12 @@ void __FuncFParam::TypeCheck() {
     val.type = type_decl;
     scope = 1;
 
-    if (dims != nullptr) {
+    if (dims != nullptr) { // 如果dims为nullptr, 表示该变量不含数组下标, 如果你在语法分析中采用了其他方式处理，这里也需要更改
         auto dim_vector = *dims;
 
         // the fisrt dim of FuncFParam is empty
         // eg. int f(int A[][30][40])
-        val.dims.push_back(-1);
+        val.dims.push_back(-1); // 这里用-1表示empty，你也可以使用其他方式
         for (int i = 1; i < dim_vector.size(); ++i) {
             auto d = dim_vector[i];
             d->TypeCheck();
