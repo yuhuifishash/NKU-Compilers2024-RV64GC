@@ -62,6 +62,11 @@ void PrintLexerResult(std::ostream &s, char *yytext, YYSTYPE yylval, int token);
    你需要在实现时注意数据结构的选择以及算法的实现细节
 */
 
+/*
+    本学期的编译原理实验中，我们不要求实现putf函数，但是框架中保留了一些putf函数实现需要的类
+    如果同学们有兴趣，可以自行探索putf函数调用实现方法。
+*/
+
 // 为了方便起见，直接根据OJ要求将命令行参数位置固定了
 #define step_tag 1
 #define o_tag 2
