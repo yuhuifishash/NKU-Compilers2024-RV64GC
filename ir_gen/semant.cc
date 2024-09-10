@@ -186,10 +186,6 @@ void break_stmt::TypeCheck() { TODO("BreakStmt Semant"); }
 
 void return_stmt::TypeCheck() {
     return_exp->TypeCheck();
-
-    if (return_exp->attribute.T.type == Type::VOID) {
-        error_msgs.push_back("return type is invalid in line " + std::to_string(line_number) + "\n");
-    }
 }
 
 void return_stmt_void::TypeCheck() {}
