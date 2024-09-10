@@ -36,6 +36,8 @@ public:
     std::vector<int> dims{};    // 存储数组类型的相关信息
     std::vector<int> IntInitVals{};
     std::vector<float> FloatInitVals{};
+
+    // TODO():也许你需要添加更多变量
     VarAttribute() {
         type = Type::VOID;
         ConstTag = false;
@@ -44,22 +46,6 @@ public:
 
 class NodeAttribute {
 public:
-    enum opcode {
-        ADD = 0,     // +
-        SUB = 1,     // -
-        MUL = 2,     // *
-        DIV = 3,     // /
-        MOD = 4,     // %
-        GEQ = 5,     // >=
-        GT = 6,      // >
-        LEQ = 7,     // <=
-        LT = 8,      // <
-        EQ = 9,      // ==
-        NE = 10,     // !=
-        OR = 11,     // ||
-        AND = 12,    // &&
-        NOT = 13,    // !
-    };
     int line_number = -1;
     Type T;
     ConstValue V;
