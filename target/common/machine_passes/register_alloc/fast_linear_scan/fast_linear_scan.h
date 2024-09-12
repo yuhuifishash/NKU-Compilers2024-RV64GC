@@ -14,7 +14,7 @@ protected:
     bool DoAllocInCurrentFunc();
 
 public:
-    FastLinearScan(MachineUnit *unit, PhysicalRegisters *phy, SpillCodeGen *spiller);
+    FastLinearScan(MachineUnit *unit, PhysicalRegistersAllocTools *phy, SpillCodeGen *spiller);
 };
 
 #endif

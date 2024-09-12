@@ -173,7 +173,7 @@ int main(int argc, char **argv) {
     }
     if (strcmp(argv[step_tag], "-S") == 0) {
         MachineUnit *m_unit = new RiscV64Unit();
-        RiscV64Register regs;
+        RiscV64RegisterAllocTools regs;
         RiscV64Spiller spiller;
 
         RiscV64Selector(m_unit, &llvmIR).SelectInstructionAndBuildCFG();
@@ -186,8 +186,6 @@ int main(int argc, char **argv) {
     }
     if (strcmp(argv[step_tag], "-select") == 0) {
         MachineUnit *m_unit = new RiscV64Unit();
-        RiscV64Register regs;
-        RiscV64Spiller spiller;
 
         RiscV64Selector(m_unit, &llvmIR).SelectInstructionAndBuildCFG();
         RiscV64LowerFrame(m_unit).Execute();

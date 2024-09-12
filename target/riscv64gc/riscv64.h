@@ -682,12 +682,13 @@ public:
 };
 class RiscV64Unit : public MachineUnit {};
 
-class RiscV64Register : public PhysicalRegisters {
+class RiscV64RegisterAllocTools : public PhysicalRegistersAllocTools {
 protected:
     std::vector<int> getValidRegs(LiveInterval interval);
+    std::vector<int> getAliasRegs(int phy_id) { return std::vector<int>({phy_id}); }
 
 public:
-    RiscV64Register() { phy_occupied.resize(64); }
+    RiscV64RegisterAllocTools() { phy_occupied.resize(64); }
     void clear() {
         phy_occupied.clear();
         Assert(phy_occupied.empty());

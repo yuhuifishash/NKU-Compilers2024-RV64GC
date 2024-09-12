@@ -276,7 +276,7 @@ Register(false, RISCV_f28, FLOAT64), Register(false, RISCV_f29, FLOAT64), Regist
 Register(false, RISCV_f31, FLOAT64),
 };
 // 获取可分配的寄存器列表（不考虑区间冲突）
-std::vector<int> RiscV64Register::getValidRegs(LiveInterval interval) {
+std::vector<int> RiscV64RegisterAllocTools::getValidRegs(LiveInterval interval) {
     if (interval.getReg().type.data_type == MachineDataType::INT) {
         return std::vector<int>({
         RISCV_t0, RISCV_t1, RISCV_t2, RISCV_t3, RISCV_t4, RISCV_t5,  RISCV_t6,  RISCV_a0, RISCV_a1, RISCV_a2,

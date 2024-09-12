@@ -22,16 +22,6 @@ private:
     int reference_count;
 
 public:
-    bool operator==(const LiveInterval &that) const {
-        if (reg == that.reg) {
-            Assert(segments == that.segments);
-            return true;
-        } else {
-            return false;
-        }
-        return reg == that.reg;    // && segments == that.segments;
-    }
-
     // 检测两个活跃区间是否重叠
     // 保证两个活跃区间各个段各自都是不降序（升序）排列的
     bool operator&(const LiveInterval &that) const {

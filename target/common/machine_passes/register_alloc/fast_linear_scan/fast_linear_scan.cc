@@ -1,6 +1,6 @@
 #include "fast_linear_scan.h"
 bool IntervalsPrioCmp(LiveInterval a, LiveInterval b) { return a.begin()->begin > b.begin()->begin; }
-FastLinearScan::FastLinearScan(MachineUnit *unit, PhysicalRegisters *phy, SpillCodeGen *spiller)
+FastLinearScan::FastLinearScan(MachineUnit *unit, PhysicalRegistersAllocTools *phy, SpillCodeGen *spiller)
     : RegisterAllocation(unit, phy, spiller), unalloc_queue(IntervalsPrioCmp) {}
 bool FastLinearScan::DoAllocInCurrentFunc() {
     bool spilled = false;
