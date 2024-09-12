@@ -153,8 +153,10 @@ void RiscV64Selector::SelectInstructionAndBuildCFG() {
     // 你可以使用GetNewRegister来获取新的虚拟寄存器
     dest->global_def = IR->global_def;
     // 遍历每个LLVM IR函数
-    for (auto func_pair : IR->llvm_cfg) {
-        auto cfg = func_pair.second;
+    for (auto [defI,cfg] : IR->llvm_cfg) {
+        if(cfg == nullptr){
+            ERROR("LLVMIR CFG is Empty, you should implement BuildCFG in MidEnd first");
+        }
         std::string name = cfg->function_def->GetFunctionName();
 
         cur_func = new RiscV64Function(name);

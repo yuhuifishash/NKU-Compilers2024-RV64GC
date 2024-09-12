@@ -222,34 +222,13 @@ struct MachineImmediateDouble : public MachineBaseOperand {
     std::string toString() { return std::to_string(dimm64); }
 };
 
-struct Label {
-public:
-    union {
-        int jmp_label_id;
-        int mem_label_id;
-        int print_label_id;
-    };
-    int seq_label_id;
-    bool is_data_address;
-    Label(int jmp, int seq) {
-        this->jmp_label_id = jmp;
-        this->seq_label_id = seq;
-        this->is_data_address = false;
-    }
-    Label(int jmp, bool is_data_address = false) {
-        this->is_data_address = is_data_address;
-        this->seq_label_id = 0;
-        this->mem_label_id = jmp;
-    }
-};
-
 class MachineBaseInstruction {
 public:
-    enum { ARM = 0, RiscV, PHI, COPY, COMMENT, SELECT, NOP };
+    enum { ARM = 0, RiscV, PHI};
     const int arch;
 
 private:
-    int ins_number;
+    int ins_number; // 指令编号, 用于活跃区间计算
 
 public:
     void setNumber(int ins_number) { this->ins_number = ins_number; }
@@ -258,22 +237,6 @@ public:
     virtual std::vector<Register *> GetReadReg() = 0;     // 获得该指令所有读的寄存器
     virtual std::vector<Register *> GetWriteReg() = 0;    // 获得该指令所有写的寄存器
     virtual int GetLatency() = 0;    // 如果你不打算实现指令调度优化，可以忽略该函数
-};
-
-class MachineComment : public MachineBaseInstruction {
-private:
-    std::string comment;
-
-#ifdef ENABLE_COMMENT
-public:
-#endif
-    MachineComment(std::string comment) : MachineBaseInstruction(MachineBaseInstruction::COMMENT), comment(comment) {}
-
-public:
-    virtual std::vector<Register *> GetReadReg() { return std::vector<Register *>(); }
-    virtual std::vector<Register *> GetWriteReg() { return std::vector<Register *>(); }
-    std::string GetComment() { return comment; }
-    int GetLatency() { return 0; }
 };
 
 // 如果你没有实现优化的进阶要求，可以忽略下面的指令类

@@ -60,8 +60,18 @@ void Liveness::UpdateDefUse() {
         auto &cur_def = DEF[node->Mblock->getLabelId()];
         auto &cur_use = USE[node->Mblock->getLabelId()];
 
-        // 根据DEF和USE的定义编写代码
-        TODO("Calculate DEF and USE in this block, and store them in cur_def and cur_use");
+        for (auto ins : *(node->Mblock)) {
+            for (auto reg_r : ins->GetReadReg()) {
+                if (cur_def.find(*reg_r) == cur_def.end()) {
+                    cur_use.insert(*reg_r);
+                }
+            }
+            for (auto reg_w : ins->GetWriteReg()) {
+                if (cur_use.find(*reg_w) == cur_use.end()) {
+                    cur_def.insert(*reg_w);
+                }
+            }
+        }
     }
 }
 

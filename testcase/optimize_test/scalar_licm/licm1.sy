@@ -1,0 +1,25 @@
+int main()
+{
+    int a=getint(),b=getint(),c=getint(),d=getint(),e=getint(),f=getint(),g=getint();
+    int a1=getint(),b1=getint(),c1=getint(),d1=getint(),e1=getint(),f1=getint(),g1=getint();
+    int a2=getint(),b2=getint(),c2=getint(),d2=getint(),e2=getint(),f2=getint(),g2=getint();
+    int a3=getint(),b3=getint(),c3=getint(),d3=getint(),e3=getint(),f3=getint(),g3=getint();
+    int a4=getint(),b4=getint(),c4=getint(),d4=getint(),e4=getint(),f4=getint(),g4=getint();
+    int i=0;
+    int S=0;
+    int n=getint();
+    int p=getint();
+    int evil_p=getint();
+    while(i<n){
+        S = S + (a%p+b%p+c%p+d%p+e%p+f%p+g%p+a1+b1+c1+d1+e1+f1+g1+a2+b2+c2+2*d2+e2+f2+g2+a3+b3+c3+d3
+        +e3%324+f3/4+g3*22+a4*5+a1*3+b4-c4-d4+e4+f4*100/g4); // you need to licm the whole expression
+        if(evil_p != 0){
+            S = S + a/evil_p; // risc-v will not throw exception, but x86?
+        }
+        S = S%998244353;
+        i=i+1;
+    }
+    putint(S);
+    putch(10);
+    return 0;
+}

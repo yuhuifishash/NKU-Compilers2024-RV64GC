@@ -69,15 +69,15 @@ protected:
 
 protected:
     std::map<Register, LiveInterval> intervals;
-
-    PhysicalRegistersAllocTools *phy_regs;
+    PhysicalRegistersAllocTools *phy_regs_tools;
+    
     // 在当前函数中完成寄存器分配
     virtual bool DoAllocInCurrentFunc() = 0;
     std::map<MachineFunction *, std::map<Register, AllocResult>> alloc_result;
 
 public:
     RegisterAllocation(MachineUnit *unit, PhysicalRegistersAllocTools *phy, SpillCodeGen *spiller)
-        : MachinePass(unit), phy_regs(phy), spiller(spiller) {}
+        : MachinePass(unit), phy_regs_tools(phy), spiller(spiller) {}
     // 对所有函数进行寄存器分配
     void Execute();
 };

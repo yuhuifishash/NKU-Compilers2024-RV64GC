@@ -7,7 +7,7 @@ bool FastLinearScan::DoAllocInCurrentFunc() {
     auto mfun = current_func;
     PRINT("FastLinearScan: %s", mfun->getFunctionName().c_str());
     // std::cerr<<"FastLinearScan: "<<mfun->getFunctionName()<<"\n";
-    phy_regs->clear();
+    phy_regs_tools->clear();
     for (auto interval : intervals) {
         Assert(interval.first == interval.second.getReg());
         if (interval.first.is_virtual) {
@@ -16,7 +16,7 @@ bool FastLinearScan::DoAllocInCurrentFunc() {
         } else {
             // Log("Pre Occupy Physical Reg %d",interval.first.reg_no);
             // 预先占用已经存在的物理寄存器
-            phy_regs->OccupyReg(interval.first.reg_no, interval.second);
+            phy_regs_tools->OccupyReg(interval.first.reg_no, interval.second);
         }
     }
     // TODO: 进行线性扫描寄存器分配, 为每个虚拟寄存器选择合适的物理寄存器或者将其溢出到合适的栈地址中

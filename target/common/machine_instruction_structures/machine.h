@@ -20,7 +20,6 @@ private:
     MachineFunction *parent;
 
 public:
-    virtual std::list<MachineBaseInstruction *>::iterator getInsertBeforeBrIt() = 0;
     decltype(instructions) &GetInsList() { return instructions; }
     void clear() { instructions.clear(); }
     auto erase(decltype(instructions.begin()) it) { return instructions.erase(it); }
@@ -39,9 +38,7 @@ public:
     void pop_front() { instructions.pop_front(); }
     int getBlockInNumber() {
         for (auto ins : instructions) {
-            if (ins->arch != MachineBaseInstruction::COMMENT) {
-                return ins->getNumber() - 1;
-            }
+            return ins->getNumber() - 1;
         }
         ERROR("Empty block");
         // return (*(instructions.begin()))->getNumber();
@@ -49,9 +46,7 @@ public:
     int getBlockOutNumber() {
         for (auto it = instructions.rbegin(); it != instructions.rend(); ++it) {
             auto ins = *it;
-            if (ins->arch != MachineBaseInstruction::COMMENT) {
-                return ins->getNumber();
-            }
+            return ins->getNumber();
         }
         ERROR("Empty block");
         // return (*(instructions.rbegin()))->getNumber();

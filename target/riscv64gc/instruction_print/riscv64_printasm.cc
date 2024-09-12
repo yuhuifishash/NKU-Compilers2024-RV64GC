@@ -1,9 +1,6 @@
 #include "riscv64_printer.h"
 #include <assert.h>
 
-const bool print_comment = true;
-// const bool print_comment = false;
-
 bool isMemFormatOp(int opcode) {
     return opcode == RISCV_LB || opcode == RISCV_LBU || opcode == RISCV_LH || opcode == RISCV_LHU ||
            opcode == RISCV_LW || opcode == RISCV_LWU || opcode == RISCV_LD || opcode == RISCV_FLW ||
@@ -28,9 +25,6 @@ template <> void RiscV64Printer::printRVfield<Register>(Register printee) {
 
 template <> void RiscV64Printer::printRVfield<RiscVLabel *>(RiscVLabel *ins) {
     if (ins->is_data_address) {
-        // Just an example
-        // May change in future
-        // s << ".LPIC" << ins->mem_label_id;
         if (ins->is_hi) {
             s << "%hi(" << ins->name << ")";
         } else {
@@ -43,9 +37,6 @@ template <> void RiscV64Printer::printRVfield<RiscVLabel *>(RiscVLabel *ins) {
 
 template <> void RiscV64Printer::printRVfield<RiscVLabel>(RiscVLabel ins) {
     if (ins.is_data_address) {
-        // Just an example
-        // May change in future
-        // s << ".LPIC" << ins->mem_label_id;
         if (ins.is_hi) {
             s << "%hi(" << ins.name << ")";
         } else {
@@ -166,14 +157,6 @@ template <> void RiscV64Printer::printAsm<RiscV64Instruction *>(RiscV64Instructi
     case RvOpInfo::CALL_type:
         s << ins->getLabel().name;
         break;
-    case RvOpInfo::BCC_type:
-        printRVfield(ins->getRs1());
-        s << ",";
-        printRVfield(ins->getRs2());
-        s << ",1f; ";
-        printAsm(ins->GetSubInstruction());
-        s << "; 1: ";
-        break;
     default:
         ERROR("Unexpected instruction format");
     }
@@ -200,7 +183,7 @@ template <> void RiscV64Printer::printAsm<MachineBaseInstruction *>(MachineBaseI
         printAsm<MachinePhiInstruction *>((MachinePhiInstruction *)ins);
         return;
     } else {
-        s << "# Unknown Instruction, probably COMMENT\n";
+        ERROR("Unknown Instruction");
         return;
     }
 }
@@ -214,13 +197,13 @@ void RiscV64Printer::emit() {
     s << "\t.attribute arch, \"rv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zba1p0_zbb1p0\"\n";
     for (auto func : printee->functions) {
         current_func = func;
-        // s << "\t.globl\t" << func->getFunctionName() << "\n";
         s << func->getFunctionName() << ":\n";
-        // May use iterator instead of directly accessing vector<blocks> in future
-        // auto block = func->blocks[0];
+
+        // 这里直接采用顺序输出的方式，当然这种汇编代码布局效率非常低下，你可以自行编写一个更好的代码布局方法
+        // 你可以搜索指令cache, 软件分支预测等关键字来了解代码布局的作用及方法
         std::map<int, int> vsd;
         std::stack<int> stack;
-        stack.push(0);    // 采用dfs的方式输出汇编代码，尽量减少无条件跳转指令数量
+        stack.push(0);  
         while (!stack.empty()) {
             int block_id = stack.top();
             vsd[block_id] = 1;
@@ -251,18 +234,9 @@ void RiscV64Printer::emit() {
                     printAsm((RiscV64Instruction *)ins);
                     s << "\n";
                 } else if (ins->arch == MachineBaseInstruction::PHI) {
-                    if (::print_comment) {
-                        s << "\t";
-                        printAsm((MachinePhiInstruction *)ins);
-                        s << "\n";
-                    }
-                } else if (ins->arch == MachineBaseInstruction::COMMENT) {
-                    if (::print_comment) {
-                        s << "\t";
-                        s << "# " << ((MachineComment *)ins)->GetComment();
-                        s << "\n";
-                    }
-                } else if (ins->arch == MachineBaseInstruction::NOP) {
+                    s << "\t";
+                    printAsm((MachinePhiInstruction *)ins);
+                    s << "\n";
                 } else {
                     ERROR("Unexpected arch");
                 }
@@ -356,7 +330,6 @@ void RiscV64Printer::emit() {
             }
         } else if (global->GetOpcode() == BasicInstruction::GLOBAL_STR) {
             auto str_ins = (GlobalStringConstInstruction *)global;
-            // Log("Here");
             s << str_ins->str_name << ":\n";
             s << "\t.asciz\t"
               << "\"" << str_ins->str_val << "\""

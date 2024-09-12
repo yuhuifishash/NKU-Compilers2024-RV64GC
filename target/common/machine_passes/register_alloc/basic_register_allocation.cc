@@ -20,7 +20,7 @@ void RegisterAllocation::Execute() {
         if (DoAllocInCurrentFunc()) {    // 尝试进行分配
             // 如果发生溢出，插入spill指令后将所有物理寄存器退回到虚拟寄存器，重新分配
             spiller->ExecuteInFunc(current_func, &alloc_result[current_func]);    // 生成溢出代码
-            current_func->AddStackSize(phy_regs->getSpillSize());                 // 调整栈的大小
+            current_func->AddStackSize(phy_regs_tools->getSpillSize());                 // 调整栈的大小
             not_allocated_funcs.push(current_func);                               // 重新分配直到不再spill
         }
     }
@@ -45,13 +45,12 @@ void InstructionNumber::ExecuteInFunc(MachineFunction *func) {
         auto mcfg_node = it->next();
         auto mblock = mcfg_node->Mblock;
         // Update instruction number
+        // 每个基本块开头会占据一个编号
         this->numbertoins[count_begin] = InstructionNumberEntry(nullptr, true);
         count_begin++;
         for (auto ins : *mblock) {
-            if (ins->arch != MachineBaseInstruction::COMMENT) {
-                this->numbertoins[count_begin] = InstructionNumberEntry(ins, false);
-                ins->setNumber(count_begin++);
-            }
+            this->numbertoins[count_begin] = InstructionNumberEntry(ins, false);
+            ins->setNumber(count_begin++);
         }
     }
 }
@@ -129,4 +128,6 @@ void RegisterAllocation::UpdateIntervalsInCurrentFunc() {
         last_use.clear();
         last_def.clear();
     }
+    // 你可以在这里输出intervals的值来获得活跃变量分析的结果
+    // 观察结果可能对你寄存器分配算法的编写有一定帮助
 }

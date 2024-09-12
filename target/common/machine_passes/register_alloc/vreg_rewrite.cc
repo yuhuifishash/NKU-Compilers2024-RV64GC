@@ -15,9 +15,6 @@ void VirtualRegisterRewrite::ExecuteInFunc() {
         auto block = block_it->next()->Mblock;
         for (auto it = block->begin(); it != block->end(); ++it) {
             auto ins = *it;
-            if (ins->arch == MachineBaseInstruction::NOP)
-                continue;
-            // Log("%d",ins->getNumber());
             // 根据alloc_result将ins的虚拟寄存器重写为物理寄存器
             TODO("VirtualRegisterRewrite");
         }

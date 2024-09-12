@@ -283,7 +283,7 @@ python3 grade.py 5 1 #测试lab5开启优化时的进阶要求
 后端的代码框架设计上旨在易于扩展到多后端，所以代码上分为common文件夹和riscv64gc文件夹，其中common文件夹主要是架构无关的代码，例如寄存器分配算法，基本Machine指令的定义。
 而riscv64gc文件夹中主要为体系结构相关代码。
 
-**指令选择阶段**需要阅读的代码：
+**指令选择阶段**需要阅读(你可能也需要在这些文件中加一些定义，来方便你代码的编写)的代码：
 
 **target/common/MachineBaseInstruction.h**:主要定义了基本的机器指令，RISC-V汇编指令继承了该文件中定义的类
 
@@ -315,10 +315,9 @@ python3 grade.py 5 1 #测试lab5开启优化时的进阶要求
 
 **target/common/machine_passes/register_alloc/fast_linear_scan/fast_linear_scan.h**: 定义了线性扫描算法的相关函数
 
+**target/common/machine_passes/register_alloc/machine_liveness.cc**:活跃变量分析
 
 **寄存器分配阶段**需要阅读并编写的代码:
-
-**target/common/machine_passes/register_alloc/machine_liveness.cc**:活跃变量分析，这里数据流分析的函数已经写好，你只需要完成计算每个基本块的DEF和USE即可。
 
 **target/common/machine_passes/register_alloc/live_interval.h**:活跃区间计算，你只需要完成判断两个活跃区间是否存在重叠的代码即可。
 

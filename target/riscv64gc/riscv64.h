@@ -159,17 +159,6 @@ enum {
     RISCV_FCVT_D_S,
     RISCV_ZEXT_W,
 
-    RISCV_BEQ_CC,
-    RISCV_BNE_CC,
-    RISCV_BLT_CC,
-    RISCV_BGE_CC,
-    RISCV_BLTU_CC,
-    RISCV_BGEU_CC,
-    RISCV_BGT_CC,
-    RISCV_BLE_CC,
-    RISCV_BGTU_CC,
-    RISCV_BLEU_CC,
-
     RISCV_FNEG_S,
     RISCV_FNEG_D,
 };
@@ -185,7 +174,6 @@ struct RvOpInfo {
         R2_type,
         R4_type,
         CALL_type,
-        BCC_type,    // 这是sifive-u74特有的指令，可以优化SFB, 你如果不想做if-conversion，可以忽略
     };
     int ins_formattype;    // 指令类型
     char *name;
@@ -351,49 +339,22 @@ struct RiscV64RegisterInfo {
 extern RiscV64RegisterInfo RiscV64Registers[];
 extern Register RISCVregs[];
 
-struct RiscVLabel : public Label {
+/*
+%r3 = icmp ne i32 %r1, %r2
+br i1 %r3, label %L1, label %L2
+应当被翻译为:
+
+bne %1, %2, .L1(即jmp_label_id)
+j L2
+*/
+struct RiscVLabel {
+    int jmp_label_id = 0; // 该id为跳转的基本块编号
+    bool is_data_address = false; // 是否为数据段标签
     std::string name;
-    bool is_hi;
-    RiscVLabel() : Label(0, 0), name(), is_hi(false) {}
-    RiscVLabel(int jmp, int seq) : Label(jmp, seq), name() {}
-    RiscVLabel(int jmp) : Label(jmp, false), name() {}
-    RiscVLabel(std::string name, bool is_hi) : Label(0, 0), name(name), is_hi(is_hi) { this->is_data_address = true; }
-    RiscVLabel(const RiscVLabel &other) : Label(0, 0) {
-        this->is_data_address = other.is_data_address;
-        if (other.is_data_address) {
-            std::string temp = other.name;
-            this->name = temp;
-            this->is_hi = other.is_hi;
-        } else {
-            this->print_label_id = other.print_label_id;
-            this->seq_label_id = other.seq_label_id;
-        }
-    }
-    RiscVLabel operator=(const RiscVLabel &other) {
-        if (this == &other)
-            return *this;
-        this->is_data_address = other.is_data_address;
-        if (other.is_data_address) {
-            std::string temp = other.name;
-            this->name = temp;
-            this->is_hi = other.is_hi;
-        } else {
-            this->print_label_id = other.print_label_id;
-            this->seq_label_id = other.seq_label_id;
-        }
-        return *this;
-    }
-    bool operator==(const RiscVLabel &other) const {
-        if (this == &other)
-            return true;
-        if (is_data_address != other.is_data_address)
-            return false;
-        if (is_data_address) {
-            return name == other.name && is_hi == other.is_hi;
-        } else {
-            return jmp_label_id == other.jmp_label_id;
-        }
-    }
+    bool is_hi; // 对应%hi(name) 和 %lo(name)
+    RiscVLabel() = default;
+    RiscVLabel(std::string name, bool is_hi):name(name), is_hi(is_hi) { this->is_data_address = true; }
+    // 添加一些你想用的构造函数
 };
 
 class RiscV64Instruction : public MachineBaseInstruction {
@@ -640,15 +601,6 @@ public:
         ret->setLabel(RiscVLabel(funcname, false));
         return ret;
     }
-    RiscV64Instruction *ConstructBCC(int op, Register rs1, Register rs2, MachineBaseInstruction *subins) {
-        Assert(OpTable[op].ins_formattype == RvOpInfo::BCC_type);
-        RiscV64Instruction *ret = new RiscV64Instruction();
-        ret->setOpcode(op, false);
-        ret->setRs1(rs1);
-        ret->setRs2(rs2);
-        ret->SetSubInstruction(subins);
-        return ret;
-    }
 
 #ifdef ENABLE_COMMENT
     MachineComment *ConstructComment(std::string comment) { return new MachineComment(comment); }
@@ -663,7 +615,6 @@ class RiscV64Unit;
 class RiscV64Block : public MachineBlock {
 public:
     RiscV64Block(int id) : MachineBlock(id) {}
-    std::list<MachineBaseInstruction *>::iterator getInsertBeforeBrIt();
 };
 
 class RiscV64BlockFactory : public MachineBlockFactory {

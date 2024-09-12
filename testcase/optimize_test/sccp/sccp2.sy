@@ -1,0 +1,35 @@
+int main()
+{
+    int a = 55;
+    int b = 35;
+    int c = 90;
+    int d = 100;
+    int e = 114514;
+    int h = 9961;
+    int g = 9760;
+    int S = 0;
+    if(a + b == c){
+        S = S + h;
+    }
+    if(a + b + 10 == d){
+        if(a + b == c){
+            S = S + g/3;
+        }
+        S = S + g;
+    }
+    if(a + b == d){
+        S = S + h*g;
+    }
+    if(e == 114515){
+        S = S + 3;
+    }
+    if(e - 1 < 114514){
+        S = S + 14;
+    }
+    if(e + 3 < 1919810){
+        S = S + 334;
+    }
+    putint(S);
+    putch(10);
+    return 0;
+}

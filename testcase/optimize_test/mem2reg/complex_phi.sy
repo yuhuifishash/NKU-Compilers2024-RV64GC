@@ -1,0 +1,40 @@
+int main()
+{
+    int n=1000000;
+    int i=0;
+    int S=0;
+    int S2=0;
+    while(i<n){
+        if(i%10==0){
+            S=S;
+        }else if(i%10==1){
+            S=S+2;
+        }else if(i%10==2){
+            S=S+3;
+        }else if(i%10==3){
+            S=S+4;
+        }else if(i%10==4){
+            S=S+5;
+        }else if(i%10==5){
+            S=S+6;
+        }else if(i%10==6){
+            S=S+7;
+            S2=S;
+        }else if(i%10==7){
+            S=S+8;
+            S2=S2+3;
+        }else if(i%10==8){
+            S=S+9;
+            S2=S2+4;
+        }else if(i%10==9){
+            S=S+10;
+            S2=S2+11;
+        }
+        i=i+1;
+    }
+    putint(S);
+    putch(10);
+    putint(S2);
+    putch(10);
+    return 0;
+}

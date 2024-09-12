@@ -4,8 +4,10 @@
 #include "../riscv64.h"
 class RiscV64Selector : public MachineSelector {
 private:
-    int cur_offset;    // 当前的局部变量在栈中的偏移
-
+    int cur_offset;    // 局部变量在栈中的偏移
+    // 你需要保证在每个函数的指令选择结束后, cur_offset的值为局部变量所占栈空间的大小
+    
+    // TODO(): 添加更多你需要的成员变量和函数
 public:
     RiscV64Selector(MachineUnit *dest, LLVMIR *IR) : MachineSelector(dest, IR) {}
     void SelectInstructionAndBuildCFG();

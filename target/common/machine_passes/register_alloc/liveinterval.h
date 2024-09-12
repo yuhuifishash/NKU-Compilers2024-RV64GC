@@ -6,6 +6,9 @@
 class LiveInterval {
 private:
     Register reg;
+    // 当begin和end不同时, 活跃区间为[begin,end), 即左闭右开
+    // 当begin和end相同时, 表示[begin,end], 即一个单点 (这么做的原因是方便活跃区间计算)
+    // 注意特殊判断begin和end相同时的情况
     struct LiveSegment {
         int begin;
         int end;
