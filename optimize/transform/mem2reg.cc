@@ -30,7 +30,8 @@ pseudo IR is:
 */
 
 // vset is the set of alloca regno that only store but not load
-// 该函数对你的时间复杂度有一定要求，你需要保证你的时间复杂度小于等于O(nlognlogn),n为该函数的指令数
+// 该函数对你的时间复杂度有一定要求, 你需要保证你的时间复杂度小于等于O(nlognlogn), n为该函数的指令数
+// 提示:deque直接在中间删除是O(n)的, 可以先标记要删除的指令, 最后想一个快速的方法统一删除
 void Mem2RegPass::Mem2RegNoUseAlloca(CFG *C, std::set<int> &vset) {
     // this function is used in InsertPhi
     TODO("Mem2RegNoUseAlloca");
