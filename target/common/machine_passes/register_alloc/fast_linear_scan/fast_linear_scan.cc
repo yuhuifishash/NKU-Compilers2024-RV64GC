@@ -22,6 +22,8 @@ bool FastLinearScan::DoAllocInCurrentFunc() {
     // TODO: 进行线性扫描寄存器分配, 为每个虚拟寄存器选择合适的物理寄存器或者将其溢出到合适的栈地址中
     // 该函数中只需正确设置alloc_result，并不需要实际生成溢出代码
     TODO("LinearScan");
+
+    // 返回是否发生溢出
     return spilled;
 }
 
