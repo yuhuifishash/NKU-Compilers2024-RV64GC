@@ -23,7 +23,6 @@ private:
 
 public:
     bool operator==(const LiveInterval &that) const {
-        // TODO : Judge if *this and that are equal
         if (reg == that.reg) {
             Assert(segments == that.segments);
             return true;
