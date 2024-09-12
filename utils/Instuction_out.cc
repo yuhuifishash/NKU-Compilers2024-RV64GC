@@ -286,9 +286,6 @@ void FunctionDeclareInstruction::PrintIR(std::ostream &s) {
             s << ",";
         }
     }
-    if (is_more_args) {
-        s << ", ...";
-    }
     s << ")\n";
 }
 

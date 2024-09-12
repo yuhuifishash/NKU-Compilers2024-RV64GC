@@ -294,7 +294,7 @@ public:
     enum LLVMType GetDataType() { return type; }
     Operand GetPointer() { return pointer; }
     void SetPointer(Operand op) { pointer = op; }
-    Operand GetResultOperand() { return result; }
+    Operand GetResult() { return result; }
 
     LoadInstruction(enum LLVMType type, Operand pointer, Operand result) {
         opcode = LLVMIROpcode::LOAD;
@@ -315,9 +315,9 @@ class StoreInstruction : public BasicInstruction {
 public:
     enum LLVMType GetDataType() { return type; }
     Operand GetPointer() { return pointer; }
+    Operand GetValue() { return value; }
     void SetValue(Operand op) { value = op; }
     void SetPointer(Operand op) { pointer = op; }
-    Operand GetValue() { return value; }
 
     StoreInstruction(enum LLVMType type, Operand pointer, Operand value) {
         opcode = LLVMIROpcode::STORE;
@@ -337,36 +337,21 @@ class ArithmeticInstruction : public BasicInstruction {
     enum LLVMType type;
     Operand op1;
     Operand op2;
-    Operand op3;
     Operand result;
 
 public:
     enum LLVMType GetDataType() { return type; }
     Operand GetOperand1() { return op1; }
     Operand GetOperand2() { return op2; }
-    Operand GetOperand3() { return op3; }
-    Operand GetResultOperand() { return result; }
-    Operand GetResultReg() { return result; }
+    Operand GetResult() { return result; }
     void SetOperand1(Operand op) { op1 = op; }
     void SetOperand2(Operand op) { op2 = op; }
     void SetResultReg(Operand op) { result = op; }
-    void SwapOperand() { std::swap(op1, op2); }
     void Setopcode(LLVMIROpcode id) { opcode = id; }
     ArithmeticInstruction(LLVMIROpcode opcode, enum LLVMType type, Operand op1, Operand op2, Operand result) {
         this->opcode = opcode;
         this->op1 = op1;
         this->op2 = op2;
-        this->op3 = nullptr;
-        this->result = result;
-        this->type = type;
-    }
-
-    ArithmeticInstruction(LLVMIROpcode opcode, enum LLVMType type, Operand op1, Operand op2, Operand op3,
-                          Operand result) {
-        this->opcode = opcode;
-        this->op1 = op1;
-        this->op2 = op2;
-        this->op3 = op3;
         this->result = result;
         this->type = type;
     }
@@ -386,11 +371,11 @@ public:
     enum LLVMType GetDataType() { return type; }
     Operand GetOp1() { return op1; }
     Operand GetOp2() { return op2; }
+    IcmpCond GetCond() { return cond; }
+    Operand GetResult() { return result; }
     void SetOp1(Operand op) { op1 = op; }
     void SetOp2(Operand op) { op2 = op; }
-    void Setcond(IcmpCond newcond) { cond = newcond; }
-    IcmpCond GetCompareCondition() { return cond; }
-    Operand GetResult() { return result; }
+    void SetCond(IcmpCond newcond) { cond = newcond; }
 
     IcmpInstruction(enum LLVMType type, Operand op1, Operand op2, IcmpCond cond, Operand result) {
         this->opcode = LLVMIROpcode::ICMP;
@@ -415,7 +400,7 @@ public:
     enum LLVMType GetDataType() { return type; }
     Operand GetOp1() { return op1; }
     Operand GetOp2() { return op2; }
-    FcmpCond GetCompareCondition() { return cond; }
+    FcmpCond GetCond() { return cond; }
     Operand GetResult() { return result; }
 
     FcmpInstruction(enum LLVMType type, Operand op1, Operand op2, FcmpCond cond, Operand result) {
@@ -438,11 +423,6 @@ private:
     std::vector<std::pair<Operand, Operand>> phi_list;
 
 public:
-    enum LLVMType GetDataType() { return type; }
-    Operand GetResultOp() { return result; }
-    decltype(phi_list) &GetPhiList() { return phi_list; }
-    Operand GetResultReg() { return result; }
-    void SetResultReg(int reg) { result = GetNewRegOperand(reg); }
     PhiInstruction(enum LLVMType type, Operand result, decltype(phi_list) val_labels) {
         this->opcode = LLVMIROpcode::PHI;
         this->type = type;
@@ -454,8 +434,6 @@ public:
         this->type = type;
         this->result = result;
     }
-
-    void InsertPhi(Operand val, Operand label) { phi_list.push_back(std::make_pair(label, val)); }
     virtual void PrintIR(std::ostream &s);
 };
 
@@ -469,9 +447,8 @@ class AllocaInstruction : public BasicInstruction {
 
 public:
     enum LLVMType GetDataType() { return type; }
-    Operand GetResultOp() { return result; }
+    Operand GetResult() { return result; }
     std::vector<int> GetDims() { return dims; }
-    Operand GetResultReg() { return result; }
     AllocaInstruction(enum LLVMType dttype, Operand result) {
         this->opcode = LLVMIROpcode::ALLOCA;
         this->type = dttype;
@@ -499,7 +476,6 @@ public:
     Operand GetCond() { return cond; }
     Operand GetTrueLabel() { return trueLabel; }
     Operand GetFalseLabel() { return falseLabel; }
-    Operand GetResultReg() { return NULL; }
     BrCondInstruction(Operand cond, Operand trueLabel, Operand falseLabel) {
         this->opcode = BR_COND;
         this->cond = cond;
@@ -518,7 +494,6 @@ class BrUncondInstruction : public BasicInstruction {
 
 public:
     Operand GetDestLabel() { return destLabel; }
-    Operand GetResultReg() { return nullptr; }
     BrUncondInstruction(Operand destLabel) {
         this->opcode = BR_UNCOND;
         this->destLabel = destLabel;
@@ -629,7 +604,6 @@ private:
 public:
     // Construction Function:Set All datas
     RetInstruction(enum LLVMType retType, Operand res) : ret_type(retType), ret_val(res) { this->opcode = RET; }
-    Operand GetResultReg() { return nullptr; }
     // Getters
     enum LLVMType GetType() { return ret_type; }
     Operand GetRetVal() { return ret_val; }
@@ -673,14 +647,12 @@ public:
     void push_index(Operand idx) { indexes.push_back(idx); }
     void change_index(int i, Operand op) { indexes[i] = op; }
 
-    Operand GetResultReg() { return result; }
     enum LLVMType GetType() { return type; }
     Operand GetResult() { return result; }
     void SetResult(Operand op) { result = op; }
     Operand GetPtrVal() { return ptrval; }
     std::vector<int> GetDims() { return dims; }
     std::vector<Operand> GetIndexes() { return indexes; }
-    void SetResultReg(Operand op) { result = op; }
 
     void PrintIR(std::ostream &s);
 };
@@ -693,13 +665,14 @@ private:
 public:
     std::vector<enum LLVMType> formals;
     std::vector<Operand> formals_reg;
-    Operand GetResultReg() { return NULL; }
     FunctionDefineInstruction(enum LLVMType t, std::string n) {
         return_type = t;
         Func_name = n;
     }
-    void InsertFormal(enum LLVMType t);
-    int GetFormalSize() { return formals.size(); }
+    void InsertFormal(enum LLVMType t) {
+        formals.push_back(t);
+        formals_reg.push_back(GetNewRegOperand(formals_reg.size()));
+    }
     enum LLVMType GetReturnType() { return return_type; }
     std::string GetFunctionName() { return Func_name; }
 
@@ -711,15 +684,12 @@ class FunctionDeclareInstruction : public BasicInstruction {
 private:
     enum LLVMType return_type;
     std::string Func_name;
-    bool is_more_args = false;
 
 public:
-    Operand GetResultReg() { return NULL; }
     std::vector<enum LLVMType> formals;
-    FunctionDeclareInstruction(enum LLVMType t, std::string n, bool is_more = false) {
+    FunctionDeclareInstruction(enum LLVMType t, std::string n) {
         return_type = t;
         Func_name = n;
-        is_more_args = is_more;
     }
     void InsertFormal(enum LLVMType t) { formals.push_back(t); }
     enum LLVMType GetReturnType() { return return_type; }
@@ -738,8 +708,7 @@ public:
         : result(result_receiver), value(value_for_cast) {
         this->opcode = FPTOSI;
     }
-    virtual LLVMType GetResultType() { return I32; }
-    Operand GetResultReg() { return result; }
+    Operand GetResult() { return result; }
     Operand GetSrc() { return value; }
     void PrintIR(std::ostream &s);
 };
@@ -755,8 +724,7 @@ public:
         this->opcode = SITOFP;
     }
 
-    virtual LLVMType GetResultType() { return FLOAT32; }
-    Operand GetResultReg() { return result; }
+    Operand GetResult() { return result; }
     Operand GetSrc() { return value; }
     void PrintIR(std::ostream &s);
 };
@@ -769,10 +737,8 @@ private:
     Operand value;
 
 public:
-    virtual LLVMType GetResultType() { return I32; }
-    Operand GetResultReg() { return result; }
+    Operand GetResult() { return result; }
     Operand GetSrc() { return value; }
-    Operand GetDst() { return result; }
     ZextInstruction(LLVMType to_type, Operand result_receiver, LLVMType from_type, Operand value_for_cast)
         : to_type(to_type), result(result_receiver), from_type(from_type), value(value_for_cast) {
         this->opcode = ZEXT;

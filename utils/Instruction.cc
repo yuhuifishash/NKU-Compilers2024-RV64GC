@@ -176,8 +176,3 @@ void IRgenAlloca(LLVMBlock B, BasicInstruction::LLVMType type, int reg) {
 void IRgenAllocaArray(LLVMBlock B, BasicInstruction::LLVMType type, int reg, std::vector<int> dims) {
     B->InsertInstruction(0, new AllocaInstruction(type, dims, GetNewRegOperand(reg)));
 }
-
-void FunctionDefineInstruction::InsertFormal(enum LLVMType t) {
-    formals.push_back(t);
-    formals_reg.push_back(GetNewRegOperand(formals_reg.size()));
-}
