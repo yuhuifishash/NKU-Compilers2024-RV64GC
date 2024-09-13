@@ -2,7 +2,11 @@
 #include "../include/SysY_tree.h"
 #include "../include/ir.h"
 #include "../include/type.h"
-
+/*
+    语义分析阶段需要对语法树节点上的类型和常量等信息进行标注, 即NodeAttribute类
+    同时还需要标注每个变量的作用域信息，即部分语法树节点中的scope变量
+    以及对语义错误的代码输出报错信息
+*/
 extern LLVMIR llvmIR;
 
 SemantTable semant_table;
