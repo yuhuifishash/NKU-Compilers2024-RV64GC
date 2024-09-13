@@ -32,7 +32,7 @@ def add_returncode(file,ret):
 
 # 如果ir测试失败，可以尝试将clang换为clang-15重新尝试
 def execute_ir(input,output,opt,stdin,stdout,testout):
-    result = execute(["timeout","300","./bin/SysYc","-llvm","-o",output,input,opt])
+    result = execute(["timeout","10","./bin/SysYc","-llvm","-o",output,input,opt])
     if(result.returncode != 0):
         print("\033[93mCompile Error on \033[0m"+input)
         return 0
