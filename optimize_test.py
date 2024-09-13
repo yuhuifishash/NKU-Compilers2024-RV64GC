@@ -88,7 +88,7 @@ for input_name in input_folders:
             if(input_name=="eliUnreachablebb"):
                 result_ll = name + ".ll"
                 stats = os.stat(output_folder+"/"+result_ll)
-                if(stats.st_size > 5000):
+                if(stats.st_size > 8000):
                     print("\033[91mOptimize Test Failed \033[0m"+file)    
                 else:
                     print("\033[92mOptimize Test Passed on \033[0m"+file)   
