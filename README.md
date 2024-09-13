@@ -159,7 +159,7 @@ python3 grade.py 3 0 #测试lab3基本要求
 python3 grade.py 3 1 #测试lab3进阶要求
 python3 grade.py 4 0 #测试lab4开启优化后的基本语法要求(你还需要通过optimize_test的测试)
 python3 grade.py 4 1 #测试lab4开启优化后的进阶语法要求(你还需要通过optimize_test的测试)
-python3 optimize_test.py #测试lab4测试lab4基本优化要求, 结果不一定正确，以助教线下检查为准
+python3 optimize_test.py #测试lab4基本优化要求, 结果不一定正确，以助教线下检查为准
 # 进阶优化无测试脚本, 测试样例仅供参考, 助教线下会进行检查
 
 # 如果你lab4获得了某个优化的分数，但是在lab5中选择了关闭该优化, 会扣除你从该优化中获得的25%分数
