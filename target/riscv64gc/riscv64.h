@@ -343,7 +343,6 @@ extern Register RISCVregs[];
 %r3 = icmp ne i32 %r1, %r2
 br i1 %r3, label %L1, label %L2
 应当被翻译为:
-
 bne %1, %2, .L1(即jmp_label_id)
 j L2
 */
@@ -369,9 +368,6 @@ private:
     int callfreg_num;
 
     int ret_type;
-
-    // 用于条件执行指令，如果你不打算实现if-conversion，可以忽略
-    MachineBaseInstruction *sub_instruction;
 
     std::vector<Register *> GetR_typeReadreg() { return {&rs1, &rs2}; }
     std::vector<Register *> GetR2_typeReadreg() { return {&rs1}; }
@@ -402,13 +398,6 @@ private:
         }
         return ret;
     }
-    std::vector<Register *> GetBCC_typeReadreg() {
-        std::vector<Register *> ret = {&rs1, &rs2};
-        for (auto reg : sub_instruction->GetReadReg()) {
-            ret.push_back(reg);
-        }
-        return ret;
-    }
 
     std::vector<Register *> GetR_typeWritereg() { return {&rd}; }
     std::vector<Register *> GetR2_typeWritereg() { return {&rd}; }
@@ -436,21 +425,12 @@ private:
         &RISCVregs[RISCV_fa4], &RISCVregs[RISCV_fa5], &RISCVregs[RISCV_fa6],  &RISCVregs[RISCV_fa7],
         };
     }
-    std::vector<Register *> GetBCC_typeWritereg() {
-        std::vector<Register *> ret;
-        for (auto reg : sub_instruction->GetWriteReg()) {
-            ret.push_back(reg);
-        }
-        return ret;
-    }
 
     friend class RiscV64InstructionConstructor;
 
     RiscV64Instruction() : MachineBaseInstruction(MachineBaseInstruction::RiscV), imm(0), use_label(false) {}
 
 public:
-    MachineBaseInstruction *GetSubInstruction() { return sub_instruction; }
-    void SetSubInstruction(MachineBaseInstruction *sub_instruction) { this->sub_instruction = sub_instruction; }
     void setOpcode(int op, bool use_label) {
         this->op = op;
         this->use_label = use_label;
@@ -602,9 +582,6 @@ public:
         return ret;
     }
 
-#ifdef ENABLE_COMMENT
-    MachineComment *ConstructComment(std::string comment) { return new MachineComment(comment); }
-#endif
 };
 extern RiscV64InstructionConstructor *rvconstructor;
 

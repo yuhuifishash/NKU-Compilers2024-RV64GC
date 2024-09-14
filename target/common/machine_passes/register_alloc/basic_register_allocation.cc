@@ -1,6 +1,7 @@
 #include "basic_register_allocation.h"
 
 void RegisterAllocation::Execute() {
+    // 你需要保证此时不存在phi指令
     for (auto func : unit->functions) {
         not_allocated_funcs.push(func);
     }
