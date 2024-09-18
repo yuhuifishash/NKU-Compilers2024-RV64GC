@@ -30,19 +30,18 @@ def add_returncode(file,ret):
 
 # 测试用例的返回值的不要为124或139，否则会导致测试程序误判
 
-# 如果ir测试失败，可以尝试将clang换为clang-15重新尝试
 def execute_ir(input,output,opt,stdin,stdout,testout):
     result = execute(["timeout","10","./bin/SysYc","-llvm","-o",output,input,opt])
     if(result.returncode != 0):
         print("\033[93mCompile Error on \033[0m"+input)
         return 0
     
-    result = execute(["clang",output,"-c","-o","tmp.o","-w"])
+    result = execute(["clang-15",output,"-c","-o","tmp.o","-w"])
     if(result.returncode != 0):
         print("\033[93mOutPut Error on \033[0m"+input)
         return 0
         
-    result = execute(["clang","-static","tmp.o","lib/libsysy_x86.a"])
+    result = execute(["clang-15","-static","tmp.o","lib/libsysy_x86.a"])
     if(result.returncode != 0):
         result = execute(["rm","-rf","tmp.o"])
         print("\033[93mLink Error on \033[0m"+input)
