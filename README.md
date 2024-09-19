@@ -36,61 +36,6 @@ https://github.com/yuhuifishash/SysY
 
 1. 通过判断一个函数有多少个参数，返回值，有多少个基本块，每个基本块从头到尾有什么指令的方式来模式匹配某一个函数，再将该函数替换为人工优化好的算法
 
-这里有一个禁止的模式匹配代码例子(https://gitlab.eduxiji.net/educg-group-26173-2487151/T202410006203109-3846/-/blob/main/src/midend/Transform/Multiply.java):
-```java
-private static boolean detectMultiply(Function func) {
-    if (func.getFuncRArguments().size() != 2) return false;
-    if (!func.getRetType().isInt32Ty()) return false;
-    FuncInfo funcInfo = AnalysisManager.getFuncInfo(func);
-    if (!funcInfo.isRecursive) return false;
-    //四条返回值 一条0 三条rem
-    ArrayList<Instruction.Return> returns = new ArrayList<>();
-    for (BasicBlock bb : func.getBlocks()) {
-        Instruction term = bb.getTerminator();
-        if (term instanceof Instruction.Return ret) {
-            returns.add(ret);
-        }
-    }
-    if (returns.size() != 4) return false;
-    int zeroCnt = 0;
-    int remCnt = 0;
-    ArrayList<Instruction.Rem> rems = new ArrayList<>();
-    for (Instruction.Return ret : returns) {
-        if (ret.getRetValue().equals(Constant.ConstantInt.get(0))) {
-            zeroCnt++;
-        }
-        else if (ret.getRetValue() instanceof Instruction.Rem rem) {
-            rems.add(rem);
-            remCnt++;
-        }
-        else {
-            return false;
-        }
-    }
-    if (zeroCnt != 1 || remCnt != 3) return false;
-    for (Instruction.Rem rem : rems) {
-        if (rem.getOperand_2() instanceof Constant.ConstantInt c) {
-            if (Rem_Value == null) {
-                Rem_Value = c;
-            }
-            else if (!Rem_Value.equals(c)) {
-                return false;
-            }
-        }
-        else {
-            return false;
-        }
-    }
-//        System.out.println("Detect multiply function: " + func.getName());
-    return true;
-}
-
-
-```
-
-
-
-
 
 ## Prerequisites
 
