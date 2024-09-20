@@ -7,6 +7,9 @@
 #pragma GCC diagnostic ignored "-Wwritable-strings"
 #pragma GCC diagnostic ignored "-Wc99-designator"
 
+// 这里只提供了少量伪指令，如果你需要更多的伪值令，你需要自行添加并编写对应的输出
+// 1. 在下面的枚举类型中添加指令名
+// 2. 在riscv64.cc文件中正确填写OpTable
 enum {
     RISCV_SLL,
     RISCV_SLLI,
