@@ -28,7 +28,7 @@ public:
     // 检测两个活跃区间是否重叠
     // 保证两个活跃区间各个段各自都是不降序（升序）排列的
     bool operator&(const LiveInterval &that) const {
-        TODO("& operaotr in LiveInterval");
+        TODO("& operator in LiveInterval");
         return false;
     }
 
