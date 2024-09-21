@@ -508,8 +508,6 @@ Global Id Define Instruction Syntax
 Example 1:
     @p = global [105 x i32] zeroinitializer
 Example 2:
-    @.str = constant [4 x i8] c"%d \00", align 1
-Example 3:
     @p = global [105 x [104 x i32]] [[104 x i32] [], [104 x i32] zeroinitializer, ...]
 */
 class GlobalVarDefineInstruction : public BasicInstruction {
@@ -623,12 +621,13 @@ public:
 */
 class GetElementptrInstruction : public BasicInstruction {
 private:
-    enum LLVMType type;
     enum LLVMType index_type;
     Operand result;
     Operand ptrval;
 
-    std::vector<int> dims;
+    enum LLVMType type;
+    std::vector<int> dims; // example: i32, [4 x i32], [3 x [4 x float]]
+
     std::vector<Operand> indexes;
 
 public:
@@ -645,8 +644,6 @@ public:
         : type(typ), index_type(idx_typ), result(res), ptrval(ptr), dims(dim), indexes(index) {
         opcode = GETELEMENTPTR;
     }
-    // get_elementptr_Instruction(enum llvm_type typ,operand res,operand
-    // ptr,std::vector<int>dim,std::vector<int>idx):type(typ),result(res),ptrval(ptr),dims(dim),indexes(idx){}
     void push_dim(int d) { dims.push_back(d); }
     void push_idx_reg(int idx_reg_no) { indexes.push_back(GetNewRegOperand(idx_reg_no)); }
     void push_idx_imm32(int imm_idx) { indexes.push_back(new ImmI32Operand(imm_idx)); }
