@@ -13,7 +13,6 @@
 class CFG {
 public:
     FuncDefInstruction function_def;
-    LLVMBlock ret_block;
 
     /*this is the pointer to the value of LLVMIR.function_block_map
       you can see it in the LLVMIR::CFGInit()*/
