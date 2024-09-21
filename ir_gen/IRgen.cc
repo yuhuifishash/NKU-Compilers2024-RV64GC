@@ -57,13 +57,12 @@ void IRgenBrCond(LLVMBlock B, int cond_reg, int true_label, int false_label);
 void IRgenAlloca(LLVMBlock B, BasicInstruction::LLVMType type, int reg);
 void IRgenAllocaArray(LLVMBlock B, BasicInstruction::LLVMType type, int reg, std::vector<int> dims);
 
-void IRgenTypeConverse(LLVMBlock B, Type::ty type_src, Type::ty type_dst, int src);
 RegOperand *GetNewRegOperand(int RegNo);
 
 // generate TypeConverse Instructions from type_src to type_dst
 // eg. you can use fptosi instruction to converse float to int
 // eg. you can use zext instruction to converse bool to int
-void IRgenTypeConverse(LLVMBlock B, Type::ty type_src, Type::ty type_dst, int src) {
+void IRgenTypeConverse(LLVMBlock B, Type::ty type_src, Type::ty type_dst, int src, int dst) {
     TODO("IRgenTypeConverse. Implement it if you need it");
 }
 
