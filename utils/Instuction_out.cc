@@ -494,7 +494,7 @@ void GetElementptrInstruction::PrintIR(std::ostream &s) {
     s << ", ptr " << ptrval;
     // print indexes
     for (Operand idx : indexes)
-        s << ", i32 " << idx;
+        s << ", " << index_type << " " << idx;
     s << "\n";
 }
 

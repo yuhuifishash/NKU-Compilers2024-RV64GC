@@ -87,7 +87,6 @@ enum Target { ARMV7 = 1, RV64GC = 2 } target;
 bool optimize_flag = false;
 
 int main(int argc, char **argv) {
-    // target = ARMV7;
     target = RV64GC;
 
     FILE *fin = fopen(argv[file_in], "r");

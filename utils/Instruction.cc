@@ -109,9 +109,14 @@ void IRgenZextI1toI32(LLVMBlock B, int src, int dst) {
                                                 BasicInstruction::LLVMType::I1, GetNewRegOperand(src)));
 }
 
-void IRgenGetElementptr(LLVMBlock B, BasicInstruction::LLVMType type, int result_reg, Operand ptr,
+void IRgenGetElementptrIndexI32(LLVMBlock B, BasicInstruction::LLVMType type, int result_reg, Operand ptr,
                         std::vector<int> dims, std::vector<Operand> indexs) {
-    B->InsertInstruction(1, new GetElementptrInstruction(type, GetNewRegOperand(result_reg), ptr, dims, indexs));
+    B->InsertInstruction(1, new GetElementptrInstruction(type, GetNewRegOperand(result_reg), ptr, dims, indexs, BasicInstruction::I32));
+}
+
+void IRgenGetElementptrIndexI64(LLVMBlock B, BasicInstruction::LLVMType type, int result_reg, Operand ptr,
+                        std::vector<int> dims, std::vector<Operand> indexs) {
+    B->InsertInstruction(1, new GetElementptrInstruction(type, GetNewRegOperand(result_reg), ptr, dims, indexs, BasicInstruction::I64));
 }
 
 void IRgenLoad(LLVMBlock B, BasicInstruction::LLVMType type, int result_reg, Operand ptr) {

@@ -76,10 +76,12 @@
     } while (0)
 #endif
 
-// 你可能需要额外添加你需要的指令类
 
-// TODO(): 在代码优化阶段，加入更多你需要的成员变量和函数
-// TODO(): 在代码优化阶段，加入更多你需要的指令
+// TODO(): 加入更多你需要的成员变量和函数
+// TODO(): 加入更多你需要的指令类
+
+// 你首先需要阅读utils/Instruction_out.cc来了解指令是如何输出的
+// 除注释特别说明外，成员函数不允许设置为nullptr，否则指令输出时会出现段错误
 
 // 我们规定，对于GlobalOperand, LabelOperand, RegOperand, 只要操作数相同, 地址也相同
 // 所以这些Operand的构造函数是private, 使用GetNew***Operand函数来获取新的操作数变量
@@ -272,15 +274,11 @@ public:
     };
 
 private:
-    int BlockID = 0;
 
 protected:
     LLVMIROpcode opcode;
-    int insNo;
 
 public:
-    int GetBlockID() { return BlockID; }
-    void SetBlockID(int blockno) { BlockID = blockno; }
     int GetOpcode() { return opcode; }    // one solution: convert to pointer of subclasses
 
     virtual void PrintIR(std::ostream &s) = 0;
@@ -336,6 +334,7 @@ public:
 //<result>=sub <ty> <op1>,<op2>
 //<result>=mul <ty> <op1>,<op2>
 //<result>=div <ty> <op1>,<op2>
+//<result>=xor <ty> <op1>,<op2>
 class ArithmeticInstruction : public BasicInstruction {
     enum LLVMType type;
     Operand op1;
@@ -391,7 +390,7 @@ public:
     virtual void PrintIR(std::ostream &s);
 };
 
-//<result>=fcmp <ty> <op1>,<op2>
+//<result>=fcmp <cond> <ty> <op1>,<op2>
 class FcmpInstruction : public BasicInstruction {
     enum LLVMType type;
     Operand op1;
@@ -550,6 +549,8 @@ Example 1:
     %12 = call i32 (ptr, ...)@printf(ptr @.str,i32 %11)
 Example 2:
     call void @DFS(i32 0,i32 %4)
+
+如果你调用了void类型的函数，将result设置为nullptr即可
 */
 class CallInstruction : public BasicInstruction {
     // Datas About the Instruction
@@ -597,6 +598,8 @@ Example 2:
     ret void
 Example 3:
     ret i32 %r7
+
+如果你需要不需要返回值，将ret_val设置为nullptr即可
 */
 class RetInstruction : public BasicInstruction {
     // Datas About the Instruction
@@ -615,14 +618,13 @@ public:
 };
 
 /*
-Syntax:
-<result> = getelementptr <ty>, ptr <ptrval>{, [inrange] <ty> <idx>}*
-<result> = getelementptr inbounds <ty>, ptr <ptrval>{, [inrange] <ty> <idx>}*
-<result> = getelementptr <ty>, <N x ptr> <ptrval>, [inrange] <vector index type> <idx>
+    index_type 表示getelementptr的index类型, 这里我们为了简化实现，统一认为index要么是i32，要么是i64
+    如果你有特殊需要，可以自行修改指令类
 */
 class GetElementptrInstruction : public BasicInstruction {
 private:
     enum LLVMType type;
+    enum LLVMType index_type;
     Operand result;
     Operand ptrval;
 
@@ -630,16 +632,17 @@ private:
     std::vector<Operand> indexes;
 
 public:
-    GetElementptrInstruction(enum LLVMType typ, Operand res, Operand ptr) : type(typ), result(res), ptrval(ptr) {
+    GetElementptrInstruction(enum LLVMType typ, Operand res, Operand ptr, LLVMType idx_typ)
+        : type(typ), index_type(idx_typ), result(res), ptrval(ptr) {
         opcode = GETELEMENTPTR;
     }
-    GetElementptrInstruction(enum LLVMType typ, Operand res, Operand ptr, std::vector<int> dim)
-        : type(typ), result(res), ptrval(ptr), dims(dim) {
+    GetElementptrInstruction(enum LLVMType typ, Operand res, Operand ptr, std::vector<int> dim, LLVMType idx_typ)
+        : type(typ), index_type(idx_typ), result(res), ptrval(ptr), dims(dim) {
         opcode = GETELEMENTPTR;
     }
     GetElementptrInstruction(enum LLVMType typ, Operand res, Operand ptr, std::vector<int> dim,
-                             std::vector<Operand> index)
-        : type(typ), result(res), ptrval(ptr), dims(dim), indexes(index) {
+                             std::vector<Operand> index, LLVMType idx_typ)
+        : type(typ), index_type(idx_typ), result(res), ptrval(ptr), dims(dim), indexes(index) {
         opcode = GETELEMENTPTR;
     }
     // get_elementptr_Instruction(enum llvm_type typ,operand res,operand
@@ -701,6 +704,7 @@ public:
     void PrintIR(std::ostream &s);
 };
 
+// 这条指令目前只支持float和i32的转换，如果你需要double, i64等类型，需要自己添加更多变量
 class FptosiInstruction : public BasicInstruction {
 private:
     Operand result;
@@ -716,6 +720,7 @@ public:
     void PrintIR(std::ostream &s);
 };
 
+// 这条指令目前只支持float和i32的转换，如果你需要double, i64等类型，需要自己添加更多变量
 class SitofpInstruction : public BasicInstruction {
 private:
     Operand result;
@@ -732,6 +737,7 @@ public:
     void PrintIR(std::ostream &s);
 };
 
+// 无符号扩展，你大概率需要它来将i1无符号扩展至i32(即对应c语言bool类型转int)
 class ZextInstruction : public BasicInstruction {
 private:
     LLVMType from_type;

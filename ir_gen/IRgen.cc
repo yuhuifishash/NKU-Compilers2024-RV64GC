@@ -28,8 +28,12 @@ void IRgenFptosi(LLVMBlock B, int src, int dst);
 void IRgenSitofp(LLVMBlock B, int src, int dst);
 void IRgenZextI1toI32(LLVMBlock B, int src, int dst);
 
-void IRgenGetElementptr(LLVMBlock B, BasicInstruction::LLVMType type, int result_reg, Operand ptr,
+void IRgenGetElementptrIndexI32(LLVMBlock B, BasicInstruction::LLVMType type, int result_reg, Operand ptr,
                         std::vector<int> dims, std::vector<Operand> indexs);
+
+void IRgenGetElementptrIndexI64(LLVMBlock B, BasicInstruction::LLVMType type, int result_reg, Operand ptr,
+                        std::vector<int> dims, std::vector<Operand> indexs);
+
 void IRgenLoad(LLVMBlock B, BasicInstruction::LLVMType type, int result_reg, Operand ptr);
 void IRgenStore(LLVMBlock B, BasicInstruction::LLVMType type, int value_reg, Operand ptr);
 void IRgenStore(LLVMBlock B, BasicInstruction::LLVMType type, Operand value, Operand ptr);
