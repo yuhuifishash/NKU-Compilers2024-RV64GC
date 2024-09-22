@@ -511,10 +511,11 @@ Example 2:
     @p = global [105 x [104 x i32]] [[104 x i32] [], [104 x i32] zeroinitializer, ...]
 */
 class GlobalVarDefineInstruction : public BasicInstruction {
-    // Datas About the Instruction
 public:
-    // Construction Function:Set All datas
-    // Getters
+    // 如果arrayval的dims为空, 则该定义为非数组, 初始值为init_val
+    // 如果arrayval的dims为空, 且init_val为nullptr, 则初始值为0
+
+    // 如果arrayval的dims不为空, 则该定义为数组, 初始值在arrayval中
     enum LLVMType type;
     std::string name;
     Operand init_val;
