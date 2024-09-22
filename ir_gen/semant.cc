@@ -16,7 +16,7 @@
     • 条件判断和运算表达式：int 和 bool 隐式类型转换;
     • 数值运算表达式：运算数类型是否正确 (如返回值为 void 的函数调用结果是否参与了其他表达式的计算)
     • 检查未声明函数，及函数形参是否与实参类型及数目匹配；
-    • 检查 return 语句操作数和函数声明的返回值类型是否匹配或是否需要隐式转换；
+   
 */
 extern LLVMIR llvmIR;
 
@@ -240,8 +240,8 @@ void __FuncFParam::TypeCheck() {
     val.type = type_decl;
     scope = 1;
 
-    if (dims !=
-        nullptr) {    // 如果dims为nullptr, 表示该变量不含数组下标, 如果你在语法分析中采用了其他方式处理，这里也需要更改
+    // 如果dims为nullptr, 表示该变量不含数组下标, 如果你在语法分析中采用了其他方式处理，这里也需要更改
+    if (dims != nullptr) {    
         auto dim_vector = *dims;
 
         // the fisrt dim of FuncFParam is empty
