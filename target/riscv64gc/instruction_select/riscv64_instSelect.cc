@@ -150,7 +150,6 @@ void RiscV64Selector::SelectInstructionAndBuildCFG() {
     // 即riscv64gc/instruction_print/*  common/machine_passes/machine_printer.h
 
     // 指令选择除了一些函数调用约定必须遵守的情况需要物理寄存器，其余情况必须均为虚拟寄存器
-    // 你可以使用GetNewRegister来获取新的虚拟寄存器
     dest->global_def = IR->global_def;
     // 遍历每个LLVM IR函数
     for (auto [defI,cfg] : IR->llvm_cfg) {
@@ -161,7 +160,7 @@ void RiscV64Selector::SelectInstructionAndBuildCFG() {
 
         cur_func = new RiscV64Function(name);
         cur_func->SetParent(dest);
-
+        // 你可以使用cur_func->GetNewRegister来获取新的虚拟寄存器
         dest->functions.push_back(cur_func);
 
         auto cur_mcfg = new MachineCFG;

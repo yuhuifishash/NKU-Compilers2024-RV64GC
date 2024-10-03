@@ -17,9 +17,7 @@ void RiscV64LowerFrame::Execute() {
         for (auto &b : func->blocks) {
             cur_block = b;
             if (b->getLabelId() == 0) {    // 函数入口，需要插入获取参数的指令
-                Register para_basereg = current_func->GetNewReg(INT64);
                 int i32_cnt = 0;
-                int para_offset = 0;
                 for (auto para : func->GetParameters()) {    // 你需要在指令选择阶段正确设置parameters的值
                     if (para.type.data_type == INT64.data_type) {
                         if (i32_cnt < 8) {    // 插入使用寄存器传参的指令

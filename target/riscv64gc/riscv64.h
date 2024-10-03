@@ -367,10 +367,11 @@ private:
     int imm;
     RiscVLabel label;
 
+    // 下面两个变量的具体作用见ConstructCall函数
     int callireg_num;
     int callfreg_num;
 
-    int ret_type;
+    int ret_type; // 用于GetI_typeReadreg(), 即确定函数返回时用的是a0寄存器还是fa0寄存器, 或者没有返回值
 
     std::vector<Register *> GetR_typeReadreg() { return {&rs1, &rs2}; }
     std::vector<Register *> GetR2_typeReadreg() { return {&rs1}; }
@@ -378,7 +379,9 @@ private:
     std::vector<Register *> GetI_typeReadreg() {
         std::vector<Register *> ret;
         ret.push_back(&rs1);
-        if (op == RISCV_JALR) {
+        if (op == RISCV_JALR) { 
+            // 当ret_type为1或2时, 我们认为jalr只会用于函数返回, 所以jalr会读取a0或fa0寄存器(即函数返回值)
+            // 如果函数没有返回值或者你在其他地方使用到了jalr指令，将ret_type设置为0即可
             if (ret_type == 1) {
                 ret.push_back(&RISCVregs[RISCV_a0]);
             } else if (ret_type == 2) {
@@ -468,7 +471,9 @@ class RiscV64InstructionConstructor {
 
 public:
     static RiscV64InstructionConstructor *GetConstructor() { return &instance; }
-    // 函数命名方法与RISC-V指令格式一致
+    // 函数命名方法大部分与RISC-V指令格式一致
+
+    // example: addw Rd, Rs1, Rs2 
     RiscV64Instruction *ConstructR(int op, Register Rd, Register Rs1, Register Rs2) {
         RiscV64Instruction *ret = new RiscV64Instruction();
         ret->setOpcode(op, false);
@@ -478,6 +483,7 @@ public:
         ret->setRs2(Rs2);
         return ret;
     }
+    // example: fmv.x.w Rd, Rs1
     RiscV64Instruction *ConstructR2(int op, Register Rd, Register Rs1) {
         RiscV64Instruction *ret = new RiscV64Instruction();
         ret->setOpcode(op, false);
@@ -486,6 +492,7 @@ public:
         ret->setRs1(Rs1);
         return ret;
     }
+    // example: fmadd.s Rd, Rs1, Rs2, Rs3
     RiscV64Instruction *ConstructR4(int op, Register Rd, Register Rs1, Register Rs2, Register Rs3) {
         RiscV64Instruction *ret = new RiscV64Instruction();
         ret->setOpcode(op, false);
@@ -496,6 +503,8 @@ public:
         ret->setRs3(Rs3);
         return ret;
     }
+    // example: lw Rd, imm(Rs1) 
+    // example: addi Rd, Rs1, imm
     RiscV64Instruction *ConstructIImm(int op, Register Rd, Register Rs1, int imm) {
         RiscV64Instruction *ret = new RiscV64Instruction();
         ret->setOpcode(op, false);
@@ -505,6 +514,8 @@ public:
         ret->setImm(imm);
         return ret;
     }
+    // example: lw Rd label(Rs1)   =>  lw Rd %lo(label_name)(Rs1)
+    // example: addi Rd, Rs1, label  =>  addi Rd, Rs1, %lo(label_name)
     RiscV64Instruction *ConstructILabel(int op, Register Rd, Register Rs1, RiscVLabel label) {
         RiscV64Instruction *ret = new RiscV64Instruction();
         ret->setOpcode(op, true);
@@ -514,6 +525,7 @@ public:
         ret->setLabel(label);
         return ret;
     }
+    // example: sw value imm(ptr)
     RiscV64Instruction *ConstructSImm(int op, Register value, Register ptr, int imm) {
         RiscV64Instruction *ret = new RiscV64Instruction();
         ret->setOpcode(op, false);
@@ -523,6 +535,7 @@ public:
         ret->setImm(imm);
         return ret;
     }
+    // example: sw value label(ptr)  =>  sw value %lo(label_name)(ptr)
     RiscV64Instruction *ConstructSLabel(int op, Register value, Register ptr, RiscVLabel label) {
         RiscV64Instruction *ret = new RiscV64Instruction();
         ret->setOpcode(op, true);
@@ -532,6 +545,7 @@ public:
         ret->setLabel(label);
         return ret;
     }
+    // example: b(cond) Rs1, Rs2,label  =>  bne Rs1, Rs2, .L3(标签具体如何输出见riscv64_printasm.cc)
     RiscV64Instruction *ConstructBLabel(int op, Register Rs1, Register Rs2, RiscVLabel label) {
         RiscV64Instruction *ret = new RiscV64Instruction();
         ret->setOpcode(op, true);
@@ -541,15 +555,7 @@ public:
         ret->setLabel(label);
         return ret;
     }
-    RiscV64Instruction *ConstructBImm(int op, Register Rs1, Register Rs2, int imm) {
-        RiscV64Instruction *ret = new RiscV64Instruction();
-        ret->setOpcode(op, false);
-        Assert(OpTable[op].ins_formattype == RvOpInfo::B_type);
-        ret->setRs1(Rs1);
-        ret->setRs2(Rs2);
-        ret->setImm(imm);
-        return ret;
-    }
+    // example: lui Rd, imm
     RiscV64Instruction *ConstructUImm(int op, Register Rd, int imm) {
         RiscV64Instruction *ret = new RiscV64Instruction();
         ret->setOpcode(op, false);
@@ -558,6 +564,7 @@ public:
         ret->setImm(imm);
         return ret;
     }
+    // example: lui Rd, %hi(label_name)
     RiscV64Instruction *ConstructULabel(int op, Register Rd, RiscVLabel label) {
         RiscV64Instruction *ret = new RiscV64Instruction();
         ret->setOpcode(op, true);
@@ -566,6 +573,7 @@ public:
         ret->setLabel(label);
         return ret;
     }
+    // example: jal rd, label  =>  jal a0, .L4
     RiscV64Instruction *ConstructJLabel(int op, Register rd, RiscVLabel label) {
         RiscV64Instruction *ret = new RiscV64Instruction();
         ret->setOpcode(op, true);
@@ -574,6 +582,10 @@ public:
         ret->setLabel(label);
         return ret;
     }
+    // example: call funcname  
+    // iregnum 和 fregnum 表示该函数调用会分别用几个物理寄存器和浮点寄存器传参
+    // iregnum 和 fregnum 的作用为精确确定call会读取哪些寄存器 (具体见GetCall_typeWritereg()函数)
+    // 可以进行更精确的寄存器分配
     RiscV64Instruction *ConstructCall(int op, std::string funcname, int iregnum, int fregnum) {
         Assert(OpTable[op].ins_formattype == RvOpInfo::CALL_type);
         RiscV64Instruction *ret = new RiscV64Instruction();
