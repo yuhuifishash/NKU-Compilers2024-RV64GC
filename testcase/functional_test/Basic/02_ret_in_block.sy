@@ -2,30 +2,30 @@ int main(){
 	int a = 893;
 	int b = 716;
 	{
-		int a = 837;
-		a = a + 128;
-		b = b + a;
+		int aa = 837;
+		aa = aa + 128;
+		b = b + aa;
 		{
-			int b = 241;
-			a = a + b - 412;
+			int bb = 241;
+			aa = aa + bb - 412;
 			{
-				int a = 771;
-				b = b + a -18;
-				a = b + 66;
+				int aaa = 771;
+				bb = bb + aaa -18;
+				aaa = bb + 66;
 			}
-			b = b + a - 33;
-			a = b - 55;
+			bb = bb + aa - 33;
+			aa = bb - 55;
             {
-                return (a + b) % 21;
+                return (aa + bb) % 21;
             }
             
 		}
-		a = b + a - 97;
-		b = (b - a) % 62;
+		aa = b + aa - 97;
+		b = (b - aa) % 62;
         {
-             return (a + b) % 17;
+             return (aa + b) % 17;
         }
-        return (a + b) % 13;
+        return (aa + b) % 13;
 	}
 	a = (b * a) % 83;
 	b = a + b - 771;	
