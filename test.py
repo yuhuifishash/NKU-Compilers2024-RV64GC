@@ -54,7 +54,7 @@ def execute_ir(input,output,opt,stdin,stdout,testout):
     else:
         result = execute_with_stdin_out("timeout 10 ./a.out < "+stdin+" > "+testout + " 2>/dev/null")
     if(result == 124):
-        print("\033[93mTime Limit Execced on \033[0m"+input)
+        print("\033[93mTime Limit Exceed on \033[0m"+input)
         return 0
     elif(result == 139):
         print("\033[95mRunTime Error on \033[0m"+input)
@@ -93,7 +93,7 @@ def execute_asm(input,output,opt,stdin,stdout,testout):
     else:
         result = execute_with_stdin_out("timeout 20 qemu-riscv64 ./a.out < "+stdin+" > "+testout + " 2>/dev/null")
     if(result == 124):
-        print("\033[93mTime Limit Execced on \033[0m"+input)
+        print("\033[93mTime Limit Exceed on \033[0m"+input)
         return 0
     elif(result == 139):
         print("\033[95mRunTime Error on \033[0m"+input)
