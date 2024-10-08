@@ -79,14 +79,9 @@ protected:
     int stack_sz;
     // 传实参所用到的栈空间大小
     int para_sz;
-    // 是否有形参在栈上
-    bool has_inpara_instack;
     MachineCFG *mcfg;
 
 public:
-    // 是否有形参在栈上
-    bool HasInParaInStack() { return has_inpara_instack; }
-    void SetHasInParaInStack(bool has) { has_inpara_instack = has; }
     // 更新现存的最大块编号
     void UpdateMaxLabel(int labelid) { max_exist_label = max_exist_label > labelid ? max_exist_label : labelid; }
     // 获取形参列表
@@ -136,8 +131,7 @@ protected:
 
 public:
     MachineFunction(std::string name, MachineBlockFactory *blockfactory)
-        : func_name(name), stack_sz(0), para_sz(0), block_factory(blockfactory), max_exist_label(0),
-          has_inpara_instack(false) {}
+        : func_name(name), stack_sz(0), para_sz(0), block_factory(blockfactory), max_exist_label(0){}
 };
 
 class MachineUnit {
