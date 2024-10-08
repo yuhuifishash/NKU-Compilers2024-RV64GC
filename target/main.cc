@@ -159,7 +159,8 @@ int main(int argc, char **argv) {
 
     if (optimize_flag) {
         DomAnalysis dom(&llvmIR);
-        dom.Execute();    // 对于AnalysisPass后续应该由TransformPass更新信息, 维护Analysis的正确性
+        // 对于AnalysisPass后续应该由TransformPass更新信息, 维护Analysis的正确性
+        // dom.Execute();   // 完成支配树建立后，取消该行代码的注释
         (Mem2RegPass(&llvmIR, &dom)).Execute();
 
         // TODO: add more passes

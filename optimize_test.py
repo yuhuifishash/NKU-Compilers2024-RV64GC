@@ -88,7 +88,7 @@ for input_name in input_folders:
                 result_ll = name + ".ll"
                 stats = os.stat(output_folder+"/"+result_ll)
                 if(stats.st_size > 8000):
-                    print("\033[91mOptimize Test Failed \033[0m"+file)    
+                    print("\033[91mOptimize Test Failed on\033[0m"+file)    
                 else:
                     print("\033[92mOptimize Test Passed on \033[0m"+file)   
             if(input_name=="basic_mem2reg"):

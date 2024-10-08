@@ -208,19 +208,23 @@ python3 grade.py 5 1 #测试lab5开启优化时的进阶要求
 
 **include/cfg.h**:控制流图的定义
 
-**optimize/cfg/cfg.cc**:基本的cfg优化函数及辅助函数定义
+**optimize/analysis/cfg.cc**:控制流图建立和cfg相关的辅助函数
 
-**optimize/ssa/mem2reg.h**:Mem2Reg类的定义
+**optimize/transform/simplify_cfg.h**:控制流图简化类的定义
 
-**optimize/ssa/mem2reg.cc**:Mem2Reg类的实现, 基本要求只需要实现部分函数即可
+**optimize/transform/simplify_cfg.cc**:控制流图简化的实现, 对于基本要求, 你只需要实现消除不可达基本块和指令即可
+
+**optimize/transform/mem2reg.h**:Mem2Reg类的定义
+
+**optimize/transform/mem2reg.cc**:Mem2Reg类的实现, 基本要求只需要实现部分函数即可
 
 **进阶要求**需要阅读并编写的代码:
 
-**optimize/cfg/dominator_tree.h**:支配树类的定义
+**optimize/analysis/dominator_tree.h**:支配树类的定义
 
-**optimize/cfg/dominator_tree.cc**:支配树类的实现
+**optimize/analysis/dominator_tree.cc**:支配树类的实现
 
-**optimize/ssa/mem2reg.cc**:进阶要求中，你需要实现完整的mem2reg
+**optimize/transform/mem2reg.cc**:进阶要求中，你需要实现完整的mem2reg
 
 同时，如果你想在本次实验获得满分，你还需要根据大作业要求自行选择一些优化pass编写, 你需要自己从头开始编写你的优化pass
 
