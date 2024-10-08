@@ -95,13 +95,16 @@ make -j
 ./bin/SysYc -select -o "output_filename" "input_filename" [-O1] #查看目标代码生成指令选择阶段结果
 ./bin/SysYc -S -o "output_filename" "input_filename" [-O1] #目标代码生成
 
+#[-O1]表示-O1是可选项
 ```
 
 ## Test your Compiler
 ```bash
 # lab1和lab2不支持自动评测
+
 python3 grade.py 3 0 #测试lab3基本要求
 python3 grade.py 3 1 #测试lab3进阶要求
+
 python3 grade.py 4 0 #测试lab4开启优化后的基本语法要求(你还需要通过optimize_test的测试)
 python3 grade.py 4 1 #测试lab4开启优化后的进阶语法要求(你还需要通过optimize_test的测试)
 python3 optimize_test.py #测试lab4基本优化要求, 结果不一定正确，以助教线下检查为准
@@ -235,7 +238,7 @@ python3 grade.py 5 1 #测试lab5开启优化时的进阶要求
 后端的代码框架设计上旨在易于扩展到多后端，所以代码上分为common文件夹和riscv64gc文件夹，其中common文件夹主要是架构无关的代码，例如寄存器分配算法，基本Machine指令的定义。
 而riscv64gc文件夹中主要为体系结构相关代码。
 
-**指令选择阶段**需要阅读(你可能也需要在这些文件中加一些定义，来方便你代码的编写)的代码：
+**指令选择阶段**需要阅读的代码(你可能也需要在这些文件中加一些定义，来方便你代码的编写)：
 
 **target/common/MachineBaseInstruction.h**:主要定义了基本的机器指令，RISC-V汇编指令继承了该文件中定义的类
 
