@@ -95,6 +95,9 @@ make -j
 ./bin/SysYc -select -o "output_filename" "input_filename" [-O1] #查看目标代码生成指令选择阶段结果
 ./bin/SysYc -S -o "output_filename" "input_filename" [-O1] #目标代码生成
 
+# 使用gdb调试编译器  -lexer可替换为其他上述出现的参数
+gdb --args bin/SysYc -lexer -o "output_filenme" "input_filename" [-O1]
+
 #[-O1]表示-O1是可选项
 ```
 

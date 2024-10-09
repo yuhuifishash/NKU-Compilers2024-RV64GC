@@ -34,7 +34,8 @@ public:
     Type::ty type;
     bool ConstTag = 0;
     std::vector<int> dims{};    // 存储数组类型的相关信息
-    std::vector<int> IntInitVals{};
+    // 对于数组的初始化值，我们将高维数组看作一维后再存储 eg.([3 x [4 x i32]] => [12 x i32])
+    std::vector<int> IntInitVals{}; 
     std::vector<float> FloatInitVals{};
 
     // TODO():也许你需要添加更多变量
