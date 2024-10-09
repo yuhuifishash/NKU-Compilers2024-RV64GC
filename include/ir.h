@@ -15,6 +15,7 @@ public:
     std::map<FuncDefInstruction, CFG *> llvm_cfg{};
 
     // key为函数定义指令, value为函数对应的所有基本块, 该成员变量会在输出中使用，所以你必须对该变量正确赋值
+    // 你必须保证函数的入口基本块为0号基本块，否则在后端会出现错误。
     std::map<FuncDefInstruction, std::map<int, LLVMBlock>> function_block_map;
 
     // 我们用函数定义指令来对应一个函数
