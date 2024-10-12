@@ -11,7 +11,6 @@ RegOperand *GetNewRegOperand(int RegNo) {
     auto it = RegOperandMap.find(RegNo);
     if (it == RegOperandMap.end()) {
         auto R = new RegOperand(RegNo);
-
         RegOperandMap[RegNo] = R;
         return R;
     } else {

@@ -16,10 +16,15 @@ def check_file(file1,file2):
 def add_returncode(file,ret):
     need_newline = False
     with open(file, "r") as f:
-        content = f.read()
-        if len(content) > 0:
-            if not content.endswith("\n"):
-                need_newline = True
+        try:
+            content = f.read()
+        except Exception as e:
+            print("\033[91mUnknown Error on \033[0m"+file+", \033[91mPlease check your output file\033[0m")
+            return False
+        else:
+            if len(content) > 0:
+                if not content.endswith("\n"):
+                    need_newline = True
 
     with open(file, "a+") as f:
         if need_newline:
@@ -95,14 +100,18 @@ for input_name in input_folders:
                 result_ll = name + ".ll"
                 is_alloca=0
                 with open(output_folder+"/"+result_ll) as res:
-                    resfile = res.readlines()
-                for line in resfile:
-                    if "alloca" in line:
-                       print("\033[91mOptimize Test Failed on \033[0m"+file)
-                       is_alloca=1
-                       break  
-                if(is_alloca==0):
-                    print("\033[92mOptimize Test Passed on \033[0m"+file)  
+                    try:
+                        resfile = res.readlines()
+                    except Exception as e:
+                        print("\033[91mUnknown Error on \033[0m"+result_ll+", \033[91mPlease check your output file\033[0m")
+                    else:
+                        for line in resfile:
+                            if "alloca" in line:
+                                print("\033[91mOptimize Test Failed on \033[0m"+file)
+                                is_alloca=1
+                                break  
+                        if(is_alloca==0):
+                            print("\033[92mOptimize Test Passed on \033[0m"+file)  
     
 os.system("rm tmp.out")
 os.system("rm a.out")

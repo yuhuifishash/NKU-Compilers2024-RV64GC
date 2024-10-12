@@ -16,10 +16,15 @@ def check_file(file1,file2):
 def add_returncode(file,ret):
     need_newline = False
     with open(file, "r") as f:
-        content = f.read()
-        if len(content) > 0:
-            if not content.endswith("\n"):
-                need_newline = True
+        try:
+            content = f.read()
+        except Exception as e:
+            print("\033[91mUnknown Error on \033[0m"+file+", \033[91mPlease check your output file\033[0m")
+            return False
+        else:
+            if len(content) > 0:
+                if not content.endswith("\n"):
+                    need_newline = True
 
     with open(file, "a+") as f:
         if need_newline:
