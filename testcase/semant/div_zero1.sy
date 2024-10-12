@@ -1,0 +1,10 @@
+const int a = 13;
+const int d = 7;
+const int e = 6;
+int main()
+{
+    const int t = a*a;  // 169
+    const int f = d*d/3;  // 16
+    const int h = e*e*e%120;  // 96 
+    return 5/((t-3*f-h)%25);
+}

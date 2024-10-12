@@ -1,0 +1,7 @@
+int main()
+{
+    putint(getint());
+    putch(getch());
+    putch(getint(),putint(getint()));
+    return 0;
+}

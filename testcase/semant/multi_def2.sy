@@ -1,0 +1,8 @@
+int main()
+{
+    int x = 13;
+    int y = x;
+    int z = y;
+    int z = x + y;
+    return x + y + z;
+}

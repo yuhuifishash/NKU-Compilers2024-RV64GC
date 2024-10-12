@@ -1,0 +1,6 @@
+int main()
+{
+    putint(3);
+    int x = putint(5);
+    return x;
+}

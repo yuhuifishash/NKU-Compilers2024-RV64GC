@@ -1,0 +1,6 @@
+int main()
+{
+    int x = getint()
+    putint(3,4,5);
+    return x;
+}

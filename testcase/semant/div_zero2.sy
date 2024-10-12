@@ -1,0 +1,12 @@
+int main()
+{
+    int a = getint();
+    int b = getint();
+    if(a/(0 + b) == 0){
+        return -2;
+    }
+    if(a/(10-5-4-1+1-1-9+9) == 0){
+        return -1;
+    }
+    return 0;
+}

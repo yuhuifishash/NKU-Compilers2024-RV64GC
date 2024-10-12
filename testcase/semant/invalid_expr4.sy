@@ -1,0 +1,13 @@
+int main()
+{
+    int x = getint() + getint();
+    int y = getch() + getint();
+    if(x + y){
+        return 3;
+    }else if(getint()){
+        return 5;
+    }else if(putch(32)){
+        return 10;
+    }
+    return 25;
+}

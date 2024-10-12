@@ -1,0 +1,15 @@
+int main()
+{
+    int x = 5;
+    if(x){
+        int y = 344;
+        if(y){
+            int z1 = 500;
+            int z2 = 600;
+            int z3 = 700;
+            int z2 = z1+z2+z3;
+            return z2;
+        }
+    }
+    return x;
+}
