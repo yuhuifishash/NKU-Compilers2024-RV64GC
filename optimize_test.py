@@ -9,9 +9,14 @@ def execute_with_stdin_out(command):
     return os.system(command)%255
 
 def check_file(file1,file2):
-    result = execute(["diff","--strip-trailing-cr",file1,file2,"-b"])
-    # print(result)
-    return result.returncode
+    try:
+        result = execute(["diff","--strip-trailing-cr",file1,file2,"-b"])
+    except Exception as e:
+        print("\033[91mUnknown Error on \033[0m"+file1+", \033[91mPlease check your output file\033[0m")
+        return 1
+    else:
+        # print(result)
+        return result.returncode
 
 def add_returncode(file,ret):
     need_newline = False
