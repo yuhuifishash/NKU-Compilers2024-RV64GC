@@ -1,6 +1,6 @@
 int main()
 {
-    int x = getint()
+    int x = getint();
     putint();
     return x;
 }
