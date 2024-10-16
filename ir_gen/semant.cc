@@ -25,7 +25,7 @@
 extern LLVMIR llvmIR;
 
 SemantTable semant_table;
-std::vector<std::string> error_msgs{};
+std::vector<std::string> error_msgs{}; // 将语义错误信息保存到该变量中
 
 void __Program::TypeCheck() {
     semant_table.symbol_table.enter_scope();
