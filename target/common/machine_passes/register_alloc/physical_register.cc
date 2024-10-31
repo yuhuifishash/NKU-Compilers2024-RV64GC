@@ -8,11 +8,11 @@ bool PhysicalRegistersAllocTools::OccupyReg(int phy_id, LiveInterval interval) {
 
 bool PhysicalRegistersAllocTools::ReleaseReg(int phy_id, LiveInterval interval) { TODO("ReleaseReg"); }
 
-bool PhysicalRegistersAllocTools::OccupyMem(int offset, int size, LiveInterval interval) {
+bool PhysicalRegistersAllocTools::OccupyMem(int offset, LiveInterval interval) {
     TODO("OccupyMem");
     return true;
 }
-bool PhysicalRegistersAllocTools::ReleaseMem(int offset, int size, LiveInterval interval) {
+bool PhysicalRegistersAllocTools::ReleaseMem(int offset, LiveInterval interval) {
     TODO("ReleaseMem");
     return true;
 }

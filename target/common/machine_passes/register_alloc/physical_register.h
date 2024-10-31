@@ -6,7 +6,7 @@
 // 维护物理寄存器以及溢出寄存器对内存的占用情况
 class PhysicalRegistersAllocTools {
     /*该类中有一些函数需要你自己实现，如果你认为这些成员函数不符合你的需求，
-      你可以选择忽略它们并添加自己想要的成员与函数
+      你可以选择忽略它们并添加自己想要的成员与函数, 你可以随意修改这个类中的代码
       已有的代码推荐你读懂后再使用，否则你可能会遇到各种问题
       */
 private:
@@ -41,9 +41,9 @@ public:
     bool ReleaseReg(int phy_id, LiveInterval interval);
 
     // 将区间inteval分配到内存,返回是否成功
-    bool OccupyMem(int offset, int size, LiveInterval interval);
+    bool OccupyMem(int offset, LiveInterval interval);
     // 释放内存,返回是否成功
-    bool ReleaseMem(int offset, int size, LiveInterval interval);
+    bool ReleaseMem(int offset, LiveInterval interval);
 
     // 获取空闲的（活跃区间不冲突的）物理寄存器, 返回物理寄存器编号
     int getIdleReg(LiveInterval interval);

@@ -343,6 +343,9 @@ extern RiscV64RegisterInfo RiscV64Registers[];
 extern Register RISCVregs[];
 
 /*
+一般情况下，可以认为中端条件跳转语句的前一条指令一定是icmp或fcmp
+如果你的中端实现不是这样，需要自行探索一下条件跳转语句的翻译方式
+
 %r3 = icmp ne i32 %r1, %r2
 br i1 %r3, label %L1, label %L2
 应当被翻译为:
@@ -586,6 +589,7 @@ public:
     // iregnum 和 fregnum 表示该函数调用会分别用几个物理寄存器和浮点寄存器传参
     // iregnum 和 fregnum 的作用为精确确定call会读取哪些寄存器 (具体见GetCall_typeWritereg()函数)
     // 可以进行更精确的寄存器分配
+    // 对于函数调用，我们单独处理这一条指令，而不是用真指令替代，原因是函数调用涉及到部分寄存器的读写
     RiscV64Instruction *ConstructCall(int op, std::string funcname, int iregnum, int fregnum) {
         Assert(OpTable[op].ins_formattype == RvOpInfo::CALL_type);
         RiscV64Instruction *ret = new RiscV64Instruction();

@@ -19,8 +19,8 @@ int get_ans(int ans, int v0, int v1) {
 
 int main() {
   const int k0 = -2147483648;
-  const int k1 = 0x80000000;
-  const int k2 = 0x80000000 + 1;
+  const int k1 = -0x80000000;
+  const int k2 = -0x80000000 + 1;
   const int k3 = 0x7fFffffF;
   const int k4 = 0x7fFffffF - 1;
   int a1, a2, a3, a4;
