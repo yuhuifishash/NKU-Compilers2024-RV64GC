@@ -9,7 +9,7 @@ class Mem2RegPass : public IRPass {
 private:
     DomAnalysis *domtrees;
     // TODO():添加更多你需要的成员变量
-    void IsPromotable(CFG *C, Instruction AllocaInst);
+    bool IsPromotable(CFG *C, Instruction AllocaInst);
     void Mem2RegNoUseAlloca(CFG *C, std::set<int> &vset);
     void Mem2RegUseDefInSameBlock(CFG *C, std::set<int> &vset, int block_id);
     void Mem2RegOneDefDomAllUses(CFG *C, std::set<int> &vset);
